@@ -24,7 +24,7 @@ const settings = {
   responsive: [
     { breakpoint: 1024, settings: { slidesToShow: 3 } },
     { breakpoint: 768, settings: { slidesToShow: 2 } },
-    { breakpoint: 640, settings: { slidesToShow: 1.15, infinite: false } },
+    { breakpoint: 640, settings: { slidesToShow: 1 } },
   ],
 };
 
@@ -42,10 +42,10 @@ function Events() {
           <SubTitle className="mt-2">Recent Events</SubTitle>
         </div>
         <div className="flex gap-2">
-          <button type="button" aria-label="Previous events"onClick={() => sliderRef.current.slickPrev()} className={arrowButton}>
+          <button type="button" aria-label="Previous events" onClick={() => sliderRef.current.slickPrev()} className={arrowButton}>
             <ChevronLeft size={20} aria-hidden="true" />
           </button>
-          <button type="button" aria-label="Next events"onClick={() => sliderRef.current.slickNext()} className={arrowButton}>
+          <button type="button" aria-label="Next events" onClick={() => sliderRef.current.slickNext()} className={arrowButton}>
             <ChevronRight size={20} aria-hidden="true" />
           </button>
         </div>
