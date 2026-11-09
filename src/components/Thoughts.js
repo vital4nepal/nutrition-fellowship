@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { email } from '../data/site';
-import { Section, SectionTitle } from './ui';
+import { email, emailHref } from '../data/site';
+import { Section, SectionTitle, textLink } from './ui';
 
 const fields = [
   { name: 'name', label: 'Full Name', type: 'text', autoComplete: 'name' },
@@ -29,7 +29,12 @@ function Field({ name, label, type, autoComplete }) {
 
 const messages = {
   sent: 'Thank you! Message sent successfully!',
-  error: `Could not send your message. Please email us at ${email}.`,
+  error: (
+    <>
+      Could not send your message. Please email us at{' '}
+      <a href={emailHref} target="_blank" rel="noopener noreferrer" className={`underline ${textLink}`}>{email}</a>.
+    </>
+  ),
 };
 
 function Thoughts() {
