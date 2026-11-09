@@ -4,15 +4,22 @@ import { SectionTitle } from './ui';
 const SLIDE_INTERVAL_MS = 5000;
 
 // Slide 0 is the photo band of 5generations.jpeg without its title banner and hashtag strip.
-// Slide 1 is a square collage: the frame shows a band of it, so `position` picks rows that end between photos.
+// Phones get a 3:2 crop of each slide, because the wide frame source would be cropped and upscaled there.
 const slides = [
-  { src: '/ImageSlider/5generations-photo.jpg', width: 1600, height: 569, position: 'object-center' },
+  {
+    src: '/ImageSlider/5generations-photo.jpg',
+    phone: '/ImageSlider/5generations-phone.jpg',
+    width: 1600,
+    height: 569,
+    position: 'object-center',
+  },
   {
     src: '/ImageSlider/cover-collage.jpg',
+    phone: '/ImageSlider/cover-collage-phone.jpg',
     width: 1060,
     height: 1060,
     alt: 'Students leading the Fellowship. A mosaic of cherished interactions',
-    position: 'object-[50%_8%] md:object-[50%_45.5%]',
+    position: 'object-center md:object-[50%_45.5%]',
   },
 ];
 
@@ -61,6 +68,8 @@ const CoverpageLeft = () => {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const [paused, setPaused] = useState(false);
   const [stopped, setStopped] = useState(false);
+  // The later slides wait for the first one, so they never compete with the first paint.
+  const [firstLoaded, setFirstLoaded] = useState(false);
 
   useEffect(() => {
     if (paused || stopped || prefersReducedMotion()) return undefined;
@@ -102,18 +111,22 @@ const CoverpageLeft = () => {
         <div className="relative aspect-[3/2] overflow-hidden md:aspect-[14/5] border border-line bg-surface">
           {slides.map((slide, index) => {
             const active = index === currentSlide;
+            const first = index === 0;
+            const ready = first || firstLoaded;
             return (
-              <img
-                key={slide.src}
-                src={slide.src}
-                alt={slide.alt ?? `Slide ${index + 1}`}
-                width={slide.width}
-                height={slide.height}
-                loading={index === 0 ? 'eager' : 'lazy'}
-                fetchpriority={index === 0 ? 'high' : undefined}
-                aria-hidden={!active}
-                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${slide.position} ${active ? 'opacity-100' : 'opacity-0'}`}
-              />
+              <picture key={slide.src}>
+                <source media="(max-width: 767px)" srcSet={ready ? slide.phone : undefined} />
+                <img
+                  src={ready ? slide.src : undefined}
+                  alt={slide.alt ?? `Slide ${index + 1}`}
+                  width={slide.width}
+                  height={slide.height}
+                  fetchpriority={first ? 'high' : undefined}
+                  onLoad={first ? () => setFirstLoaded(true) : undefined}
+                  aria-hidden={!active}
+                  className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${slide.position} ${active ? 'opacity-100' : 'opacity-0'}`}
+                />
+              </picture>
             );
           })}
         </div>
