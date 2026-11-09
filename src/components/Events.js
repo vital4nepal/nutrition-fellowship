@@ -5,13 +5,13 @@ import 'slick-carousel/slick/slick.css';
 import { Section, SectionTitle, SubTitle } from './ui';
 
 const events = [
-  { date: '08/01/2024', img: '/Recentevents/1st meet.jpg', title: 'Nutrition Fellowship for Nepal: First Meet' },
-  { date: '12/26/2024', img: '/Recentevents/2nd meet.jpg', title: 'Strategic Planning for Fellowship Meet' },
-  { date: '01/02/2025', img: '/Recentevents/Pk data camp.jpg', title: 'Nutrition Data Camp : at Padma Kanya College' },
-  { date: '01/05/2025', img: '/Recentevents/CAFODAT data camp.jpg', title: 'Nutrition Data Camp : at CAFODAT College' },
-  { date: '01/17/2025', img: '/Recentevents/Meet_and_Greet_12.jpg', title: '2nd Nutrition Fellowship for Nepal Meet' },
-  { date: '01/20/2025', img: '/Recentevents/DC-mmihs1.jpg', title: 'Nutrition Data Camp : at MMIHS' },
-  { date: '02/19/2025', img: '/Recentevents/canvabatch1.jpg', title: 'Canva Workshop among different colleges: Batch 1' },
+  { date: '08/01/2024', img: '/Recentevents/thumbs/1st meet.jpg', title: 'Nutrition Fellowship for Nepal: First Meet' },
+  { date: '12/26/2024', img: '/Recentevents/thumbs/2nd meet.jpg', title: 'Strategic Planning for Fellowship Meet' },
+  { date: '01/02/2025', img: '/Recentevents/thumbs/Pk data camp.jpg', title: 'Nutrition Data Camp : at Padma Kanya College' },
+  { date: '01/05/2025', img: '/Recentevents/thumbs/CAFODAT data camp.jpg', title: 'Nutrition Data Camp : at CAFODAT College' },
+  { date: '01/17/2025', img: '/Recentevents/thumbs/Meet_and_Greet_12.jpg', title: '2nd Nutrition Fellowship for Nepal Meet' },
+  { date: '01/20/2025', img: '/Recentevents/thumbs/DC-mmihs1.jpg', title: 'Nutrition Data Camp : at MMIHS' },
+  { date: '02/19/2025', img: '/Recentevents/thumbs/canvabatch1.jpg', title: 'Canva Workshop among different colleges: Batch 1' },
 ];
 
 const settings = {
