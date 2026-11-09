@@ -1,0 +1,80 @@
+.cover-container {
+    position: relative;
+    width: 100%; /* Adjust for desired width */
+    height: 500px; /* Half of the width for semicircle effect */
+    /* margin: 50px auto; */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    background-color: #f9f9f9;
+    
+  }
+  
+  /* Logo image at the bottom center */
+  .logo {
+    position: absolute;
+    margin-bottom:90px; /* Adjust to position below the semicircle */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 325px; /* Set desired width */
+    height: 270px; /* Set desired height */
+    object-fit: contain; /* Ensures the image fits without distortion */
+    z-index: 10; /* Ensures the logo appears above the pillars */
+  }
+  .cover-para{
+    font-size: 22px;
+    margin-bottom: 60px;
+    color: #135127;
+    font-weight: bold;
+    font-style: italic;
+  }
+  
+  /* Styling for each pillar */
+  .pillar {
+    position: absolute;
+    width: 120px;
+    height: 70px;
+    margin-top: 50px;
+    /* background-color:#61a534; */
+    color: #135127;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; /* Circular appearance */
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  /* Position each pillar around the semicircle */
+  #Convene{
+    top: 60%; /* Near bottom left */
+    left: 10%;
+    transform: translate(-50%, -50%);
+  }
+
+  #Celebrate {
+    top: 30%; /* Mid-left */
+    left: 25%;
+    transform: translate(-50%, -50%);
+  }
+  
+  #Collaborate {
+    top: 10%; /* Top-center */
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  #Connect {
+    top: 30%; /* Mid-right */
+    right: 25%;
+    transform: translate(50%, -50%);
+  }
+  
+  #Coach {
+    top: 60%; /* Near bottom right */
+    right: 10%;
+    transform: translate(50%, -50%);
+  }
+  
+
+

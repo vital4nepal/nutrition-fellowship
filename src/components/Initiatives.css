@@ -1,0 +1,65 @@
+.initiatives-container {
+    text-align: center;
+    margin: 80px 20px;
+    /* padding: 20px; */
+    /* background-color: aqua; */
+  }
+  
+  .initiatives-title {
+    padding: 30px;
+    text-align: center;
+    word-spacing: 2px;
+    font-weight:700 ;
+    font-size: 30px;
+    color: #135127;
+  }
+  
+  .initiatives-list {
+    display: flex;
+    justify-content: space-around; /* Even spacing */
+    align-items: center;
+    word-spacing: 2px;
+    flex-wrap: wrap; /* Ensures responsiveness */
+    gap: 20px; /* Adds space between the items */
+  }
+  
+  .initiative-item {
+    background:linear-gradient(135deg, #bad7bc 0%, #537f53 );
+    color: #2f3a31;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 250px; /* Fixed width for uniformity */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease;
+  }
+  
+  .initiative-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    line-height: 1.5; /* Adjusts spacing between lines */
+  }
+  
+  /* Click Here link styling */
+  .click-here {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    /* background-color: white; */
+    color: #343d35; /* Green text for contrast */
+    /* text-decoration: none; */
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .click-here:hover {
+    transform: scale(1.05);
+    transition: 0.1s;
+  }
+  
+  /* Hover effect for each block */
+  .initiative-item:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+  

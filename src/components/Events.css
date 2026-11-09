@@ -1,0 +1,182 @@
+.events-container {
+   width: 100%;
+   height: 100vh;          
+   margin: 0 auto;    
+ }
+ 
+ .events-top {
+   padding: 30px;
+   text-align: center;
+   word-spacing: 2px;
+   font-weight: 700;
+   font-size: 30px;
+   color: #135127;
+ }
+ 
+ .events-header {
+   margin-bottom: 5px;
+   margin-left: 22px;
+   word-spacing: 2px;
+   font-size: 25px;
+   color: #135127;
+ }
+ 
+ .events-card {
+   width: 100%;
+   margin: 0px 22px;
+   padding: 30px 90px 30px 90px;
+   background: linear-gradient(135deg, #bad7bc 0%, #537f53);
+ }
+ 
+ .eventscard-items {
+   height: 400px;
+   width: 300px;
+   background-color: #bad8bb;
+   color: black;
+   border-radius: 10px;
+   overflow: hidden; /* Keep contents inside card */
+ }
+ 
+ .eventscard-img {
+   width: 100%;
+   height: 200px;
+   padding: 10px;
+ }
+ 
+ .events-image {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   border-radius: 5px;
+ }
+ 
+ .events-contents {
+   padding: 0 1rem;
+   height: 140px;
+ }
+ 
+ .event-btn {
+   background-color: #28a745;
+   color: white;
+   padding: 6px;
+   border-radius: 5px;
+   border: #28a745;
+ }
+ 
+ .event-btn:hover {
+   background-color: #218838;
+   transition: 0.1s;
+   scale: 1.1;
+ }
+ 
+ .slick-slide > div {
+   margin: 0 10px;
+ }
+ 
+ /* Responsive Styles */
+ @media screen and (max-width: 1200px) {
+   .events-card {
+     width: 90%;
+     padding: 30px 60px;
+   }
+   
+   .eventscard-items {
+     height: 350px;
+     width: 260px;
+   }
+   
+   .eventscard-img {
+     height: 180px;
+   }
+ }
+ 
+ @media screen and (max-width: 992px) {
+   .events-card {
+     width: 95%;
+     padding: 20px 40px;
+   }
+   
+   .eventscard-items {
+     height: 300px;
+     width: 220px;
+   }
+   
+   .eventscard-img {
+     height: 150px;
+   }
+   
+   .events-contents {
+     height: 120px;
+   }
+   
+   .events-contents p {
+     font-size: 14px;
+     margin-bottom: 5px;
+   }
+   
+   .event-btn {
+     padding: 4px 8px;
+     font-size: 12px;
+   }
+ }
+ 
+ @media screen and (max-width: 768px) {
+   .events-card {
+     width: 100%;
+     padding: 15px 30px;
+     margin: 0;
+   }
+   
+   .events-top {
+     font-size: 24px;
+     padding: 20px;
+   }
+   
+   .events-header {
+     font-size: 20px;
+     margin-left: 15px;
+   }
+   
+   .eventscard-items {
+     height: 280px;
+     width: 180px;
+   }
+   
+   .eventscard-img {
+     height: 120px;
+   }
+   
+   .events-contents {
+     height: 130px;
+   }
+ }
+ 
+ @media screen and (max-width: 576px) {
+   .events-card {
+     padding: 10px 20px;
+   }
+   
+   .eventscard-items {
+     height: 250px;
+     width: 150px;
+   }
+   
+   .eventscard-img {
+     height: 100px;
+   }
+   
+   .events-contents {
+     height: 120px;
+     padding: 0 8px;
+   }
+   
+   .events-contents p {
+     font-size: 12px;
+     margin-bottom: 3px;
+   }
+   
+   .event-btn {
+     padding: 3px 6px;
+     font-size: 11px;
+   }
+ }

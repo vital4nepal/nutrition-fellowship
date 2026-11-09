@@ -1,0 +1,125 @@
+.navbar {
+  /* height: 100px;
+  width: 100%;
+  background: linear-gradient(135deg, #bad7bc 0%, #537f53);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  padding: 0 2rem; */
+  
+  height: 100px;
+  width: 100%;
+  background: linear-gradient(135deg, #bad7bc 0%, #537f53);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;  /* Changed from sticky to fixed */
+  top: 0;
+  left: 0;
+  z-index: 999;
+  padding: 0 2rem;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  width: auto;
+  height: 110px;
+  margin-top: 0.5rem;
+}
+
+.nav-items {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  margin-right: 5rem;
+}
+
+.nav-items a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-items li {
+  margin: 0 2rem;
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.nav-items li:hover {
+  transform: scale(1.2);
+}
+
+/* Mobile menu button */
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 968px) {
+  .navbar {
+    height: auto;
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-container {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .logo-image {
+    height: 80px;
+  }
+
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .navitems-container {
+    width: 100%;
+    display: none;
+  }
+
+  .navitems-container.active {
+    display: block;
+  }
+
+  .nav-items {
+    flex-direction: column;
+    margin: 1rem 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .nav-items li {
+    margin: 1rem 0;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+/* For smaller mobile devices */
+@media screen and (max-width: 480px) {
+  .logo-image {
+    height: 60px;
+  }
+
+  .nav-items li {
+    font-size: 14px;
+  }
+}

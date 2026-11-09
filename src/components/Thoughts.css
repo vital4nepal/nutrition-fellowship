@@ -1,0 +1,87 @@
+.thoughts-container {
+    background-color: #f9f9f9; /* Light gray background */
+    padding: 40px;
+    text-align: center;
+  }
+  
+  /* Top section styles */
+  .thoughts-top1 {
+    margin-bottom: 5px;
+    word-spacing: 2px;
+    font-size: 25px;
+    color: #135127;
+  }
+  
+  .thoughts-top2 {
+    word-spacing: 2px;
+    font-size: 20px;
+    color: #135127;
+    margin-bottom: 20px;
+  }
+  
+  .thoughts-form {
+    padding-top: 30px;
+    margin: 0 350px;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    gap: 15px; /* Spacing between form fields */
+    border-radius: 10px;
+    width: 350px;
+    justify-content: center;
+    background-color: rgba(186, 216, 187, 1);
+  }
+  
+  /* Input field container */
+  .thoughts-input input {
+    /* margin-top: 10px; */
+    width:300px; /* Full width */
+    max-width: 400px; /* Limit width */
+    padding: 10px;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 12px;
+    outline: none; /* Remove focus outline */
+    transition: border 0.3s ease; /*Smooth border transition*/
+
+  }
+
+  .thoughts-input-field{
+    height: 50px;
+    width: 300px;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px;
+  }
+  
+  .thoughts-input input:focus {
+    border-color: #28a745; /* Green border on focus */
+  }
+  
+  /* Submit button container */
+  .submit {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .thoughts-submit {
+    background-color: #28a745; /* Green background */
+    border: none;
+    /* color: white; */
+    padding: 8px 20px;
+    font-size: 12px;
+    /* font-weight: bold; */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .thoughts-submit a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .thoughts-submit:hover {
+    background-color: #1e7e34; /* Darker green on hover */
+  }
+
+
