@@ -2,13 +2,13 @@
 
 Website for the Nutrition Fellowship, live at https://nutfellowship.com.
 
-The site is a single-page React app. It shows the fellowship's initiatives, events, announcements, a document repository, blogs, a newsletter, a research article and a policy page.
+The site is a single-page React app. It shows the fellowship's initiatives, events, announcements and a document repository. Five inner pages (a newsletter profile, two blogs, a research article and a policy page) show "Coming soon".
 
 ## Stack
 
 - React 18 with Create React App (`react-scripts` 5)
 - React Router 7 for the pages
-- Tailwind CSS 3 and plain CSS files for the styles
+- Tailwind CSS 3 for the styles
 - Lucide and Font Awesome for icons
 
 ## Run it on your computer
@@ -36,8 +36,8 @@ The `-s` flag makes every address load `index.html`, which the router needs.
 | Path | What it holds |
 | --- | --- |
 | `src/App.js` | The routes and the home page layout |
-| `src/components/` | One file per page section, with its CSS |
-| `src/documents/` | The blog, newsletter, research and policy pages |
+| `src/components/` | One file per page section. `ui.js` holds the shared layout parts and `ComingSoon.js` the inner page placeholder |
+| `src/data/site.js` | The shared site data |
 | `public/` | Images, PDFs, `index.html`, favicon and `manifest.json` |
 | `tailwind.config.js` | Tailwind setup, scans `src/` |
 
@@ -46,11 +46,12 @@ The `-s` flag makes every address load `index.html`, which the router needs.
 | Address | Page |
 | --- | --- |
 | `/` | Home |
-| `/profile` | Newsletter profile |
-| `/policy2025` | Policy 2025 |
-| `/aiinnutrition` | Research: AI in nutrition |
-| `/nfn2ndmeetblog` | Blog: second meeting |
-| `/nrcinternblog` | Blog: NRC intern |
+| `/profile` | Newsletter profile (coming soon) |
+| `/policy2025` | Policy 2025 (coming soon) |
+| `/aiinnutrition` | Research: AI in nutrition (coming soon) |
+| `/nfn2ndmeetblog` | Blog: second meeting (coming soon) |
+| `/nrcinternblog` | Blog: NRC intern (coming soon) |
+| any other address | Page not found, with a link to the home page |
 
 ## Deploy
 

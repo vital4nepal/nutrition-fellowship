@@ -1,62 +1,62 @@
 import React from "react";
-import "./Footer.css";
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import { email, emailHref } from '../data/site';
+import SocialLinks from './SocialLinks';
+import { SubTitle, container, underlineLink } from './ui';
+
+const usefulLinks = [
+  { href: 'https://nutrition-dashboard-vision.vercel.app/', label: 'Nutrition Dashboard' },
+  { href: 'http://www.nnfsp.gov.np/', label: 'Nepal Nutrition and Food Security Portal' },
+];
 
 function Footer() {
   return (
-    <footer className="footer">
-      <div className="footer-container">
-        <div className="footer-above">
-          <div className="footer-description">
-            <img src="/Nutrition_logo33.png" className="footer-logo" alt="Company Logo" />
-            <p>
-              Nutrition Fellowship for Nepal aims to unite three generations of stakeholders 
+    <footer data-section="footer" className="bg-deep text-paper [--nf-green:theme(colors.paper)]">
+      <div className={`${container} py-14`}>
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-12 lg:gap-y-10">
+          <div className="md:col-span-2 lg:col-span-5">
+            <div className="inline-block bg-paper p-2">
+              <img src="/nutrition_logo_mark.png" alt="Company Logo" className="h-16 w-auto" />
+            </div>
+            <p className="mt-4 max-w-[60ch] text-ui">
+              Nutrition Fellowship for Nepal aims to unite three generations of stakeholders
               from Nepal and around the world.
             </p>
           </div>
 
-          <div className="footer-links">
-            <h4>Useful Links</h4>
-            <ul>
-              <li><a href="https://nutrition-dashboard-vision.vercel.app/">Nutrition Dashboard</a></li>
-              <li><a href="http://www.nnfsp.gov.np/">Nepal Nutrition and Food Security Portal</a></li>
-              {/* <li><a href="#events">Events</a></li>
-              <li><a href="#special-initiatives">Special Initiatives</a></li>
-              <li><a href="#place-your-thoughts">Place Your Thoughts</a></li>
-              <li><a href="#contact-us">Contact Us</a></li> */}
+          <div className="lg:col-span-3 lg:col-start-7">
+            <SubTitle tone="text-inherit">Useful Links</SubTitle>
+            <ul className="mt-2">
+              {usefulLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className={`flex min-h-11 items-center text-meta ${underlineLink}`}>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          <div className="footer-social">
-            <h4>Get in Touch</h4>
-            <div className="social-icons">
-              <a className="facebook" href="https://www.facebook.com/profile.php?id=61572729923914" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a className="instagram" href="https://www.instagram.com/nutfellowship/?hl=en" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a className="linkedin" href="https://x.com/nutfellowship" target="_blank" rel="noopener noreferrer">
-              <i class="fa-brands fa-twitter"></i>
-              </a>
-            </div>
+          <div className="lg:col-span-3">
+            <SubTitle tone="text-inherit">Get in Touch</SubTitle>
+            <SocialLinks className="mt-2 gap-3" linkClassName="border border-paper/30 hover:border-paper" />
           </div>
         </div>
 
-        <hr />
-
-        <div className="footer-below">
-          <p className="email">
-            If you have any queries, feel free to email us at:-
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nutfellowship@gmail.com" target="_blank" rel="noopener noreferrer">
-              nutfellowship@gmail.com
+        <div className="mt-10 border-t border-paper/20 pt-6 text-meta">
+          <p>
+            If you have any queries, feel free to email us at:{" "}
+            <a
+              href={emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={underlineLink}
+            >
+              {email}
             </a>
           </p>
-          <p>
+          <p className="mt-2">
             Copyright © {new Date().getFullYear()} All Rights Reserved{" "}
-            <span>
-              <a href="#navbar">NutritionFellowshipForNepal</a>
-            </span>
+            <a href="/" className={underlineLink}>NutritionFellowshipForNepal</a>
           </p>
         </div>
       </div>

@@ -1,108 +1,136 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+
+import { navLinks as links } from '../data/site';
+
+const sectionOf = (href) => href.split('#')[1];
+
+// The updates block has no link of its own: it belongs to "Events and Updates".
+const navIdOf = (element) => (element.dataset.section === 'updates' ? 'events' : element.id);
+
+/** The id of the home page section that sits in the band under the header, or an empty string. */
+function useActiveSection() {
+  const { pathname } = useLocation();
+  const [active, setActive] = useState('');
+
+  useEffect(() => {
+    if (pathname !== '/' || !('IntersectionObserver' in window)) {
+      setActive('');
+      return undefined;
+    }
+    const inBand = new Set();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+          if (isIntersecting) inBand.add(target);
+          else inBand.delete(target);
+        });
+        const last = [...inBand].pop();
+        setActive(last ? navIdOf(last) : '');
+      },
+      { rootMargin: '-30% 0px -60% 0px' },
+    );
+    const targets = links.map((link) => sectionOf(link.href) && document.getElementById(sectionOf(link.href)));
+    [...targets, document.querySelector('[data-section="updates"]')].forEach((element) => {
+      if (element) observer.observe(element);
+    });
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  return active;
+}
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const toggleRef = useRef(null);
+  const active = useActiveSection();
+
+  // The open menu owns the screen: Escape closes it and the page behind it stops scrolling.
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key !== 'Escape') return;
+      setIsOpen(false);
+      toggleRef.current.focus();
+    };
+    // The menu button disappears at the desktop width, so a rotated tablet must not stay locked.
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const onDesktop = (event) => {
+      if (event.matches) setIsOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    desktop.addEventListener('change', onDesktop);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      desktop.removeEventListener('change', onDesktop);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  const closeWhenFocusLeaves = (event) => {
+    if (isOpen && !event.currentTarget.contains(event.relatedTarget)) setIsOpen(false);
+  };
 
   return (
-    <nav className="bg-[#265728] border-b border-orange-100 h-14">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div className="flex justify-center items-center gap-2 h-full">
-          {/* Navigation Items - Desktop */}
-          <div className="hidden md:flex items-center justify-center space-x-12">
-            <a 
-              href="/" 
-              className="text-white text-[14px] hover:text-[16px] duration-200"
+    <nav
+      data-section="nav"
+      aria-label="Main"
+      onBlur={closeWhenFocusLeaves}
+      className="ml-auto lg:ml-0 lg:flex lg:flex-1 lg:justify-center"
+    >
+      <ul className="hidden lg:flex items-center gap-5 xl:gap-7">
+        {links.map((link) => (
+          <li key={link.href}>
+            <a
+              href={link.href}
+              aria-current={sectionOf(link.href) === active ? 'location' : undefined}
+              className="whitespace-nowrap text-ui font-medium text-ink underline-offset-[6px] hover:text-green hover:underline aria-[current=location]:text-green aria-[current=location]:underline transition-colors"
             >
-              HOME
+              {link.label}
             </a>
-            <a 
-              href="#aboutus" 
-              className="text-white text-[14px] hover:text-[16px] transition-all duration-200"
-            >
-              ABOUT US
-            </a>
-            <a 
-              href="#initiatives" 
-              className="text-white text-[14px] hover:text-[16px] transition-all duration-200"
-            >
-              PROJECTS AND INITIATIVES
-            </a>
-            <a 
-              href="#documents" 
-              className="text-white text-[14px] hover:text-[16px] transition-all duration-200"
-            >
-              RESOURCES
-            </a>
-            <a 
-              href="#events" 
-              className="text-white text-[14px] hover:text-[16px] transition-all duration-200"
-            >
-              EVENTS AND UPDATES
-            </a>
-            <a 
-              href="#thoughts" 
-              className="text-white text-[14px] hover:text-[16px] transition-all duration-200"
-            >
-              CONTACT US
-            </a>
-          </div>
+          </li>
+        ))}
+      </ul>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden absolute right-4">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-white focus:outline-none transition-colors duration-200"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-      </div>
+      <button
+        ref={toggleRef}
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-controls="main-menu"
+        aria-label="Menu"
+        className="lg:hidden flex h-11 w-11 items-center justify-center text-ink"
+      >
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
 
-      {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden absolute w-full z-50">
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-orange-50 shadow-lg">
-            <a
-              href="/"
-              className="block px-3 py-2 text-green-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              Home
-            </a>
-            <a
-              href="#aboutus"
-              className="block px-3 py-2 text-gray-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              About Us
-            </a>
-            <a
-              href="#documents"
-              className="block px-3 py-2 text-gray-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              Resources
-            </a>
-            <a
-              href="#events"
-              className="block px-3 py-2 text-gray-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              Events and Updates
-            </a>
-            <a
-              href="#initiatives"
-              className="block px-3 py-2 text-gray-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              Initiatives
-            </a>
-            <a
-              href="#contact"
-              className="block px-3 py-2 text-gray-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              Contact Us
-            </a>
-          </div>
-        </div>
+        <div
+          aria-hidden="true"
+          onClick={() => setIsOpen(false)}
+          className="lg:hidden fixed inset-x-0 bottom-0 top-[var(--nf-header-h)] bg-ink/20"
+        />
       )}
+
+      <ul
+        id="main-menu"
+        className={`${isOpen ? 'block' : 'hidden'} lg:hidden absolute top-full inset-x-0 bg-paper border-b border-line px-4`}
+      >
+        {links.map((link) => (
+          <li key={link.href} className="border-t border-line">
+            <a
+              href={link.href}
+              onClick={() => setIsOpen(false)}
+              aria-current={sectionOf(link.href) === active ? 'location' : undefined}
+              className="flex h-12 items-center text-body text-ink hover:text-green aria-[current=location]:font-semibold aria-[current=location]:text-green transition-colors"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
     </nav>
   );
 };

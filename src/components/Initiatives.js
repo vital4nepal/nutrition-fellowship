@@ -1,30 +1,69 @@
 import React from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import { Section, SectionTitle, groupTitleLink } from './ui';
 
-const Initiatives = () => {
+// The advocacy and technology links are example.com placeholders, so those rows render without a link.
+const initiatives = [
+  {
+    title: 'Gen-N Initiatives',
+    img: '/Initiatives/thumbs/Gen-N.png',
+    width: 141,
+    height: 128,
+    link: 'https://drive.google.com/drive/folders/1_PZuUUcI1jwHlIVtsgN01VcXAdH8B8PO?usp=drive_link',
+  },
+  { title: 'Advocacy and Campaigns', img: '/Initiatives/thumbs/Advocacy.png', width: 163, height: 128 },
+  { title: 'Technology in Nutrition', img: '/Initiatives/thumbs/TechInNut.png', width: 256, height: 128 },
+];
+
+const rowClass = 'flex min-h-[80px] items-center gap-4 border-b border-line py-3 lg:border-b-0 lg:py-5';
+
+// The last word and the arrow share one nowrap span, so the arrow never wraps onto a line alone.
+function Title({ title, linked }) {
+  const words = title.split(' ');
+  const last = words.pop();
   return (
-    <div className="text-center my-16 mx-5" id="initiatives">
-      <h2 className="text-lg lg:text-xl font-bold mb-6">PROJECTS AND INITIATIVES</h2>
-      <div className="flex flex-wrap justify-around items-center gap-6">
-        {[ 
-          { title: 'GEN-N INITIATIVES', img: '/Initiatives/Gen-N.png', link: 'https://drive.google.com/drive/folders/1_PZuUUcI1jwHlIVtsgN01VcXAdH8B8PO?usp=drive_link' },
-          { title: 'ADVOCACY AND CAMPAIGNS', img: '/Initiatives/Advocacy.png', link: 'https://example.com/advocacy' },
-          { title: 'TECHNOLOGY IN NUTRITION', img: '/Initiatives/TechInNut.png', link: 'https://example.com/technology' }
-        ].map((item, index) => (
-          <div key={index} className="bg-[#bad8bb] text-[#265728] p-6 text-center w-44 h-44 flex flex-col items-center justify-center shadow-lg transition-transform transform hover:scale-105 border border-[grey]">
-            <img src={item.img} alt={item.title} className="w-16 h-16 mb-3" />
-            <a 
-              href={item.link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-base font-semibold leading-relaxed transition-transform hover:underline"
-            >
-              {item.title}
-            </a>
-          </div>
-        ))}
-      </div>
-    </div>
+    <span className={`text-lg font-semibold ${linked ? groupTitleLink : ''}`}>
+      {words.join(' ')}{' '}
+      <span className="whitespace-nowrap">
+        {last}
+        {linked && <ArrowUpRight size={18} aria-hidden="true" className="ml-1 inline-block align-text-bottom" />}
+      </span>
+    </span>
   );
-};
+}
+
+const Initiatives = () => (
+  <Section name="initiatives" id="initiatives">
+    <SectionTitle className="mb-8">Projects and Initiatives</SectionTitle>
+    <ul className="grid border-t border-line lg:grid-cols-3 lg:gap-8">
+      {initiatives.map(({ title, img, width, height, link }) => {
+        const content = (
+          <>
+            <img
+              loading="lazy"
+              src={img}
+              alt=""
+              width={width}
+              height={height}
+              className="h-14 w-14 shrink-0 border border-line object-cover md:h-16 md:w-16"
+            />
+            <Title title={title} linked={Boolean(link)} />
+          </>
+        );
+        return (
+          <li key={title}>
+            {link ? (
+              <a href={link} target="_blank" rel="noopener noreferrer" className={`group ${rowClass}`}>
+                {content}
+              </a>
+            ) : (
+              <div className={rowClass}>{content}</div>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </Section>
+);
 
 export default Initiatives;
