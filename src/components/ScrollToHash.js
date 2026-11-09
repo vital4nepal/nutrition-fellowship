@@ -9,20 +9,32 @@ import { useLocation, useNavigationType } from 'react-router-dom';
 export default function ScrollToHash() {
   const { pathname, hash, key } = useLocation();
   const navigationType = useNavigationType();
+  // The router gives every entry it did not push the key "default", so a section anchor needs the hash in its slot.
+  const slot = `${key}${hash}`;
   const positions = useRef(new Map());
+  const current = useRef(slot);
 
   useEffect(() => {
-    // A click is the last moment before a link leaves the page. A scroll event comes too late: the shorter page clamps it.
-    // A link that stays on this path (a section anchor) is a native jump, so it needs no saved position.
-    const remember = (event) => {
+    current.current = slot;
+  }, [slot]);
+
+  useEffect(() => {
+    // A page link is saved at the click, the last moment before the shorter page clamps the scroll.
+    // Back, Forward and a section anchor are saved at popstate, which still sees the old position.
+    const onClick = (event) => {
       const link = event.target.closest?.('a[href]');
       if (link && link.origin === window.location.origin && link.pathname !== pathname) {
-        positions.current.set(key, window.scrollY);
+        positions.current.set(current.current, window.scrollY);
       }
     };
-    document.addEventListener('click', remember, true);
-    return () => document.removeEventListener('click', remember, true);
-  }, [key, pathname]);
+    const onPopState = () => positions.current.set(current.current, window.scrollY);
+    document.addEventListener('click', onClick, true);
+    window.addEventListener('popstate', onPopState, true);
+    return () => {
+      document.removeEventListener('click', onClick, true);
+      window.removeEventListener('popstate', onPopState, true);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     let cancelled = false;
@@ -33,11 +45,10 @@ export default function ScrollToHash() {
         frame = requestAnimationFrame(action);
       });
     };
-    // The key "default" belongs to every entry the router did not push, so a section anchor shares it with the first page.
-    if (hash) {
+    if (navigationType === 'POP' && positions.current.has(slot)) {
+      afterLayout(() => window.scrollTo(0, positions.current.get(slot)));
+    } else if (hash) {
       afterLayout(() => document.getElementById(hash.slice(1))?.scrollIntoView());
-    } else if (navigationType === 'POP' && positions.current.has(key)) {
-      afterLayout(() => window.scrollTo(0, positions.current.get(key)));
     } else if (navigationType !== 'POP') {
       window.scrollTo(0, 0);
     }
@@ -45,7 +56,7 @@ export default function ScrollToHash() {
       cancelled = true;
       cancelAnimationFrame(frame);
     };
-  }, [pathname, hash, key, navigationType]);
+  }, [pathname, hash, slot, navigationType]);
 
   return null;
 }
