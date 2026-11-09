@@ -40,11 +40,11 @@ const Initiatives = () => (
         const content = (
           <>
             <img
+              loading="lazy"
               src={img}
               alt=""
               width={width}
               height={height}
-              loading="lazy"
               className="h-14 w-14 shrink-0 border border-line object-cover md:h-16 md:w-16"
             />
             <Title title={title} linked={Boolean(link)} />

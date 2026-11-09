@@ -45,11 +45,11 @@ const CoverpageRight = () => (
             className="group flex min-h-[80px] gap-4 border-b border-line py-3"
           >
             <img
+              loading="lazy"
               src={highlight.image}
               alt=""
               width={56}
               height={56}
-              loading="lazy"
               className="h-12 w-12 shrink-0 object-cover lg:h-14 lg:w-14"
             />
             <span className="min-w-0">
