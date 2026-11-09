@@ -7,11 +7,16 @@ export default function ScrollToHash() {
 
   useEffect(() => {
     if (!hash) return undefined;
+    let cancelled = false;
     let frame;
     document.fonts.ready.then(() => {
+      if (cancelled) return;
       frame = requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView());
     });
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+    };
   }, [pathname, hash]);
 
   return null;
