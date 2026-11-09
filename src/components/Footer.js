@@ -53,7 +53,7 @@ function Footer() {
             </a>
           </p>
           <p>
-            Copyright © 2024 All Rights Reserved{" "}
+            Copyright © {new Date().getFullYear()} All Rights Reserved{" "}
             <span>
               <a href="#navbar">NutritionFellowshipForNepal</a>
             </span>
