@@ -26,11 +26,17 @@ function App() {
   return (
     <Router>
       <ScrollToHash />
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-green focus:px-4 focus:py-3 focus:font-semibold focus:text-paper"
+      >
+        Skip to content
+      </a>
       <Topbar><Navbar /></Topbar>
 
       <Routes>
         <Route path="/" element={
-            <main>
+            <main id="main" tabIndex={-1} className="outline-none">
               <Section
                 name="hero"
                 bordered={false}
@@ -55,13 +61,11 @@ function App() {
             </main>
         } />
         {innerPages.map(({ path, title }) => (
-          <Route key={path} path={path} element={<main className={`${container} py-12 lg:py-16`}><ComingSoon title={title} /></main>} />
+          <Route key={path} path={path} element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ComingSoon title={title} /></main>} />
         ))}
         <Route path="*" element={
-          <main className={`${container} py-12 lg:py-16`}>
-            <ComingSoon title="Page not found">
-              This page does not exist. <Link to="/" className={`text-green ${textLink}`}>Go to the home page</Link>.
-            </ComingSoon>
+          <main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}>
+            <ComingSoon title="Page not found">This page does not exist.</ComingSoon>
           </main>
         } />
       </Routes>
