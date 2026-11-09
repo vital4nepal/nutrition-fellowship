@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Swal from 'sweetalert2';
 import { Section, SectionTitle } from './ui';
 
 const fields = [
@@ -29,6 +28,7 @@ function Field({ name, label, type, autoComplete }) {
 
 function Thoughts() {
   const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -40,6 +40,7 @@ function Thoughts() {
     const json = JSON.stringify(object);
 
     setSending(true);
+    setSent(false);
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -51,11 +52,7 @@ function Thoughts() {
       }).then((res) => res.json());
 
       if (res.success) {
-        Swal.fire({
-          title: "Thank you!",
-          text: "Message sent successfully!",
-          icon: "success",
-        });
+        setSent(true);
         form.reset();
       }
     } finally {
@@ -80,6 +77,9 @@ function Thoughts() {
         >
           Submit
         </button>
+        <p role="status" className="text-green">
+          {sent && 'Thank you! Message sent successfully!'}
+        </p>
       </form>
     </Section>
   );
