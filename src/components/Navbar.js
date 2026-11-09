@@ -1,14 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
-const links = [
-  { href: '/', label: 'Home' },
-  { href: '/#aboutus', label: 'About Us' },
-  { href: '/#initiatives', label: 'Initiatives' },
-  { href: '/#documents', label: 'Resources' },
-  { href: '/#events', label: 'Events and Updates' },
-  { href: '/#thoughts', label: 'Contact Us' },
-];
+import { navLinks as links } from '../data/site';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,7 +63,7 @@ const Navbar = () => {
             <a
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="flex h-12 items-center text-[17px] text-ink hover:text-green transition-colors"
+              className="flex h-12 items-center text-body text-ink hover:text-green transition-colors"
             >
               {link.label}
             </a>

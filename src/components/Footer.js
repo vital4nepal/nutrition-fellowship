@@ -1,12 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faInstagram, faXTwitter } from '@fortawesome/free-brands-svg-icons';
-
-const socials = [
-  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61572729923914', icon: faFacebookF },
-  { name: 'Instagram', href: 'https://www.instagram.com/nutfellowship/?hl=en', icon: faInstagram },
-  { name: 'X', href: 'https://x.com/nutfellowship', icon: faXTwitter },
-];
+import { socials, email, emailHref } from '../data/site';
 
 const usefulLinks = [
   { href: 'https://nutrition-dashboard-vision.vercel.app/', label: 'Nutrition Dashboard' },
@@ -33,7 +27,7 @@ function Footer() {
             <ul className="mt-2">
               {usefulLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className={`flex min-h-11 items-center text-[15px] ${linkClass}`}>
+                  <a href={link.href} className={`flex min-h-11 items-center text-meta ${linkClass}`}>
                     {link.label}
                   </a>
                 </li>
@@ -60,16 +54,16 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-paper/20 pt-6 text-[14px] leading-normal">
+        <div className="mt-10 border-t border-paper/20 pt-6 text-meta">
           <p>
             If you have any queries, feel free to email us at:{" "}
             <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=nutfellowship@gmail.com"
+              href={emailHref}
               target="_blank"
               rel="noopener noreferrer"
               className={linkClass}
             >
-              nutfellowship@gmail.com
+              {email}
             </a>
           </p>
           <p className="mt-2">

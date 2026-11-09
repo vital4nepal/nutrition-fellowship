@@ -1,13 +1,7 @@
 import React from 'react';
 import { Mail } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faInstagram, faXTwitter } from '@fortawesome/free-brands-svg-icons';
-
-const socials = [
-  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61572729923914', icon: faFacebookF },
-  { name: 'Instagram', href: 'https://www.instagram.com/nutfellowship/?hl=en', icon: faInstagram },
-  { name: 'X', href: 'https://x.com/nutfellowship', icon: faXTwitter },
-];
+import { socials, email, emailHref } from '../data/site';
 
 const Topbar = ({ children }) => {
   return (
@@ -38,12 +32,12 @@ const Topbar = ({ children }) => {
             ))}
           </div>
           <a
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=nutfellowship@gmail.com"
-            aria-label="nutfellowship@gmail.com"
+            href={emailHref}
+            aria-label={email}
             className="flex h-11 min-w-11 items-center justify-center gap-2 text-ink hover:text-green transition-colors"
           >
             <Mail size={20} />
-            <span className="hidden xl:inline text-[15px]">nutfellowship@gmail.com</span>
+            <span className="hidden xl:inline text-meta">{email}</span>
           </a>
         </div>
       </div>
