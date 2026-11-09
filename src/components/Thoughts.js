@@ -15,7 +15,7 @@ function Field({ name, label, type, autoComplete }) {
   const id = `thoughts-${name}`;
   return (
     <div>
-      <label htmlFor={id} className="mb-2 block text-[0.9375rem] font-semibold text-ink">
+      <label htmlFor={id} className="mb-2 block text-ui font-semibold text-ink">
         {label}
       </label>
       {type === 'textarea' ? (
@@ -64,12 +64,12 @@ function Thoughts() {
   };
 
   return (
-    <Section name="thoughts" id="thoughts" className="grid gap-8 py-12 lg:grid-cols-12 lg:py-16">
-      <div className="lg:col-span-5">
+    <Section name="thoughts" id="thoughts" className="grid gap-8 lg:grid-cols-12">
+      <div className="lg:sticky lg:top-[calc(var(--nf-header-h)+32px)] lg:col-span-5 lg:self-start">
         <SectionTitle>Place Your Thoughts</SectionTitle>
         <p className="mt-3 text-body text-muted">We would love to hear feedback and questions from you.</p>
       </div>
-      <form onSubmit={onSubmit} className="flex max-w-form flex-col gap-5 lg:col-span-6 lg:col-start-7">
+      <form onSubmit={onSubmit} className="flex flex-col gap-5 lg:col-span-6 lg:col-start-7">
         {fields.map((field) => (
           <Field key={field.name} {...field} />
         ))}

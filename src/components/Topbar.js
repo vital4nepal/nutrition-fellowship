@@ -11,8 +11,8 @@ const Topbar = ({ children }) => {
       className="sticky top-0 z-50 h-16 lg:h-[72px] bg-paper border-b border-line"
     >
       <div className={`${container} flex h-full items-center gap-4`}>
-        <a href="/" className="shrink-0">
-          <img src="/nutrition_logo333.png" alt="Nutrition Logo" className="h-10 lg:h-12 w-auto" />
+        <a href="/" className="flex min-h-11 shrink-0 items-center">
+          <img src="/nutrition_logo_mark.png" alt="Nutrition Logo" className="h-12 lg:h-14 w-auto" />
         </a>
 
         {children}

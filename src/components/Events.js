@@ -35,7 +35,7 @@ function Events() {
   const sliderRef = useRef(null);
 
   return (
-    <Section name="events" id="events" className="pb-10 pt-12 lg:pb-12 lg:pt-16">
+    <Section name="events" id="events" padding="pb-10 pt-12 lg:pb-12 lg:pt-16">
       <div className="flex items-end justify-between gap-4">
         <div>
           <SectionTitle>Events and Updates</SectionTitle>

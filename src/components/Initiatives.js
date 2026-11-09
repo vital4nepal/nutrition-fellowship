@@ -15,12 +15,12 @@ const initiatives = [
   { title: 'Technology in Nutrition', img: '/Initiatives/TechInNut.png', width: 1000, height: 500 },
 ];
 
-const rowClass = 'grid min-h-[80px] grid-cols-[56px_1fr_auto] items-center gap-4 border-b border-line py-3 lg:grid-cols-[72px_1fr_auto] lg:gap-6 lg:py-5';
+const rowClass = 'flex min-h-[80px] items-center gap-4 border-b border-line py-3 md:border-b-0 md:py-5';
 
 const Initiatives = () => (
   <Section name="initiatives" id="initiatives">
     <SectionTitle className="mb-8">Projects and Initiatives</SectionTitle>
-    <ul className="border-t border-line">
+    <ul className="grid border-t border-line md:grid-cols-3 md:gap-8">
       {initiatives.map(({ title, img, width, height, link }) => {
         const content = (
           <>
@@ -30,10 +30,12 @@ const Initiatives = () => (
               width={width}
               height={height}
               loading="lazy"
-              className="h-14 w-14 border border-line bg-surface object-contain lg:h-[72px] lg:w-[72px]"
+              className="h-14 w-14 shrink-0 border border-line object-cover md:h-16 md:w-16"
             />
-            <span className="text-lg font-semibold">{title}</span>
-            {link && <ArrowUpRight size={20} aria-hidden="true" />}
+            <span className="text-lg font-semibold">
+              {title}
+              {link && <ArrowUpRight size={18} aria-hidden="true" className="ml-1 inline-block align-text-bottom" />}
+            </span>
           </>
         );
         return (

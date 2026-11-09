@@ -4,12 +4,8 @@
 
 @layer base {
   :root {
-    --nf-paper: theme('colors.paper'); --nf-surface: theme('colors.surface');
-    --nf-ink: theme('colors.ink'); --nf-muted: theme('colors.muted');
-    --nf-line: theme('colors.line'); --nf-line-strong: theme('colors.line-strong');
-    --nf-green: theme('colors.green'); --nf-deep: theme('colors.deep');
-    --nf-accent: theme('colors.accent');
-    --nf-ease: cubic-bezier(0.2, 0, 0, 1); --nf-dur: 180ms; --nf-header-h: 64px;
+    --nf-green: theme('colors.green');
+    --nf-header-h: 64px;
   }
   @media (min-width: 1024px) { :root { --nf-header-h: 72px; } }
   body { @apply bg-paper text-ink font-sans text-base leading-relaxed antialiased; }
