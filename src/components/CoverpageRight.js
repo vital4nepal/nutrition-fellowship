@@ -56,7 +56,7 @@ const CoverpageRight = () => (
               <span className={`block text-base font-semibold text-ink ${groupTitleLink}`}>
                 {highlight.topic}
               </span>
-              <span className="line-clamp-2 text-meta lg:line-clamp-3 text-muted">{highlight.description}</span>
+              <span className="line-clamp-2 text-meta text-muted lg:line-clamp-3">{highlight.description}</span>
             </span>
           </a>
         </li>
