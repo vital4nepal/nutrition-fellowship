@@ -51,6 +51,7 @@ The `-s` flag makes every address load `index.html`, which the router needs.
 | `/aiinnutrition` | Research: AI in nutrition (coming soon) |
 | `/nfn2ndmeetblog` | Blog: second meeting (coming soon) |
 | `/nrcinternblog` | Blog: NRC intern (coming soon) |
+| any other address | Page not found, with a link to the home page |
 
 ## Deploy
 
