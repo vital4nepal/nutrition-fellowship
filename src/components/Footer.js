@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Footer() {
   return (
-    <footer>
+    <footer className="footer">
       <div className="footer-container">
         <div className="footer-above">
           <div className="footer-description">
