@@ -3,10 +3,17 @@ import { SectionTitle } from './ui';
 
 const SLIDE_INTERVAL_MS = 5000;
 
-// Slide 0 is the photo band cut out of 5generations.jpeg, which also carries a title banner and a hashtag strip.
+// Slide 0 is the photo band of 5generations.jpeg without its title banner and hashtag strip.
+// Slide 1 is a square collage: the frame shows a band of it, so `position` picks rows that end between photos.
 const slides = [
   { src: '/ImageSlider/5generations-photo.jpg', width: 1600, height: 569, position: 'object-center' },
-  { src: '/ImageSlider/Cover-collage.png', width: 1080, height: 1080, position: 'object-top md:object-[50%_46.2%]' },
+  {
+    src: '/ImageSlider/cover-collage.jpg',
+    width: 1060,
+    height: 1060,
+    alt: 'Students leading the Fellowship. A mosaic of cherished interactions',
+    position: 'object-[50%_8%] md:object-[50%_45.5%]',
+  },
 ];
 
 const pillars = ['Celebrate', 'Convene', 'Coach', 'Collaborate', 'Connect'];
@@ -99,7 +106,7 @@ const CoverpageLeft = () => {
               <img
                 key={slide.src}
                 src={slide.src}
-                alt={`Slide ${index + 1}`}
+                alt={slide.alt ?? `Slide ${index + 1}`}
                 width={slide.width}
                 height={slide.height}
                 loading={index === 0 ? 'eager' : 'lazy'}
