@@ -1,153 +1,87 @@
-// import React from 'react';
-// import './Thoughts.css';
-// import Swal from 'sweetalert2'
+import React, { useState } from 'react';
+import Swal from 'sweetalert2';
+import { Section, SectionTitle } from './ui';
 
+const fields = [
+  { name: 'name', label: 'Full Name', type: 'text', autoComplete: 'name' },
+  { name: 'email', label: 'Email Address', type: 'email', autoComplete: 'email' },
+  { name: 'message', label: 'Your Thoughts', type: 'textarea' },
+];
 
-// function Thoughts() {
+const inputClass =
+  'w-full appearance-none rounded-none border border-line-strong bg-surface px-3 text-body focus:border-green';
 
-//   const onSubmit = async (event) => {
-//     event.preventDefault();
-//     const formData = new FormData(event.target);
-
-//     formData.append("access_key", "6649cfe5-e72b-4818-aa36-de58ef34225d");
-
-//     const object = Object.fromEntries(formData);
-//     const json = JSON.stringify(object);
-
-//     const res = await fetch("https://api.web3forms.com/submit", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json"
-//       },
-//       body: json
-//     }).then((res) => res.json());
-
-//     if (res.success) {
-//       Swal.fire({
-//         title: "Thank you!",
-//         text: "Message sent successfully!",
-//         icon: "success"
-//       });
-//     }
-//   };
-
-
-//   return (
-//     <div className='thoughts-container'>
-//       <p className='thoughts-top1'>PLACE YOUR THOUGHTS</p>
-//       <p className='thoughts-top2'>
-//         We would love to hear feedbacks and questions from your end.
-//       </p>
-//       <form onSubmit={onSubmit}>
-//       <div className='thoughts-form'>
-//         <div className='thoughts-input'>
-//           <input
-//             type='text'
-//             placeholder='Full Name' name='name'
-//          required/>
-//         </div>
-
-//         <div className='thoughts-input'>
-//           <input
-//             type='email'
-//             placeholder='Email Address'
-//             name='email'
-//           required/>
-//         </div>
-//         <div className='thoughts-input'>
-//           <textarea
-//             className='thoughts-input-field'
-//             placeholder='Your Thoughts' name='message'
-//           required/>
-//         </div>
-//         <div className='submit'>
-//           <button className='thoughts-submit'>
-//             Submit
-//           </button>
-//         </div>
-//       </div>
-//       </form>
-//     </div>
-//   );
-// }
-
-
-// export default Thoughts;
-
-
-
-import React from "react";
-import Swal from "sweetalert2";
+function Field({ name, label, type, autoComplete }) {
+  const id = `thoughts-${name}`;
+  return (
+    <div>
+      <label htmlFor={id} className="mb-2 block text-[0.9375rem] font-semibold text-ink">
+        {label}
+      </label>
+      {type === 'textarea' ? (
+        <textarea id={id} name={name} required className={`${inputClass} min-h-[160px] resize-y py-3`} />
+      ) : (
+        <input id={id} name={name} type={type} autoComplete={autoComplete} required className={`${inputClass} h-12`} />
+      )}
+    </div>
+  );
+}
 
 function Thoughts() {
+  const [sending, setSending] = useState(false);
+
   const onSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
+    const form = event.target;
+    const formData = new FormData(form);
     formData.append("access_key", "6649cfe5-e72b-4818-aa36-de58ef34225d");
 
     const object = Object.fromEntries(formData);
     const json = JSON.stringify(object);
 
-    const res = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: json,
-    }).then((res) => res.json());
+    setSending(true);
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: json,
+      }).then((res) => res.json());
 
-    if (res.success) {
-      Swal.fire({
-        title: "Thank you!",
-        text: "Message sent successfully!",
-        icon: "success",
-      });
+      if (res.success) {
+        Swal.fire({
+          title: "Thank you!",
+          text: "Message sent successfully!",
+          icon: "success",
+        });
+        form.reset();
+      }
+    } finally {
+      setSending(false);
     }
   };
 
   return (
-    <div className="bg-gray-100 py-8 px-4 text-center" id='thoughts'>
-      <p className="text-xl text-black font-semibold">PLACE YOUR THOUGHTS</p>
-      <p className="text-base text-green-800 mt-2">
-        We would love to hear feedback and questions from you.
-      </p>
-      <form onSubmit={onSubmit} className="mt-6 max-w-xs mx-auto bg-[#bad8bb] p-4 rounded-lg shadow-md">
-        <div className="mb-3">
-          <input
-            type="text"
-            placeholder="Full Name"
-            name="name"
-            required
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            required
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-          />
-        </div>
-        <div className="mb-3">
-          <textarea
-            placeholder="Your Thoughts"
-            name="message"
-            required
-            className="w-full p-2 border border-gray-300 rounded-lg h-16 focus:ring-2 focus:ring-green-500 focus:outline-none"
-          ></textarea>
-        </div>
+    <Section name="thoughts" id="thoughts" className="grid gap-8 py-12 lg:grid-cols-12 lg:py-16">
+      <div className="lg:col-span-5">
+        <SectionTitle>Place Your Thoughts</SectionTitle>
+        <p className="mt-3 text-body text-muted">We would love to hear feedback and questions from you.</p>
+      </div>
+      <form onSubmit={onSubmit} className="flex max-w-form flex-col gap-5 lg:col-span-6 lg:col-start-7">
+        {fields.map((field) => (
+          <Field key={field.name} {...field} />
+        ))}
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-300"
+          disabled={sending}
+          className="h-12 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep disabled:opacity-60 lg:self-start"
         >
           Submit
         </button>
       </form>
-    </div>
+    </Section>
   );
 }
 
