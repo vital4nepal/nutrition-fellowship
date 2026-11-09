@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Topbar from './components/Topbar';
 import Navbar from './components/Navbar';
 import CoverpageLeft from './components/CoverpageLeft';
@@ -11,7 +11,7 @@ import  Initiatives from './components/Initiatives';
 import Thoughts from './components/Thoughts';
 import Footer from './components/Footer';
 import ScrollToHash from './components/ScrollToHash';
-import { Section, container, textLink } from './components/ui';
+import { Section, container } from './components/ui';
 import ComingSoon from './components/ComingSoon';
 
 const innerPages = [
