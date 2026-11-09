@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { Section, SectionTitle, textLink } from './ui';
+import { Section, SectionTitle, groupTitleLink } from './ui';
 
 // The advocacy and technology links are example.com placeholders, so those rows render without a link.
 const initiatives = [
@@ -15,12 +15,27 @@ const initiatives = [
   { title: 'Technology in Nutrition', img: '/Initiatives/TechInNut.png', width: 1000, height: 500 },
 ];
 
-const rowClass = 'flex min-h-[80px] items-center gap-4 border-b border-line py-3 md:border-b-0 md:py-5';
+const rowClass = 'flex min-h-[80px] items-center gap-4 border-b border-line py-3 lg:border-b-0 lg:py-5';
+
+// The last word and the arrow share one nowrap span, so the arrow never wraps onto a line alone.
+function Title({ title, linked }) {
+  const words = title.split(' ');
+  const last = words.pop();
+  return (
+    <span className={`text-lg font-semibold ${linked ? groupTitleLink : ''}`}>
+      {words.join(' ')}{' '}
+      <span className="whitespace-nowrap">
+        {last}
+        {linked && <ArrowUpRight size={18} aria-hidden="true" className="ml-1 inline-block align-text-bottom" />}
+      </span>
+    </span>
+  );
+}
 
 const Initiatives = () => (
   <Section name="initiatives" id="initiatives">
     <SectionTitle className="mb-8">Projects and Initiatives</SectionTitle>
-    <ul className="grid border-t border-line md:grid-cols-3 md:gap-8">
+    <ul className="grid border-t border-line lg:grid-cols-3 lg:gap-8">
       {initiatives.map(({ title, img, width, height, link }) => {
         const content = (
           <>
@@ -32,16 +47,13 @@ const Initiatives = () => (
               loading="lazy"
               className="h-14 w-14 shrink-0 border border-line object-cover md:h-16 md:w-16"
             />
-            <span className="text-lg font-semibold">
-              {title}
-              {link && <ArrowUpRight size={18} aria-hidden="true" className="ml-1 inline-block align-text-bottom" />}
-            </span>
+            <Title title={title} linked={Boolean(link)} />
           </>
         );
         return (
           <li key={title}>
             {link ? (
-              <a href={link} target="_blank" rel="noopener noreferrer" className={`${textLink} ${rowClass}`}>
+              <a href={link} target="_blank" rel="noopener noreferrer" className={`group ${rowClass}`}>
                 {content}
               </a>
             ) : (

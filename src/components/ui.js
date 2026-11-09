@@ -3,6 +3,8 @@ import React from 'react';
 export const container = 'mx-auto max-w-content px-4 lg:px-6';
 export const underlineLink = 'underline-offset-4 transition-colors hover:underline';
 export const textLink = `${underlineLink} hover:text-green`;
+// For a title inside a link row: the row carries `group`, so the whole row is the hover target.
+export const groupTitleLink = 'underline-offset-4 transition-colors group-hover:text-green group-hover:underline';
 const titleSizes = {
   section: 'text-title-sm lg:text-display',
   sidebar: 'text-sub',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionTitle } from './ui';
+import { SectionTitle, groupTitleLink } from './ui';
 
 const highlights = [
   {
@@ -53,7 +53,7 @@ const CoverpageRight = () => (
               className="h-12 w-12 shrink-0 object-cover lg:h-14 lg:w-14"
             />
             <span className="min-w-0">
-              <span className="block text-base font-semibold text-ink underline-offset-4 transition-colors group-hover:text-green group-hover:underline">
+              <span className={`block text-base font-semibold text-ink ${groupTitleLink}`}>
                 {highlight.topic}
               </span>
               <span className="line-clamp-2 text-meta text-muted">{highlight.description}</span>
