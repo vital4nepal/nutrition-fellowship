@@ -11,7 +11,8 @@
   body { @apply bg-paper text-ink font-sans text-base leading-relaxed antialiased; }
   /* Short pages still end with the footer at the bottom of the screen. */
   #root { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
-  main { flex: 1 0 auto; }
+  /* In a flex column an auto margin shrinks a child to its content, so every page needs the full width. */
+  main { flex: 1 0 auto; width: 100%; }
   @media (min-width: 1024px) { body { @apply text-body; } }
   h1, h2, h3 { @apply font-serif; font-weight: 600; text-wrap: balance; }
   [id] { scroll-margin-top: calc(var(--nf-header-h) + 16px); }
