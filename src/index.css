@@ -10,7 +10,7 @@
   @media (min-width: 1024px) { :root { --nf-header-h: 72px; } }
   body { @apply bg-paper text-ink font-sans text-base leading-relaxed antialiased; }
   /* Short pages still end with the footer at the bottom of the screen. */
-  #root { display: flex; flex-direction: column; min-height: 100dvh; }
+  #root { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
   main { flex: 1 0 auto; }
   @media (min-width: 1024px) { body { @apply text-body; } }
   h1, h2, h3 { @apply font-serif; font-weight: 600; text-wrap: balance; }
