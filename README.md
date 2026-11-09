@@ -68,5 +68,5 @@ The domain `nutfellowship.com` uses Cloudflare DNS. Both `nutfellowship.com` and
 ## Notes
 
 - The `build/` folder is not in Git. Cloudflare builds it on each deployment.
-- `@emailjs/browser` and `nodemailer` are in `package.json`, but no file in `src/` uses them.
+- The "Place your thoughts" form posts to Web3Forms. The Web3Forms access key is in `src/components/Thoughts.js`.
 - Add secrets to a `.env` file. Git ignores it. Never commit a key.
