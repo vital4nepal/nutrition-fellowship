@@ -7,6 +7,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef(null);
 
+  // The open menu owns the screen: Escape closes it and the page behind it stops scrolling.
   useEffect(() => {
     if (!isOpen) return undefined;
     const onKeyDown = (event) => {
@@ -15,11 +16,24 @@ const Navbar = () => {
       toggleRef.current.focus();
     };
     document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
+  const closeWhenFocusLeaves = (event) => {
+    if (isOpen && !event.currentTarget.contains(event.relatedTarget)) setIsOpen(false);
+  };
+
   return (
-    <nav data-section="nav" aria-label="Main" className="ml-auto lg:ml-0 lg:flex lg:flex-1 lg:justify-center">
+    <nav
+      data-section="nav"
+      aria-label="Main"
+      onBlur={closeWhenFocusLeaves}
+      className="ml-auto lg:ml-0 lg:flex lg:flex-1 lg:justify-center"
+    >
       <ul className="hidden lg:flex items-center gap-5 xl:gap-7">
         {links.map((link) => (
           <li key={link.href}>
