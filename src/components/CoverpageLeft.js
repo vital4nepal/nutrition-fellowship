@@ -94,8 +94,8 @@ const CoverpageLeft = () => {
     <>
       <SectionTitle as="h1" className="mb-6 lg:mb-8">Nutrition Fellowship for Nepal</SectionTitle>
       <div
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        onPointerEnter={(event) => event.pointerType === 'mouse' && setPaused(true)}
+        onPointerLeave={(event) => event.pointerType === 'mouse' && setPaused(false)}
         onFocus={() => setPaused(true)}
         onBlur={() => setPaused(false)}
       >
