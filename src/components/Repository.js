@@ -62,7 +62,7 @@ function Repository() {
   return (
     <Section name="resources" id="documents">
       <SectionTitle className="mb-8">Resources & Publications</SectionTitle>
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
         {documents.map(({ category, links }) => (
           <div key={category} className="border-t border-ink pt-4">
             <SubTitle>{category}</SubTitle>
