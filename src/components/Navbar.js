@@ -28,7 +28,7 @@ const Navbar = () => {
       ref={navRef}
       data-section="nav"
       aria-label="Main"
-      className="order-last lg:order-none lg:flex lg:flex-1 lg:justify-center"
+      className="lg:flex lg:flex-1 lg:justify-center"
     >
       <ul className="hidden lg:flex items-center gap-5 xl:gap-7">
         {links.map((link) => (

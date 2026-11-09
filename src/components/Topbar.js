@@ -15,9 +15,8 @@ const Topbar = ({ children }) => {
           <img src="/nutrition_logo_mark.png" alt="Nutrition Logo" className="h-12 lg:h-14 w-auto" />
         </a>
 
-        {children}
-
-        <div className="ml-auto lg:ml-0 flex items-center">
+        {/* Before the nav in the DOM so the phone focus order is logo, Mail, Menu; lg:order-last restores the desktop layout. */}
+        <div className="ml-auto lg:order-last lg:ml-0 flex items-center">
           <SocialLinks className="hidden lg:flex" linkClassName="text-ink hover:text-green" />
           <a
             href={emailHref}
@@ -30,6 +29,8 @@ const Topbar = ({ children }) => {
             <span className="hidden xl:inline text-meta">{email}</span>
           </a>
         </div>
+
+        {children}
       </div>
     </header>
   );
