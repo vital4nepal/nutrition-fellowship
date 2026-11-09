@@ -19,7 +19,7 @@ const Navbar = () => {
   }, [isOpen]);
 
   return (
-    <nav data-section="nav" aria-label="Main" className="lg:flex lg:flex-1 lg:justify-center">
+    <nav data-section="nav" aria-label="Main" className="ml-auto lg:ml-0 lg:flex lg:flex-1 lg:justify-center">
       <ul className="hidden lg:flex items-center gap-5 xl:gap-7">
         {links.map((link) => (
           <li key={link.href}>
