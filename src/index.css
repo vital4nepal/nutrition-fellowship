@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --nf-paper: theme('colors.paper'); --nf-surface: theme('colors.surface');
+    --nf-ink: theme('colors.ink'); --nf-muted: theme('colors.muted');
+    --nf-line: theme('colors.line'); --nf-line-strong: theme('colors.line-strong');
+    --nf-green: theme('colors.green'); --nf-deep: theme('colors.deep');
+    --nf-accent: theme('colors.accent');
+    --nf-ease: cubic-bezier(0.2, 0, 0, 1); --nf-dur: 180ms; --nf-header-h: 64px;
+  }
+  @media (min-width: 1024px) { :root { --nf-header-h: 72px; } }
+  body { @apply bg-paper text-ink font-sans text-base leading-relaxed antialiased; }
+  @media (min-width: 1024px) { body { @apply text-body; } }
+  h1, h2, h3 { @apply font-serif; font-weight: 600; text-wrap: balance; }
+  [id] { scroll-margin-top: calc(var(--nf-header-h) + 16px); }
+  :focus-visible { outline: 2px solid var(--nf-green); outline-offset: 2px; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+}
