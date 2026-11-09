@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { email } from '../data/site';
 import { Section, SectionTitle } from './ui';
 
 const fields = [
@@ -26,9 +27,13 @@ function Field({ name, label, type, autoComplete }) {
   );
 }
 
+const messages = {
+  sent: 'Thank you! Message sent successfully!',
+  error: `Could not send your message. Please email us at ${email}.`,
+};
+
 function Thoughts() {
-  const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState('idle');
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -36,11 +41,7 @@ function Thoughts() {
     const formData = new FormData(form);
     formData.append("access_key", "6649cfe5-e72b-4818-aa36-de58ef34225d");
 
-    const object = Object.fromEntries(formData);
-    const json = JSON.stringify(object);
-
-    setSending(true);
-    setSent(false);
+    setStatus('sending');
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -48,15 +49,15 @@ function Thoughts() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: json,
-      }).then((res) => res.json());
-
-      if (res.success) {
-        setSent(true);
-        form.reset();
-      }
-    } finally {
-      setSending(false);
+        body: JSON.stringify(Object.fromEntries(formData)),
+        signal: AbortSignal.timeout(15000),
+      });
+      const result = res.ok ? await res.json() : null;
+      if (!result?.success) throw new Error('web3forms rejected the message');
+      setStatus('sent');
+      form.reset();
+    } catch {
+      setStatus('error');
     }
   };
 
@@ -66,20 +67,24 @@ function Thoughts() {
         <SectionTitle>Place Your Thoughts</SectionTitle>
         <p className="mt-3 text-body text-muted">We would love to hear feedback and questions from you.</p>
       </div>
-      <form onSubmit={onSubmit} className="flex flex-col gap-5 md:max-w-form lg:col-span-6 lg:col-start-7 lg:max-w-none">
+      <form
+        onSubmit={onSubmit}
+        onInput={() => status !== 'sending' && setStatus('idle')}
+        className="flex flex-col gap-5 md:max-w-form lg:col-span-6 lg:col-start-7 lg:max-w-none"
+      >
         {fields.map((field) => (
           <Field key={field.name} {...field} />
         ))}
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-5">
           <button
             type="submit"
-            disabled={sending}
+            disabled={status === 'sending'}
             className="h-12 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep disabled:opacity-60"
           >
             Submit
           </button>
-          <p role="status" className="text-green">
-            {sent && 'Thank you! Message sent successfully!'}
+          <p role="status" className={status === 'error' ? 'text-ink' : 'text-green'}>
+            {messages[status]}
           </p>
         </div>
       </form>
