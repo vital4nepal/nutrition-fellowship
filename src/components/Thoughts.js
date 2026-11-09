@@ -42,6 +42,9 @@ function Thoughts() {
     formData.append("access_key", "6649cfe5-e72b-4818-aa36-de58ef34225d");
 
     setStatus('sending');
+    // AbortSignal.timeout is missing in Safari 15, which the browserslist still targets.
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 15000);
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -50,7 +53,7 @@ function Thoughts() {
           Accept: "application/json",
         },
         body: JSON.stringify(Object.fromEntries(formData)),
-        signal: AbortSignal.timeout(15000),
+        signal: controller.signal,
       });
       const result = res.ok ? await res.json() : null;
       if (!result?.success) throw new Error('web3forms rejected the message');
@@ -58,6 +61,8 @@ function Thoughts() {
       form.reset();
     } catch {
       setStatus('error');
+    } finally {
+      clearTimeout(timer);
     }
   };
 
