@@ -1,0 +1,9 @@
+.newsletter-container{
+    background-color: azure;
+    height: 100vh;
+}
+.newsletter-description{
+    color: rgb(18, 109, 18);
+    font-weight: 700;
+    align-content: center;
+}
