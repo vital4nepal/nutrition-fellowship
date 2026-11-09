@@ -72,7 +72,7 @@ const Repository = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50" id='documents'>
+        <div className="bg-gray-50" id='documents'>
             <div className="w-full max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                     <h2 className="text-xl lg:text-[22px] font-bold mb-4">RESOURCES & PUBLICATIONS</h2>
