@@ -55,7 +55,7 @@ function Events() {
           {events.map(({ date, img, title }) => (
             <div key={title} className="px-3">
               <figure>
-                <img src={img} alt="" className="aspect-[3/2] w-full object-cover" />
+                <img src={img} alt="" loading="lazy" decoding="async" className="aspect-[3/2] w-full object-cover" />
                 <figcaption>
                   <p className="mt-3 text-meta tabular-nums text-muted">{date}</p>
                   <p className="mt-1 line-clamp-2 text-base font-semibold text-ink lg:text-body">{title}</p>
