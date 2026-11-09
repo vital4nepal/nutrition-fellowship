@@ -1,6 +1,7 @@
 import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { socials, email, emailHref } from '../data/site';
+import { email, emailHref } from '../data/site';
+import SocialLinks from './SocialLinks';
+import { container } from './ui';
 
 const usefulLinks = [
   { href: 'https://nutrition-dashboard-vision.vercel.app/', label: 'Nutrition Dashboard' },
@@ -12,7 +13,7 @@ const linkClass = "underline-offset-4 hover:underline transition-colors";
 function Footer() {
   return (
     <footer data-section="footer" className="bg-deep text-paper [--nf-green:theme(colors.paper)]">
-      <div className="mx-auto max-w-content px-4 py-14 lg:px-6">
+      <div className={`${container} py-14`}>
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <img src="/Nutrition_logo33.png" alt="Company Logo" className="h-[72px] w-auto" />
@@ -37,20 +38,7 @@ function Footer() {
 
           <div className="lg:col-span-3">
             <h3 className="text-xl">Get in Touch</h3>
-            <div className="mt-2 flex gap-3">
-              {socials.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.name}
-                  className="flex h-11 w-11 items-center justify-center border border-paper/30 hover:border-paper transition-colors"
-                >
-                  <FontAwesomeIcon icon={social.icon} className="text-[18px]" />
-                </a>
-              ))}
-            </div>
+            <SocialLinks className="mt-2 gap-3" linkClassName="border border-paper/30 hover:border-paper" />
           </div>
         </div>
 
