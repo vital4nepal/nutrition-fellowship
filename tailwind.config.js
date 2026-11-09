@@ -22,7 +22,7 @@ module.exports = {
         display: ["2.5rem", { lineHeight: "1.15", letterSpacing: "-0.015em" }],
         ui: ["0.9375rem", { lineHeight: "1.5" }],
       },
-      maxWidth: { content: "77.5rem" },
+      maxWidth: { content: "77.5rem", form: "35rem" },
       transitionDuration: { DEFAULT: "180ms" },
       transitionTimingFunction: { DEFAULT: "cubic-bezier(0.2, 0, 0, 1)" },
     },

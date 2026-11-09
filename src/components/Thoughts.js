@@ -69,14 +69,14 @@ function Thoughts() {
         <SectionTitle>Place Your Thoughts</SectionTitle>
         <p className="mt-3 text-body text-muted">We would love to hear feedback and questions from you.</p>
       </div>
-      <form onSubmit={onSubmit} className="flex flex-col gap-5 lg:col-span-6 lg:col-start-7">
+      <form onSubmit={onSubmit} className="flex flex-col gap-5 md:max-w-form lg:col-span-6 lg:col-start-7 lg:max-w-none">
         {fields.map((field) => (
           <Field key={field.name} {...field} />
         ))}
         <button
           type="submit"
           disabled={sending}
-          className="h-12 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep disabled:opacity-60 lg:self-start"
+          className="h-12 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep disabled:opacity-60 md:self-start"
         >
           Submit
         </button>
