@@ -11,6 +11,7 @@ const slides = [
     phone: '/ImageSlider/5generations-phone.jpg',
     width: 1600,
     height: 569,
+    alt: 'Fellowship members and guests of several generations posing together at an evening meet',
     position: 'object-center',
   },
   {
