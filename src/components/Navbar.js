@@ -15,10 +15,17 @@ const Navbar = () => {
       setIsOpen(false);
       toggleRef.current.focus();
     };
+    // The menu button disappears at the desktop width, so a rotated tablet must not stay locked.
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const onDesktop = (event) => {
+      if (event.matches) setIsOpen(false);
+    };
     document.addEventListener('keydown', onKeyDown);
+    desktop.addEventListener('change', onDesktop);
     document.body.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', onKeyDown);
+      desktop.removeEventListener('change', onDesktop);
       document.body.style.overflow = '';
     };
   }, [isOpen]);
