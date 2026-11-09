@@ -5,7 +5,7 @@ module.exports = {
       transparent: "transparent", current: "currentColor", inherit: "inherit",
       paper: "#F6F4EE", surface: "#FCFBF8", ink: "#1D2420", muted: "#545B55",
       line: "#D8D3C7", "line-strong": "#8A877E",
-      green: "#265728", deep: "#183A1B", accent: "#B8561B",
+      green: "#265728", deep: "#183A1B", accent: "#B8561B", meadow: "#A5CA8E",
     },
     borderRadius: { none: "0px", DEFAULT: "0px" },
     boxShadow: { none: "none" },

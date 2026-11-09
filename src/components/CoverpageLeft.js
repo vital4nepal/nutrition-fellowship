@@ -4,7 +4,8 @@ import { SectionTitle } from './ui';
 const SLIDE_INTERVAL_MS = 5000;
 
 // Slide 0 is the photo band of 5generations.jpeg without its title banner and hashtag strip.
-// Phones get a 3:2 crop of each slide, because the wide frame source would be cropped and upscaled there.
+// Each slide shows whole inside the frame. Phones get a smaller copy of the same picture, never a crop.
+// `mat` is the frame color behind the picture: the collage sits on its own green, the photo on a dark mat.
 const slides = [
   {
     src: '/ImageSlider/5generations-photo.jpg',
@@ -12,7 +13,7 @@ const slides = [
     width: 1600,
     height: 569,
     alt: 'Fellowship members and guests of several generations posing together at an evening meet',
-    position: 'object-center',
+    mat: 'bg-ink',
   },
   {
     src: '/ImageSlider/cover-collage.jpg',
@@ -20,7 +21,7 @@ const slides = [
     width: 1060,
     height: 1060,
     alt: 'Students leading the Fellowship. A mosaic of cherished interactions',
-    position: 'object-center md:object-[50%_45.5%]',
+    mat: 'bg-meadow',
   },
 ];
 
@@ -109,7 +110,9 @@ const CoverpageLeft = () => {
         onFocus={() => setPaused(true)}
         onBlur={() => setPaused(false)}
       >
-        <div className="relative aspect-[3/2] overflow-hidden md:aspect-[14/5] border border-line bg-surface">
+        <div
+          className={`relative aspect-[3/2] overflow-hidden border border-line transition-colors duration-300 md:aspect-[2/1] ${slides[currentSlide].mat}`}
+        >
           {slides.map((slide, index) => {
             const active = index === currentSlide;
             const first = index === 0;
@@ -125,13 +128,13 @@ const CoverpageLeft = () => {
                   fetchpriority={first ? 'high' : undefined}
                   onLoad={first ? () => setFirstLoaded(true) : undefined}
                   aria-hidden={!active}
-                  className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${slide.position} ${active ? 'opacity-100' : 'opacity-0'}`}
+                  className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ${active ? 'opacity-100' : 'opacity-0'}`}
                 />
               </picture>
             );
           })}
         </div>
-        <div className="mt-2 flex">
+        <div className="mt-2 flex justify-center">
           {slides.map((slide, index) => (
             <button
               key={slide.src}
