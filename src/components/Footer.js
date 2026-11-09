@@ -1,14 +1,12 @@
 import React from "react";
 import { email, emailHref } from '../data/site';
 import SocialLinks from './SocialLinks';
-import { container } from './ui';
+import { container, underlineLink } from './ui';
 
 const usefulLinks = [
   { href: 'https://nutrition-dashboard-vision.vercel.app/', label: 'Nutrition Dashboard' },
   { href: 'http://www.nnfsp.gov.np/', label: 'Nepal Nutrition and Food Security Portal' },
 ];
-
-const linkClass = "underline-offset-4 hover:underline transition-colors";
 
 function Footer() {
   return (
@@ -16,8 +14,10 @@ function Footer() {
       <div className={`${container} py-14`}>
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
-            <img src="/Nutrition_logo33.png" alt="Company Logo" className="h-[72px] w-auto" />
-            <p className="mt-4 text-[15px] max-w-[60ch]">
+            <div className="inline-block bg-paper p-2">
+              <img src="/nutrition_logo_mark.png" alt="Company Logo" className="h-16 w-auto" />
+            </div>
+            <p className="mt-4 max-w-[60ch] text-ui">
               Nutrition Fellowship for Nepal aims to unite three generations of stakeholders
               from Nepal and around the world.
             </p>
@@ -28,7 +28,7 @@ function Footer() {
             <ul className="mt-2">
               {usefulLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className={`flex min-h-11 items-center text-meta ${linkClass}`}>
+                  <a href={link.href} className={`flex min-h-11 items-center text-meta ${underlineLink}`}>
                     {link.label}
                   </a>
                 </li>
@@ -49,14 +49,14 @@ function Footer() {
               href={emailHref}
               target="_blank"
               rel="noopener noreferrer"
-              className={linkClass}
+              className={underlineLink}
             >
               {email}
             </a>
           </p>
           <p className="mt-2">
             Copyright © {new Date().getFullYear()} All Rights Reserved{" "}
-            <a href="/" className={linkClass}>NutritionFellowshipForNepal</a>
+            <a href="/" className={underlineLink}>NutritionFellowshipForNepal</a>
           </p>
         </div>
       </div>
