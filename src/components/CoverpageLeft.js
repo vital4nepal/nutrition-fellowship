@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { SectionTitle } from './ui';
 
 const SLIDE_INTERVAL_MS = 5000;
 
@@ -84,6 +85,7 @@ const CoverpageLeft = () => {
 
   return (
     <>
+      <SectionTitle as="h1" className="mb-6 lg:mb-8">Nutrition Fellowship for Nepal</SectionTitle>
       <div
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
