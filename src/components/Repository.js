@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Download } from 'lucide-react';
-import { Section, SectionTitle, SubTitle, textLink } from './ui';
+import { Section, SectionTitle, SubTitle, groupTitleLink, textLink } from './ui';
 
 const documents = [
   {
@@ -28,32 +28,32 @@ const documents = [
   },
 ];
 
-const titleClass = `block flex-1 py-3 pr-4 font-medium ${textLink}`;
+const rowClass = 'flex min-h-[56px] items-center justify-between border-b border-line';
+const titleClass = 'block flex-1 py-3 pr-4 font-medium';
 const slotClass = 'flex h-11 w-11 shrink-0 items-center justify-center';
 
-// Every row ends in the same 44px slot: a download link for a PDF, an arrow for an inner page.
+// Every row ends in the same 44px slot. A PDF row has two links (title, download); a page row is one link.
 function Resource({ title, path, pdfUrl }) {
-  return (
-    <li className="flex min-h-[56px] items-center justify-between border-b border-line">
-      {pdfUrl ? (
-        <>
-          <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className={titleClass}>
-            {title}
-          </a>
-          <a href={pdfUrl} download aria-label={`Download ${title}`} className={`${slotClass} text-green`}>
-            <Download size={20} aria-hidden="true" />
-          </a>
-        </>
-      ) : (
-        <>
-          <Link to={path} className={titleClass}>
-            {title}
-          </Link>
-          <span aria-hidden="true" className={`${slotClass} text-muted`}>
+  if (!pdfUrl) {
+    return (
+      <li>
+        <Link to={path} className={`group ${rowClass}`}>
+          <span className={`${titleClass} ${groupTitleLink}`}>{title}</span>
+          <span aria-hidden="true" className={`${slotClass} text-muted transition-colors group-hover:text-green`}>
             <ArrowRight size={20} />
           </span>
-        </>
-      )}
+        </Link>
+      </li>
+    );
+  }
+  return (
+    <li className={rowClass}>
+      <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className={`${titleClass} ${textLink}`}>
+        {title}
+      </a>
+      <a href={pdfUrl} download aria-label={`Download ${title}`} className={`${slotClass} text-green`}>
+        <Download size={20} aria-hidden="true" />
+      </a>
     </li>
   );
 }
