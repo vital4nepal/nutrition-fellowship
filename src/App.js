@@ -12,18 +12,14 @@ import Thoughts from './components/Thoughts';
 import Footer from './components/Footer';
 import ScrollToHash from './components/ScrollToHash';
 import { Section, container } from './components/ui';
-import Profile from './documents/newsletter/Profile';
-import Policy2025 from './documents/plans_and_policies/Policy2025';
-import AIinNutrition from './documents/research/AIinNutrition';
-import Jan17blog from './documents/blogs/Jan17blog';
-import NRCintern from './documents/blogs/NRCintern';
+import ComingSoon from './components/ComingSoon';
 
 const innerPages = [
-  { path: '/profile', Page: Profile },
-  { path: '/policy2025', Page: Policy2025 },
-  { path: '/aiinnutrition', Page: AIinNutrition },
-  { path: '/nfn2ndmeetblog', Page: Jan17blog },
-  { path: '/nrcinternblog', Page: NRCintern },
+  { path: '/profile', title: 'Nutrition Profile' },
+  { path: '/policy2025', title: 'Policy 2025' },
+  { path: '/aiinnutrition', title: 'Research on AI in nutrition' },
+  { path: '/nfn2ndmeetblog', title: 'Nutrition Fellowship for Nepal: 2nd meet blog' },
+  { path: '/nrcinternblog', title: 'Nutrition Rehabilitation Center: Internship blog' },
 ];
 
 function App() {
@@ -58,8 +54,8 @@ function App() {
               <Thoughts/>
             </main>
         } />
-        {innerPages.map(({ path, Page }) => (
-          <Route key={path} path={path} element={<main className={`${container} py-12 lg:py-16`}><Page /></main>} />
+        {innerPages.map(({ path, title }) => (
+          <Route key={path} path={path} element={<main className={`${container} py-12 lg:py-16`}><ComingSoon title={title} /></main>} />
         ))}
       </Routes>
       <Footer />
