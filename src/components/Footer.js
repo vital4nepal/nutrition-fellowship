@@ -12,8 +12,8 @@ function Footer() {
   return (
     <footer data-section="footer" className="bg-deep text-paper [--nf-green:theme(colors.paper)]">
       <div className={`${container} py-14`}>
-        <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-5">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-12 lg:gap-y-10">
+          <div className="md:col-span-2 lg:col-span-5">
             <div className="inline-block bg-paper p-2">
               <img src="/nutrition_logo_mark.png" alt="Company Logo" className="h-16 w-auto" />
             </div>
