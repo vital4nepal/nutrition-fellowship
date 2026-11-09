@@ -3,13 +3,13 @@ import { SectionTitle, groupTitleLink } from './ui';
 
 const highlights = [
   {
-    image: '/KeyHighlights/NutritionDashboard.png',
+    image: '/KeyHighlights/thumbs/NutritionDashboard.png',
     topic: 'Nutrition Dashboard',
     description: 'The Nutrition Dashboard of Nepal',
     link: 'https://nutrition-dashboard-vision.vercel.app/',
   },
   {
-    image: '/KeyHighlights/NFNbanner.jpeg',
+    image: '/KeyHighlights/thumbs/NFNbanner.jpg',
     topic: 'Jan 17 Documents',
     description: 'The documents from the 2nd Nutrition Fellowship meeting',
     link: 'https://drive.google.com/drive/folders/11yDaiLP9wzxMpP1vY4zqsY3uewHR__oO?usp=drive_link',

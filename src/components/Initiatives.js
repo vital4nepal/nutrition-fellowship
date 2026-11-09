@@ -6,13 +6,13 @@ import { Section, SectionTitle, groupTitleLink } from './ui';
 const initiatives = [
   {
     title: 'Gen-N Initiatives',
-    img: '/Initiatives/Gen-N.png',
-    width: 165,
-    height: 149,
+    img: '/Initiatives/thumbs/Gen-N.png',
+    width: 141,
+    height: 128,
     link: 'https://drive.google.com/drive/folders/1_PZuUUcI1jwHlIVtsgN01VcXAdH8B8PO?usp=drive_link',
   },
-  { title: 'Advocacy and Campaigns', img: '/Initiatives/Advocacy.png', width: 197, height: 154 },
-  { title: 'Technology in Nutrition', img: '/Initiatives/TechInNut.png', width: 1000, height: 500 },
+  { title: 'Advocacy and Campaigns', img: '/Initiatives/thumbs/Advocacy.png', width: 163, height: 128 },
+  { title: 'Technology in Nutrition', img: '/Initiatives/thumbs/TechInNut.png', width: 256, height: 128 },
 ];
 
 const rowClass = 'flex min-h-[80px] items-center gap-4 border-b border-line py-3 lg:border-b-0 lg:py-5';
