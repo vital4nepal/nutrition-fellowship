@@ -17,6 +17,22 @@
   [id] { scroll-margin-top: calc(var(--nf-header-h) + 16px); }
   :focus-visible { outline: 2px solid var(--nf-green); outline-offset: 2px; }
   @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  /* Sections below the hero rise in as they enter the screen. A browser without scroll timelines shows them as they are. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      section[data-section]:not([data-section="hero"]) {
+        animation-name: nf-rise;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 35%;
+      }
+    }
+  }
+  @keyframes nf-rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: none; }
+  }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
