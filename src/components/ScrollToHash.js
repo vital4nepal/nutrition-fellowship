@@ -13,10 +13,16 @@ export default function ScrollToHash() {
 
   useEffect(() => {
     // A click is the last moment before a link leaves the page. A scroll event comes too late: the shorter page clamps it.
-    const remember = () => positions.current.set(key, window.scrollY);
+    // A link that stays on this path (a section anchor) is a native jump, so it needs no saved position.
+    const remember = (event) => {
+      const link = event.target.closest?.('a[href]');
+      if (link && link.origin === window.location.origin && link.pathname !== pathname) {
+        positions.current.set(key, window.scrollY);
+      }
+    };
     document.addEventListener('click', remember, true);
     return () => document.removeEventListener('click', remember, true);
-  }, [key]);
+  }, [key, pathname]);
 
   useEffect(() => {
     let cancelled = false;
@@ -27,10 +33,11 @@ export default function ScrollToHash() {
         frame = requestAnimationFrame(action);
       });
     };
-    if (navigationType === 'POP' && positions.current.has(key)) {
-      afterLayout(() => window.scrollTo(0, positions.current.get(key)));
-    } else if (hash) {
+    // The key "default" belongs to every entry the router did not push, so a section anchor shares it with the first page.
+    if (hash) {
       afterLayout(() => document.getElementById(hash.slice(1))?.scrollIntoView());
+    } else if (navigationType === 'POP' && positions.current.has(key)) {
+      afterLayout(() => window.scrollTo(0, positions.current.get(key)));
     } else if (navigationType !== 'POP') {
       window.scrollTo(0, 0);
     }
