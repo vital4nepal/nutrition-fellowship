@@ -6,6 +6,9 @@ import { navLinks as links } from '../data/site';
 
 const sectionOf = (href) => href.split('#')[1];
 
+// The updates block has no link of its own: it belongs to "Events and Updates".
+const navIdOf = (element) => (element.dataset.section === 'updates' ? 'events' : element.id);
+
 /** The id of the home page section that sits in the band under the header, or an empty string. */
 function useActiveSection() {
   const { pathname } = useLocation();
@@ -16,17 +19,20 @@ function useActiveSection() {
       setActive('');
       return undefined;
     }
+    const inBand = new Set();
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(({ target, isIntersecting }) => {
-          if (isIntersecting) setActive(target.id);
-          else setActive((current) => (current === target.id ? '' : current));
+          if (isIntersecting) inBand.add(target);
+          else inBand.delete(target);
         });
+        const last = [...inBand].pop();
+        setActive(last ? navIdOf(last) : '');
       },
       { rootMargin: '-30% 0px -60% 0px' },
     );
-    links.forEach((link) => {
-      const element = sectionOf(link.href) && document.getElementById(sectionOf(link.href));
+    const targets = links.map((link) => sectionOf(link.href) && document.getElementById(sectionOf(link.href)));
+    [...targets, document.querySelector('[data-section="updates"]')].forEach((element) => {
       if (element) observer.observe(element);
     });
     return () => observer.disconnect();
