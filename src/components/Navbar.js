@@ -5,31 +5,21 @@ import { navLinks as links } from '../data/site';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navRef = useRef(null);
+  const toggleRef = useRef(null);
 
   useEffect(() => {
     if (!isOpen) return undefined;
     const onKeyDown = (event) => {
-      if (event.key === 'Escape') setIsOpen(false);
-    };
-    const onPointerDown = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) setIsOpen(false);
+      if (event.key !== 'Escape') return;
+      setIsOpen(false);
+      toggleRef.current.focus();
     };
     document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('pointerdown', onPointerDown);
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.removeEventListener('pointerdown', onPointerDown);
-    };
+    return () => document.removeEventListener('keydown', onKeyDown);
   }, [isOpen]);
 
   return (
-    <nav
-      ref={navRef}
-      data-section="nav"
-      aria-label="Main"
-      className="lg:flex lg:flex-1 lg:justify-center"
-    >
+    <nav data-section="nav" aria-label="Main" className="lg:flex lg:flex-1 lg:justify-center">
       <ul className="hidden lg:flex items-center gap-5 xl:gap-7">
         {links.map((link) => (
           <li key={link.href}>
@@ -44,6 +34,7 @@ const Navbar = () => {
       </ul>
 
       <button
+        ref={toggleRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
