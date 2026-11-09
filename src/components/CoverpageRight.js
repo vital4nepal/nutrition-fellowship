@@ -15,19 +15,19 @@ const highlights = [
     link: 'https://drive.google.com/drive/folders/11yDaiLP9wzxMpP1vY4zqsY3uewHR__oO?usp=drive_link',
   },
   {
-    image: '/KeyHighlights/Dr. RP Bichha.jpg',
+    image: '/KeyHighlights/thumbs/Dr. RP Bichha.jpg',
     topic: 'Dr. RP Bichha Speech',
     description: 'The speech given by Dr. RP Bichha at the 2nd Nutrition Fellowship meeting',
     link: 'https://youtu.be/YxI-8DVWIQQ?si=tb7y2lsEyLm8_31v',
   },
   {
-    image: '/KeyHighlights/Miriam Krantz.jpg',
+    image: '/KeyHighlights/thumbs/Miriam Krantz.jpg',
     topic: 'Miriam Krantz Speech',
     description: 'The speech given by Miriam Krantz at the 2nd Nutrition Fellowship meeting',
     link: 'https://youtu.be/YxI-8DVWIQQ?si=tb7y2lsEyLm8_31v',
   },
   {
-    image: '/KeyHighlights/Dr. Ramesh K Adhikari.jpg',
+    image: '/KeyHighlights/thumbs/Dr. Ramesh K Adhikari.jpg',
     topic: 'Dr. RK Adhikari Speech',
     description: 'The speech given by Dr. Ramesh K Adhikari at the 2nd Nutrition Fellowship meeting',
     link: 'https://youtu.be/YxI-8DVWIQQ?si=tb7y2lsEyLm8_31v',
