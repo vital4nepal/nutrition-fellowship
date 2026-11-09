@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 const SLIDE_INTERVAL_MS = 5000;
 
-// Slide 0 has a title banner above and a hashtag strip below the photo, so the position crops to the photo band only.
+// Slide 0 is the photo band cut out of 5generations.jpeg, which also carries a title banner and a hashtag strip.
 const slides = [
-  { src: '/ImageSlider/5generations.jpeg', width: 1600, height: 800, position: 'object-[50%_59%]' },
-  { src: '/ImageSlider/Cover-collage.png', width: 1080, height: 1080, position: 'object-[50%_42%]' },
+  { src: '/ImageSlider/5generations-photo.jpg', width: 1600, height: 569, position: 'object-center' },
+  { src: '/ImageSlider/Cover-collage.png', width: 1080, height: 1080, position: 'object-top md:object-[50%_46.2%]' },
 ];
 
 const pillars = ['Celebrate', 'Convene', 'Coach', 'Collaborate', 'Connect'];
@@ -90,7 +90,7 @@ const CoverpageLeft = () => {
         onFocus={() => setPaused(true)}
         onBlur={() => setPaused(false)}
       >
-        <div className="relative aspect-[14/5] overflow-hidden border border-line bg-surface">
+        <div className="relative aspect-[3/2] overflow-hidden md:aspect-[14/5] border border-line bg-surface">
           {slides.map((slide, index) => {
             const active = index === currentSlide;
             return (
