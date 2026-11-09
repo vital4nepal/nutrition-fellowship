@@ -35,7 +35,7 @@ const Navbar = () => {
           <li key={link.href}>
             <a
               href={link.href}
-              className="whitespace-nowrap text-[15px] font-medium text-ink underline-offset-[6px] hover:text-green hover:underline transition-colors"
+              className="whitespace-nowrap text-ui font-medium text-ink underline-offset-[6px] hover:text-green hover:underline transition-colors"
             >
               {link.label}
             </a>
@@ -49,10 +49,18 @@ const Navbar = () => {
         aria-expanded={isOpen}
         aria-controls="main-menu"
         aria-label="Menu"
-        className="lg:hidden flex h-11 w-11 items-center justify-center text-ink hover:text-green transition-colors"
+        className="lg:hidden flex h-11 w-11 items-center justify-center text-ink"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
+
+      {isOpen && (
+        <div
+          aria-hidden="true"
+          onClick={() => setIsOpen(false)}
+          className="lg:hidden fixed inset-x-0 bottom-0 top-[var(--nf-header-h)] bg-ink/20"
+        />
+      )}
 
       <ul
         id="main-menu"
