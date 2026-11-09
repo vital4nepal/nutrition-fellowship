@@ -1,11 +1,44 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 import { navLinks as links } from '../data/site';
 
+const sectionOf = (href) => href.split('#')[1];
+
+/** The id of the home page section that sits in the band under the header, or an empty string. */
+function useActiveSection() {
+  const { pathname } = useLocation();
+  const [active, setActive] = useState('');
+
+  useEffect(() => {
+    if (pathname !== '/' || !('IntersectionObserver' in window)) {
+      setActive('');
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+          if (isIntersecting) setActive(target.id);
+          else setActive((current) => (current === target.id ? '' : current));
+        });
+      },
+      { rootMargin: '-30% 0px -60% 0px' },
+    );
+    links.forEach((link) => {
+      const element = sectionOf(link.href) && document.getElementById(sectionOf(link.href));
+      if (element) observer.observe(element);
+    });
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  return active;
+}
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef(null);
+  const active = useActiveSection();
 
   // The open menu owns the screen: Escape closes it and the page behind it stops scrolling.
   useEffect(() => {
@@ -46,7 +79,8 @@ const Navbar = () => {
           <li key={link.href}>
             <a
               href={link.href}
-              className="whitespace-nowrap text-ui font-medium text-ink underline-offset-[6px] hover:text-green hover:underline transition-colors"
+              aria-current={sectionOf(link.href) === active ? 'location' : undefined}
+              className="whitespace-nowrap text-ui font-medium text-ink underline-offset-[6px] hover:text-green hover:underline aria-[current=location]:text-green aria-[current=location]:underline transition-colors"
             >
               {link.label}
             </a>
@@ -83,7 +117,8 @@ const Navbar = () => {
             <a
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="flex h-12 items-center text-body text-ink hover:text-green transition-colors"
+              aria-current={sectionOf(link.href) === active ? 'location' : undefined}
+              className="flex h-12 items-center text-body text-ink hover:text-green aria-[current=location]:font-semibold aria-[current=location]:text-green transition-colors"
             >
               {link.label}
             </a>
