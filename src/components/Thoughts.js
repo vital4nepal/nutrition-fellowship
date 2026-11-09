@@ -70,16 +70,18 @@ function Thoughts() {
         {fields.map((field) => (
           <Field key={field.name} {...field} />
         ))}
-        <button
-          type="submit"
-          disabled={sending}
-          className="h-12 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep disabled:opacity-60 md:self-start"
-        >
-          Submit
-        </button>
-        <p role="status" className="text-green">
-          {sent && 'Thank you! Message sent successfully!'}
-        </p>
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-5">
+          <button
+            type="submit"
+            disabled={sending}
+            className="h-12 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep disabled:opacity-60"
+          >
+            Submit
+          </button>
+          <p role="status" className="text-green">
+            {sent && 'Thank you! Message sent successfully!'}
+          </p>
+        </div>
       </form>
     </Section>
   );
