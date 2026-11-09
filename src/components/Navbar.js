@@ -1,108 +1,82 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/#aboutus', label: 'About Us' },
+  { href: '/#initiatives', label: 'Initiatives' },
+  { href: '/#documents', label: 'Resources' },
+  { href: '/#events', label: 'Events and Updates' },
+  { href: '/#thoughts', label: 'Contact Us' },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setIsOpen(false);
+    };
+    const onPointerDown = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) setIsOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
+    };
+  }, [isOpen]);
 
   return (
-    <nav className="bg-[#265728] border-b border-orange-100 h-14">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div className="flex justify-center items-center gap-2 h-full">
-          {/* Navigation Items - Desktop */}
-          <div className="hidden md:flex items-center justify-center space-x-12">
-            <a 
-              href="/" 
-              className="text-white text-[14px] hover:text-[16px] duration-200"
+    <nav
+      ref={navRef}
+      data-section="nav"
+      aria-label="Main"
+      className="order-last lg:order-none lg:flex lg:flex-1 lg:justify-center"
+    >
+      <ul className="hidden lg:flex items-center gap-5 xl:gap-7">
+        {links.map((link) => (
+          <li key={link.href}>
+            <a
+              href={link.href}
+              className="whitespace-nowrap text-[15px] font-medium text-ink underline-offset-[6px] hover:text-green hover:underline transition-colors"
             >
-              HOME
+              {link.label}
             </a>
-            <a 
-              href="#aboutus" 
-              className="text-white text-[14px] hover:text-[16px] transition-all duration-200"
-            >
-              ABOUT US
-            </a>
-            <a 
-              href="#initiatives" 
-              className="text-white text-[14px] hover:text-[16px] transition-all duration-200"
-            >
-              PROJECTS AND INITIATIVES
-            </a>
-            <a 
-              href="#documents" 
-              className="text-white text-[14px] hover:text-[16px] transition-all duration-200"
-            >
-              RESOURCES
-            </a>
-            <a 
-              href="#events" 
-              className="text-white text-[14px] hover:text-[16px] transition-all duration-200"
-            >
-              EVENTS AND UPDATES
-            </a>
-            <a 
-              href="#thoughts" 
-              className="text-white text-[14px] hover:text-[16px] transition-all duration-200"
-            >
-              CONTACT US
-            </a>
-          </div>
+          </li>
+        ))}
+      </ul>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden absolute right-4">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-white focus:outline-none transition-colors duration-200"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-      </div>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-controls="main-menu"
+        aria-label="Menu"
+        className="lg:hidden flex h-11 w-11 items-center justify-center text-ink hover:text-green transition-colors"
+      >
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
 
-      {/* Mobile menu */}
-      {isOpen && (
-        <div className="md:hidden absolute w-full z-50">
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-orange-50 shadow-lg">
+      <ul
+        id="main-menu"
+        className={`${isOpen ? 'block' : 'hidden'} lg:hidden absolute top-full inset-x-0 bg-paper border-b border-line px-4`}
+      >
+        {links.map((link) => (
+          <li key={link.href} className="border-t border-line">
             <a
-              href="/"
-              className="block px-3 py-2 text-green-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
+              href={link.href}
+              onClick={() => setIsOpen(false)}
+              className="flex h-12 items-center text-[17px] text-ink hover:text-green transition-colors"
             >
-              Home
+              {link.label}
             </a>
-            <a
-              href="#aboutus"
-              className="block px-3 py-2 text-gray-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              About Us
-            </a>
-            <a
-              href="#documents"
-              className="block px-3 py-2 text-gray-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              Resources
-            </a>
-            <a
-              href="#events"
-              className="block px-3 py-2 text-gray-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              Events and Updates
-            </a>
-            <a
-              href="#initiatives"
-              className="block px-3 py-2 text-gray-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              Initiatives
-            </a>
-            <a
-              href="#contact"
-              className="block px-3 py-2 text-gray-700 text-[14px] hover:text-[16px] transition-all duration-200 rounded-md"
-            >
-              Contact Us
-            </a>
-          </div>
-        </div>
-      )}
+          </li>
+        ))}
+      </ul>
     </nav>
   );
 };

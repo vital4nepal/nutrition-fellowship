@@ -26,9 +26,8 @@ function App() {
   return (
     <>
         <Router>
-            <Topbar />
-            <Navbar />
-            
+            <Topbar><Navbar /></Topbar>
+
             <Routes>
                
                 <Route path="/" element={
