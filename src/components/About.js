@@ -100,7 +100,7 @@ const About = () => {
           </div>
         ))}
       </div>
-      <dl className="nf-stagger mt-8 grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4">
+      <dl className="mt-8 grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4">
         {facts.map(({ value, label }) => (
           <div key={label} className="flex flex-col-reverse bg-paper p-4">
             <dt className="mt-1 text-meta text-muted">{label}</dt>

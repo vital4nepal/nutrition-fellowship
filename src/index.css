@@ -36,8 +36,11 @@
   /* Inside a section, the cards and rows of a `nf-stagger` list rise one after another as the list enters the screen. */
   @supports (animation-timeline: view()) {
     @media screen and (prefers-reduced-motion: no-preference) {
+      /* Longhands only: the minifier can move a shorthand after `animation-timeline`, which resets it to auto. */
       .nf-stagger > * {
-        animation: nf-lift linear both;
+        animation-name: nf-lift;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: view();
       }
       .nf-stagger > *:nth-child(1) { animation-range: entry 0% entry 45%; }
@@ -55,7 +58,7 @@
     to { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important;
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0s !important;
       animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   }
 }

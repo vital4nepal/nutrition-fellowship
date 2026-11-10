@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { initiatives } from '../data/initiatives';
 import { chapters } from '../data/site';
-import ComingSoon from './ComingSoon';
+import ComingSoon, { SITE_TITLE } from './ComingSoon';
 import { SectionTitle, SubTitle, textLink } from './ui';
 
 const backLink = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
@@ -15,9 +15,9 @@ export function InitiativePage() {
 
   useEffect(() => {
     if (!initiative?.page) return undefined;
-    document.title = `${initiative.title} | Nutrition Fellowship`;
+    document.title = `${initiative.title} | ${SITE_TITLE}`;
     return () => {
-      document.title = 'Nutrition Fellowship';
+      document.title = SITE_TITLE;
     };
   }, [initiative]);
 
@@ -37,7 +37,13 @@ export function InitiativePage() {
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         {photos.map(({ src, caption }, index) => (
           <figure key={src} className="animate-rise" style={{ animationDelay: `${200 + index * 120}ms` }}>
-            <img src={src} alt="" className="aspect-[16/10] w-full border border-line object-cover" />
+            <img
+              src={src}
+              srcSet={`${src.replace('.jpg', '-800.jpg')} 800w, ${src} 1600w`}
+              sizes="(min-width: 640px) 50vw, 100vw"
+              alt=""
+              className="aspect-[16/10] w-full border border-line object-cover"
+            />
             <figcaption className="mt-2 text-meta text-muted">{caption}</figcaption>
           </figure>
         ))}
@@ -79,10 +85,11 @@ export function InitiativePage() {
   );
 }
 
-/** /chapters/:id. Only Nepal has content, and it lives on the home page, so every chapter page here says "Coming soon". */
+/** /chapters/:id. Nepal's content lives on the home page, so /chapters/nepal goes there. The others say "Coming soon". */
 export function ChapterPage() {
   const { id } = useParams();
   const chapter = chapters.find((item) => item.id === id);
+  if (chapter && !chapter.href.startsWith('/chapters/')) return <Navigate to={chapter.href} replace />;
   if (!chapter) return <ComingSoon title="Page not found">This page does not exist.</ComingSoon>;
   return (
     <ComingSoon title={`${chapter.label} Chapter`}>

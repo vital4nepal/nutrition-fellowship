@@ -148,7 +148,7 @@ const SurveyDashboard = () => {
           fills={confidenceFill}
         />
         <ShareCard
-          finding="think their country is on track for the nutrition SDG target"
+          finding="expect their country to meet the nutrition SDG target"
           lead={['yes']}
           rows={sdgOutlook}
           view={view}

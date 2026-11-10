@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown, Menu, X } from 'lucide-react';
 
 import { navLinks as links } from '../data/site';
@@ -57,8 +57,24 @@ function useActiveSection() {
 const desktopLink =
   'whitespace-nowrap text-ui font-medium text-ink underline-offset-[6px] hover:text-green hover:underline aria-[current=location]:text-green aria-[current=location]:underline transition-colors';
 
+/**
+ * One link inside a nav menu. A route opens without a reload and is current on its own page.
+ * A section anchor is current while its section sits in the band under the header.
+ */
+function ChildLink({ child, active, className, onClick }) {
+  const { pathname } = useLocation();
+  const route = !child.href.includes('#');
+  const current = route
+    ? pathname === child.href && 'page'
+    : sectionOf(child.href) === active && 'location';
+  const props = { onClick, className, 'aria-current': current || undefined };
+  return route ? <Link to={child.href} {...props}>{child.label}</Link> : <a href={child.href} {...props}>{child.label}</a>;
+}
+
 /** A desktop nav item that opens a list of links. Click, Enter or Space opens it; Escape and a click outside close it. */
-function MenuItem({ link, current }) {
+function MenuItem({ link, active }) {
+  const { pathname } = useLocation();
+  const current = sectionOf(link.href) === active || link.children.some((child) => child.href === pathname);
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -103,13 +119,12 @@ function MenuItem({ link, current }) {
       >
         {link.children.map((child) => (
           <li key={child.id}>
-            <a
-              href={child.href}
+            <ChildLink
+              child={child}
+              active={active}
               onClick={() => setOpen(false)}
-              className="flex min-h-11 items-center px-4 text-ui text-ink transition-colors hover:bg-surface hover:text-green"
-            >
-              {child.label}
-            </a>
+              className="flex min-h-11 items-center px-4 text-ui text-ink transition-colors hover:bg-surface hover:text-green aria-[current]:font-semibold aria-[current]:text-green"
+            />
           </li>
         ))}
       </ul>
@@ -154,13 +169,13 @@ const Navbar = () => {
       data-section="nav"
       aria-label="Main"
       onBlur={closeWhenFocusLeaves}
-      className="ml-auto lg:ml-0 lg:flex lg:flex-1 lg:justify-center"
+      className="ml-auto lg:flex lg:flex-1 lg:justify-end"
     >
       <ul className="hidden lg:flex items-center gap-5 xl:gap-7">
         {links.map((link) => (
           <li key={link.href}>
             {link.children ? (
-              <MenuItem link={link} current={sectionOf(link.href) === active} />
+              <MenuItem link={link} active={active} />
             ) : (
               <a
                 href={link.href}
@@ -206,13 +221,12 @@ const Navbar = () => {
                 <ul className="pb-2 pl-4">
                   {link.children.map((child) => (
                     <li key={child.id}>
-                      <a
-                        href={child.href}
+                      <ChildLink
+                        child={child}
+                        active={active}
                         onClick={() => setIsOpen(false)}
-                        className="flex h-11 items-center text-body text-ink transition-colors hover:text-green"
-                      >
-                        {child.label}
-                      </a>
+                        className="flex h-11 items-center text-body text-ink transition-colors hover:text-green aria-[current]:font-semibold aria-[current]:text-green"
+                      />
                     </li>
                   ))}
                 </ul>
