@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowDown, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { ALL, countries, respondentsFor } from '../data/pulseSurvey';
 import About from './About';
@@ -7,18 +7,20 @@ import { SectionTitle, container } from './ui';
 
 const SLIDE_INTERVAL_MS = 6000;
 
-// Each photo has a 1600px file and an 800px file for phones. `focus` keeps the faces inside the crop.
-// The newest event comes first.
+// The newest event comes first. A photo has a 1600px file and an 800px file for phones.
+// A collage tile has a 1000px file and a 500px file. `focus` keeps the faces inside the crop.
+const BIG_TILE = '(min-width: 1024px) 540px, 66vw';
+const SMALL_TILE = '(min-width: 1024px) 270px, 33vw';
 const slides = [
   {
     name: 'vitamin-a',
     caption: 'Vitamin A and deworming campaign, November 2026',
-    // One large tile on the left, three stacked on the right. `focus` keeps the faces inside each crop.
+    // One large tile on the left, three stacked on the right.
     collage: [
-      { src: '/hero/vita-2.jpg', focus: '55% 45%', area: 'col-span-2 row-span-3' },
-      { src: '/hero/vita-1.jpg', focus: '50% 40%', area: '' },
-      { src: '/hero/vita-3.jpg', focus: '50% 60%', area: '' },
-      { src: '/hero/vita-4.jpg', focus: '50% 35%', area: '' },
+      { name: 'vita-2', focus: '55% 45%', area: 'col-span-2 row-span-3', sizes: BIG_TILE },
+      { name: 'vita-1', focus: '50% 40%', area: '', sizes: SMALL_TILE },
+      { name: 'vita-3', focus: '50% 60%', area: '', sizes: SMALL_TILE },
+      { name: 'vita-4', focus: '50% 35%', area: '', sizes: SMALL_TILE },
     ],
   },
   { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
@@ -30,29 +32,41 @@ const slides = [
 /**
  * The four campaign photos of one slide. Each time the slide shows, the tiles settle in one after another.
  * `round` changes only when the slide comes back, so the tiles replay on entry and stay put while it fades out.
+ * A tile stays hidden until its photo loads, so the entrance never plays over an empty frame.
  */
 function Collage({ tiles, showing, wanted, onSettle }) {
+  const [loaded, setLoaded] = useState(() => new Set());
+  const markLoaded = (index) => setLoaded((done) => (done.has(index) ? done : new Set(done).add(index)));
   const [round, setRound] = useState(0);
-  const wasShowing = useRef(showing);
-  useEffect(() => {
-    if (showing && !wasShowing.current) setRound((count) => count + 1);
-    wasShowing.current = showing;
-  }, [showing]);
+  const [wasShowing, setWasShowing] = useState(showing);
+  // Adjusted during render, so the new tiles mount in the same commit as the slide change.
+  if (showing !== wasShowing) {
+    setWasShowing(showing);
+    if (showing) setRound(round + 1);
+  }
 
   return (
     <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1 bg-ink">
-      {tiles.map(({ src, focus, area }, index) => (
-        <img
-          key={`${src}-${round}`}
-          src={wanted ? src : undefined}
-          alt=""
-          fetchpriority={index === 0 ? 'high' : undefined}
-          onLoad={index === 0 ? onSettle : undefined}
-          onError={index === 0 ? onSettle : undefined}
-          style={{ objectPosition: focus, animationDelay: `${index * 140}ms` }}
-          className={`h-full w-full animate-tile object-cover ${area}`}
-        />
-      ))}
+      {tiles.map(({ name, focus, area, sizes }, index) => {
+        const done = () => {
+          markLoaded(index);
+          if (index === 0) onSettle();
+        };
+        return (
+          <img
+            key={`${name}-${round}`}
+            src={wanted ? `/hero/${name}.jpg` : undefined}
+            srcSet={wanted ? `/hero/${name}-500.jpg 500w, /hero/${name}.jpg 1000w` : undefined}
+            sizes={sizes}
+            alt=""
+            fetchpriority={index === 0 ? 'high' : 'low'}
+            onLoad={done}
+            onError={done}
+            style={{ objectPosition: focus, animationDelay: `${index * 140}ms` }}
+            className={`h-full w-full object-cover ${area} ${loaded.has(index) ? 'animate-tile' : 'opacity-0'}`}
+          />
+        );
+      })}
     </div>
   );
 }
@@ -110,7 +124,6 @@ function Slideshow() {
             srcSet={wanted ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg 1600w` : undefined}
             sizes="(min-width: 1024px) 800px, 100vw"
             alt=""
-            fetchpriority={first ? 'high' : undefined}
             onLoad={() => settle(index)}
             onError={() => settle(index)}
             style={{ objectPosition: slides[index].focus }}

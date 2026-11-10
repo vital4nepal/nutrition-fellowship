@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { socials } from '../data/site';
 
-/** The three social marks as 44px icon links. The caller styles the link for its own background. */
+/** The social marks as 44px icon links. The caller styles the link for its own background. */
 export default function SocialLinks({ className = '', linkClassName = '' }) {
   return (
     <div className={`flex items-center ${className}`}>
