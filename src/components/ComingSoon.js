@@ -5,7 +5,7 @@ import { SectionTitle, textLink } from './ui';
 
 export const SITE_TITLE = 'Nutrition Fellowship';
 
-/** The body of an inner page that has no content yet. It also serves the not-found page. */
+/** The body of an inner page that has no content yet. */
 const ComingSoon = ({ title, children = 'Coming soon.' }) => {
   useEffect(() => {
     document.title = `${title} | ${SITE_TITLE}`;

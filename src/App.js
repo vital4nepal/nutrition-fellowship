@@ -16,6 +16,7 @@ import ScrollToHash from './components/ScrollToHash';
 import { Section, container } from './components/ui';
 import ComingSoon from './components/ComingSoon';
 import { ChapterPage, InitiativePage } from './components/InitiativePage';
+import NotFound from './components/NotFound';
 
 const innerPages = [
   { path: '/profile', title: 'Nutrition Profile' },
@@ -64,8 +65,8 @@ function App() {
           <Route key={path} path={path} element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ComingSoon title={title} /></main>} />
         ))}
         <Route path="*" element={
-          <main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}>
-            <ComingSoon title="Page not found">This page does not exist.</ComingSoon>
+          <main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-24`}>
+            <NotFound />
           </main>
         } />
       </Routes>

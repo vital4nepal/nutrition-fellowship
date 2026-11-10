@@ -34,7 +34,8 @@ All components are in `src/components/`. Each home page section is one file.
 | File | Page |
 | --- | --- |
 | `InitiativePage.js` | `InitiativePage` for `/initiatives/:id` and `ChapterPage` for `/chapters/:id` |
-| `ComingSoon.js` | Placeholder and not-found page. Exports `SITE_TITLE` |
+| `ComingSoon.js` | Placeholder for a page with no content yet. Exports `SITE_TITLE` |
+| `NotFound.js` | The 404 page, with links to the most visited sections |
 
 ## Slideshow rules
 
