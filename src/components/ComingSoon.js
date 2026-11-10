@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { SectionTitle, textLink } from './ui';
 
-const SITE_TITLE = 'Nutrition Fellowship';
+export const SITE_TITLE = 'Nutrition Fellowship';
 
 /** The body of an inner page that has no content yet. It also serves the not-found page. */
 const ComingSoon = ({ title, children = 'Coming soon.' }) => {

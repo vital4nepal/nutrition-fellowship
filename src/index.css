@@ -33,12 +33,32 @@
       }
     }
   }
+  /* Inside a section, the cards and rows of a `nf-stagger` list rise one after another as the list enters the screen. */
+  @supports (animation-timeline: view()) {
+    @media screen and (prefers-reduced-motion: no-preference) {
+      /* Longhands only: the minifier can move a shorthand after `animation-timeline`, which resets it to auto. */
+      .nf-stagger > * {
+        animation-name: nf-lift;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+      }
+      .nf-stagger > *:nth-child(1) { animation-range: entry 0% entry 45%; }
+      .nf-stagger > *:nth-child(2) { animation-range: entry 8% entry 53%; }
+      .nf-stagger > *:nth-child(3) { animation-range: entry 16% entry 61%; }
+      .nf-stagger > *:nth-child(n+4) { animation-range: entry 24% entry 69%; }
+    }
+  }
   @keyframes nf-rise {
     from { opacity: 0; }
     to { opacity: 1; }
   }
+  @keyframes nf-lift {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: none; }
+  }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important;
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0s !important;
       animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   }
 }

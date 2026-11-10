@@ -14,9 +14,7 @@ function Footer() {
       <div className={`${container} py-14`}>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-12 lg:gap-y-10">
           <div className="md:col-span-2 lg:col-span-5">
-            <div className="inline-block bg-paper p-2">
-              <img src="/nutrition_logo_mark.png" alt="Company Logo" className="h-16 w-auto" />
-            </div>
+            <img src="/nf-logo.png" alt="Nutrition Fellowship" className="h-16 w-auto" />
             <p className="mt-4 max-w-[60ch] text-ui">
               Nutrition Fellowship for Nepal aims to unite three generations of stakeholders
               from Nepal and around the world.
@@ -42,21 +40,15 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-paper/20 pt-6 text-meta">
+        <div className="mt-10 flex flex-col gap-2 border-t border-paper/20 pt-6 text-meta md:flex-row md:items-center md:justify-between md:gap-8">
           <p>
-            If you have any queries, feel free to email us at:{" "}
-            <a
-              href={emailHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={underlineLink}
-            >
+            Questions? Email us at{" "}
+            <a href={emailHref} className={underlineLink}>
               {email}
             </a>
           </p>
-          <p className="mt-2">
-            Copyright © {new Date().getFullYear()} All Rights Reserved{" "}
-            <a href="/" className={underlineLink}>NutritionFellowshipForNepal</a>
+          <p>
+            Copyright © {new Date().getFullYear()} All Rights Reserved
           </p>
         </div>
       </div>

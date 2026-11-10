@@ -1,8 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Topbar from './components/Topbar';
 import Navbar from './components/Navbar';
-import CoverpageLeft from './components/CoverpageLeft';
-import CoverpageRight from './components/CoverpageRight';
+import Hero from './components/Hero';
+import SurveyDashboard from './components/SurveyDashboard';
+import D4N from './components/D4N';
+import CountryChapter from './components/CountryChapter';
 import Repository from './components/Repository';
 import Events from './components/Events';
 import NextEvent from './components/NextEvent';
@@ -13,6 +15,7 @@ import Footer from './components/Footer';
 import ScrollToHash from './components/ScrollToHash';
 import { Section, container } from './components/ui';
 import ComingSoon from './components/ComingSoon';
+import { ChapterPage, InitiativePage } from './components/InitiativePage';
 
 const innerPages = [
   { path: '/profile', title: 'Nutrition Profile' },
@@ -37,16 +40,11 @@ function App() {
       <Routes>
         <Route path="/" element={
             <main id="main" tabIndex={-1} className="outline-none">
-              <Section
-                name="hero"
-                bordered={false}
-                padding="pb-12 pt-6 lg:pb-16 lg:pt-8"
-                className="grid gap-10 lg:grid-cols-12 lg:gap-8"
-              >
-                <div className="lg:col-span-8"><CoverpageLeft /></div>
-                <div className="lg:col-span-4 lg:border-l lg:border-line lg:pl-8"><CoverpageRight /></div>
-              </Section>
+              <Hero />
+              <SurveyDashboard />
+              <D4N />
               <Initiatives/>
+              <CountryChapter />
               <Repository/>
               <Events/>
               <Section
@@ -60,6 +58,8 @@ function App() {
               <Thoughts/>
             </main>
         } />
+        <Route path="/initiatives/:id" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><InitiativePage /></main>} />
+        <Route path="/chapters/:id" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ChapterPage /></main>} />
         {innerPages.map(({ path, title }) => (
           <Route key={path} path={path} element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ComingSoon title={title} /></main>} />
         ))}

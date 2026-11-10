@@ -6,6 +6,9 @@ module.exports = {
       paper: "#F6F4EE", surface: "#FCFBF8", ink: "#1D2420", muted: "#545B55",
       line: "#D8D3C7", "line-strong": "#8A877E",
       green: "#265728", deep: "#183A1B", accent: "#B8561B", meadow: "#A5CA8E",
+      // Chart fills on the light surface: two greens, a neutral and two oranges.
+      "chart-pos-strong": "#265728", "chart-pos": "#7DB56A", "chart-neutral": "#CFCBBE",
+      "chart-neg": "#E8A46C", "chart-neg-strong": "#B8561B",
     },
     borderRadius: { none: "0px", DEFAULT: "0px" },
     boxShadow: { none: "none" },
@@ -25,6 +28,16 @@ module.exports = {
       maxWidth: { content: "77.5rem", form: "35rem" },
       transitionDuration: { DEFAULT: "180ms" },
       transitionTimingFunction: { DEFAULT: "cubic-bezier(0.2, 0, 0, 1)" },
+      keyframes: {
+        menu: { from: { opacity: "0", transform: "translate(-50%, -4px)" }, to: { opacity: "1", transform: "translate(-50%, 0)" } },
+        rise: { from: { opacity: "0", transform: "translateY(12px)" }, to: { opacity: "1", transform: "none" } },
+        tile: { from: { opacity: "0", transform: "scale(1.06)" }, to: { opacity: "1", transform: "none" } },
+      },
+      animation: {
+        menu: "menu 160ms cubic-bezier(0.2, 0, 0, 1)",
+        rise: "rise 700ms cubic-bezier(0.2, 0, 0, 1) both",
+        tile: "tile 900ms cubic-bezier(0.2, 0, 0, 1) both",
+      },
     },
   },
   plugins: [],
