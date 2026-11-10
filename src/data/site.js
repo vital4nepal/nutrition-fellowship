@@ -10,6 +10,16 @@ export const socials = [
   { name: 'X', href: 'https://x.com/nutfellowship', icon: faXTwitter },
 ];
 
+// The D4N 2026 Learning Lab, from the event flyer. The register link is where the flyer's QR code leads.
+export const d4n = {
+  registerHref: 'https://southasia.ifpri.info/d4n-2026-register/',
+  conference: 'Delivering for Nutrition in South Asia 2026',
+  conferenceDates: '30 November to 3 December 2026',
+  labDate: '30 November 2026',
+  labTime: '13:45 to 15:00 (LKT)',
+  venue: 'Shangri-La Hotel, Colombo, Sri Lanka',
+};
+
 // Nepal is the only chapter with content. The other chapters have their own page that says "Coming soon".
 export const chapters = [
   { id: 'nepal', label: 'Nepal', href: '/#country-chapter' },
