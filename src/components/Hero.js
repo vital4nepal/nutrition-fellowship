@@ -9,11 +9,11 @@ const SLIDE_INTERVAL_MS = 6000;
 
 // Every photo is 1600px wide and fills the frame. `focus` keeps the faces inside the crop on a phone.
 const slides = [
-  { src: '/hero/second-meet.jpg', caption: 'The second Nutrition Fellowship meet, January 2025', focus: '50% 40%' },
-  { src: '/hero/data-camp-cafodat.jpg', caption: 'Nutrition Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
-  { src: '/hero/canva-workshop.jpg', caption: 'Canva workshop for students of different colleges, February 2025', focus: '50% 50%' },
-  { src: '/hero/data-camp-mmihs.jpg', caption: 'Nutrition Data Camp at MMIHS, January 2025', focus: '50% 50%' },
-  { src: '/hero/strategic-planning.jpg', caption: 'Strategic planning for the Fellowship meet, December 2024', focus: '50% 55%' },
+  { src: '/hero/second-meet.jpg', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
+  { src: '/hero/data-camp-cafodat.jpg', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
+  { src: '/hero/canva-workshop.jpg', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
+  { src: '/hero/data-camp-mmihs.jpg', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },
+  { src: '/hero/strategic-planning.jpg', caption: 'Strategic planning meet, December 2024', focus: '50% 55%' },
 ];
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
