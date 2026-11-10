@@ -17,14 +17,13 @@ const SMALL_TILE = '(min-width: 1024px) 270px, calc((100vw - 2rem) / 3)';
 const slides = [
   {
     name: 'vitamin-a',
-    caption: 'Vitamin A and deworming campaign, November 2026',
+    caption: 'National Vitamin A Supplementation Program Monitoring by Students, November 2026',
     // One large tile on the left, three stacked on the right.
     collage: [
       { name: 'vita-2', focus: '55% 45%', area: 'col-span-2 row-span-3', sizes: BIG_TILE },
       { name: 'vita-1', focus: '50% 40%', area: '', sizes: SMALL_TILE },
-      { name: 'vita-3', focus: '50% 60%', area: '', sizes: SMALL_TILE },
-      // A portrait photo: its two files are 376px and 753px wide.
-      { name: 'vita-4', focus: '50% 35%', area: '', sizes: SMALL_TILE, widths: [376, 753] },
+      { name: 'vita-5', focus: '50% 45%', area: '', sizes: SMALL_TILE },
+      { name: 'vita-6', focus: '45% 55%', area: '', sizes: SMALL_TILE },
     ],
   },
   { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
@@ -140,16 +139,17 @@ function Slideshow() {
           />
         );
       })}
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/90 to-transparent" />
-      <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-6">
+      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-ink/90 via-ink/60 to-transparent sm:h-1/2 sm:via-transparent" />
+      {/* On a phone the buttons take their own row, so a long caption keeps the full width. */}
+      <figcaption className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-4 sm:flex-row sm:items-end sm:justify-between sm:gap-4 sm:p-6">
         {/* The caption is announced only after the visitor takes control, never on each autoplay turn. */}
         <p
           aria-live={stopped ? 'polite' : 'off'}
-          className="max-w-[32ch] font-serif text-base font-semibold leading-snug text-paper sm:text-sub"
+          className="max-w-[46ch] font-serif text-meta font-semibold leading-snug text-paper sm:text-base lg:text-sub"
         >
           {slides[current].caption}
         </p>
-        <div className="flex shrink-0 items-center gap-1.5">
+        <div className="flex shrink-0 items-center gap-1.5 self-end">
           <span className="mr-1 hidden text-meta tabular-nums text-paper/80 sm:block">
             {current + 1} / {slides.length}
           </span>
