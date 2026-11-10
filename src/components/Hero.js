@@ -8,10 +8,11 @@ import { SectionTitle, container } from './ui';
 const SLIDE_INTERVAL_MS = 6000;
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
-// A collage tile has a 1000px file and a 500px file. `focus` keeps the faces inside the crop.
-// Below 1024px the frame is the screen minus the page padding, split into thirds.
-const BIG_TILE = '(min-width: 1024px) 540px, calc((100vw - 3rem) * 2 / 3)';
-const SMALL_TILE = '(min-width: 1024px) 270px, calc((100vw - 3rem) / 3)';
+// A collage tile has a large file and a `-500` file, 1000px and 500px wide unless it says otherwise.
+// `focus` keeps the faces inside the crop.
+// Below 1024px the frame is the screen minus the 2rem page padding, split into thirds.
+const BIG_TILE = '(min-width: 1024px) 540px, calc((100vw - 2rem) * 2 / 3)';
+const SMALL_TILE = '(min-width: 1024px) 270px, calc((100vw - 2rem) / 3)';
 const slides = [
   {
     name: 'vitamin-a',
