@@ -41,6 +41,14 @@ function useActiveSection() {
   return active;
 }
 
+// inline-block keeps the link underline from running under the badge.
+const NewMark = () => (
+  <>
+    <span className="sr-only">, </span>
+    <span className="ml-2 inline-block bg-meadow px-1.5 py-0.5 text-meta font-semibold leading-none text-deep">New</span>
+  </>
+);
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef(null);
@@ -89,6 +97,7 @@ const Navbar = () => {
               className="whitespace-nowrap text-ui font-medium text-ink underline-offset-[6px] hover:text-green hover:underline aria-[current=location]:text-green aria-[current=location]:underline transition-colors"
             >
               {link.label}
+              {link.isNew && <NewMark />}
             </a>
           </li>
         ))}
@@ -116,7 +125,7 @@ const Navbar = () => {
 
       <ul
         id="main-menu"
-        className={`${isOpen ? 'block' : 'hidden'} lg:hidden absolute top-full inset-x-0 bg-paper border-b border-line px-4`}
+        className={`${isOpen ? 'block' : 'hidden'} lg:hidden absolute top-full inset-x-0 max-h-[calc(100dvh-var(--nf-header-h))] overflow-y-auto bg-paper border-b border-line px-4`}
       >
         {links.map((link) => (
           <li key={link.href} className="border-t border-line">
@@ -127,6 +136,7 @@ const Navbar = () => {
               className="flex h-12 items-center text-body text-ink hover:text-green aria-[current=location]:font-semibold aria-[current=location]:text-green transition-colors"
             >
               {link.label}
+              {link.isNew && <NewMark />}
             </a>
           </li>
         ))}

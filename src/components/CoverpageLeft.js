@@ -14,6 +14,7 @@ const slides = [
     height: 569,
     alt: 'Fellowship members and guests of several generations posing together at an evening meet',
     mat: 'bg-ink',
+    caption: 'Members and guests of several generations at an evening meet',
   },
   {
     src: '/ImageSlider/cover-collage.jpg',
@@ -22,6 +23,7 @@ const slides = [
     height: 1060,
     alt: 'Students leading the Fellowship. A mosaic of cherished interactions',
     mat: 'bg-meadow',
+    caption: 'Students leading the Fellowship',
   },
 ];
 
@@ -103,7 +105,7 @@ const CoverpageLeft = () => {
 
   return (
     <>
-      <SectionTitle as="h1" className="mb-6 lg:mb-8">Nutrition Fellowship for Nepal</SectionTitle>
+      <SectionTitle as="h1" className="mb-6 lg:mb-8">Nutrition Fellowship</SectionTitle>
       <div
         onPointerEnter={(event) => event.pointerType === 'mouse' && setPaused(true)}
         onPointerLeave={(event) => event.pointerType === 'mouse' && setPaused(false)}
@@ -134,7 +136,8 @@ const CoverpageLeft = () => {
             );
           })}
         </div>
-        <div className="mt-2 flex justify-center">
+        <p className="mt-2 min-h-[2.625rem] text-meta text-muted md:min-h-0">{slides[currentSlide].caption}</p>
+        <div className="mt-1 flex justify-center">
           {slides.map((slide, index) => (
             <button
               key={slide.src}

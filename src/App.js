@@ -3,6 +3,9 @@ import Topbar from './components/Topbar';
 import Navbar from './components/Navbar';
 import CoverpageLeft from './components/CoverpageLeft';
 import CoverpageRight from './components/CoverpageRight';
+import ProgramCards from './components/ProgramCards';
+import LiveDashboard from './components/LiveDashboard';
+import CountryChapter from './components/CountryChapter';
 import Repository from './components/Repository';
 import Events from './components/Events';
 import NextEvent from './components/NextEvent';
@@ -44,9 +47,12 @@ function App() {
                 className="grid gap-10 lg:grid-cols-12 lg:gap-8"
               >
                 <div className="lg:col-span-8"><CoverpageLeft /></div>
-                <div className="lg:col-span-4 lg:border-l lg:border-line lg:pl-8"><CoverpageRight /></div>
+                <div className="lg:col-span-4 lg:border-l lg:border-line lg:pl-8"><ProgramCards /></div>
               </Section>
+              <LiveDashboard />
               <Initiatives/>
+              <Section name="highlights" id="highlights"><CoverpageRight /></Section>
+              <CountryChapter />
               <Repository/>
               <Events/>
               <Section
