@@ -1,4 +1,13 @@
 import React, { useState } from 'react';
+import { ALL, countries, respondentsFor } from '../data/pulseSurvey';
+
+// The member figure is from the D4N concept note. The other figures come from the survey data.
+const facts = [
+  { value: '400+', label: 'members and stakeholders in Nepal' },
+  { value: String(respondentsFor(ALL)), label: 'students answered the Pulse Survey' },
+  { value: String(countries.length), label: 'countries in the student network' },
+  { value: '3', label: 'generations of nutrition leaders' },
+];
 
 const pillars = ['Celebrate', 'Convene', 'Coach', 'Collaborate', 'Connect'];
 
@@ -91,6 +100,14 @@ const About = () => {
           </div>
         ))}
       </div>
+      <dl className="nf-stagger mt-8 grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4">
+        {facts.map(({ value, label }) => (
+          <div key={label} className="flex flex-col-reverse bg-paper p-4">
+            <dt className="mt-1 text-meta text-muted">{label}</dt>
+            <dd className="font-serif text-title-sm font-semibold tabular-nums text-green">{value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 };

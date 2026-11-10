@@ -13,8 +13,38 @@ const slides = [
   { name: 'data-camp-cafodat', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
   { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
   { name: 'data-camp-mmihs', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },
-  { name: 'strategic-planning', caption: 'Strategic planning meet, December 2024', focus: '50% 55%' },
+  {
+    name: 'vitamin-a',
+    caption: 'Vitamin A and deworming campaign, November 2026',
+    // One large tile on the left, three stacked on the right. `focus` keeps the faces inside each crop.
+    collage: [
+      { src: '/hero/vita-2.jpg', focus: '55% 45%', area: 'col-span-2 row-span-3' },
+      { src: '/hero/vita-1.jpg', focus: '50% 40%', area: '' },
+      { src: '/hero/vita-3.jpg', focus: '50% 60%', area: '' },
+      { src: '/hero/vita-4.jpg', focus: '50% 35%', area: '' },
+    ],
+  },
 ];
+
+/** The four campaign photos of one slide. Each time the slide shows, the tiles settle in one after another. */
+function Collage({ tiles, showing, wanted, onSettle }) {
+  return (
+    <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1 bg-ink">
+      {tiles.map(({ src, focus, area }, index) => (
+        <img
+          key={showing ? `${src}-on` : src}
+          src={wanted ? src : undefined}
+          alt=""
+          loading="lazy"
+          onLoad={index === 0 ? onSettle : undefined}
+          onError={index === 0 ? onSettle : undefined}
+          style={{ objectPosition: focus, animationDelay: `${index * 140}ms` }}
+          className={`h-full w-full object-cover ${area} ${showing ? 'animate-tile' : ''}`}
+        />
+      ))}
+    </div>
+  );
+}
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -49,9 +79,19 @@ function Slideshow() {
       onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
       onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
     >
-      {slides.map(({ name }, index) => {
+      {slides.map(({ name, collage }, index) => {
         const first = index === 0;
         const wanted = first || settled.has(0);
+        if (collage) {
+          return (
+            <div
+              key={name}
+              className={`transition-opacity duration-700 ${index === current ? 'opacity-100' : 'opacity-0'}`}
+            >
+              <Collage tiles={collage} showing={index === current} wanted={wanted} onSettle={() => settle(index)} />
+            </div>
+          );
+        }
         return (
           <img
             key={name}
@@ -111,11 +151,13 @@ const Hero = () => (
   <section data-section="hero" className={`${container} pb-12 pt-6 lg:pb-16 lg:pt-8`}>
     <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
       <div className="lg:col-span-8">
-        <SectionTitle as="h1" className="mb-6 lg:mb-8">Nutrition Fellowship</SectionTitle>
-        <Slideshow />
+        <SectionTitle as="h1" className="mb-6 animate-rise lg:mb-8">Nutrition Fellowship</SectionTitle>
+        <div className="animate-rise [animation-delay:120ms]">
+          <Slideshow />
+        </div>
         <About />
       </div>
-      <div className="grid content-start gap-4 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1 lg:border-l lg:border-line lg:pl-8">
+      <div className="grid content-start gap-4 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1 lg:border-l lg:border-line lg:pl-8 [&>*]:animate-rise [&>*:nth-child(2)]:[animation-delay:200ms] [&>*:nth-child(3)]:[animation-delay:320ms] [&>*:nth-child(1)]:[animation-delay:80ms]">
         <article className="flex flex-col border border-line bg-surface p-6">
           <h2 className="text-sub text-green">Student Pulse Survey</h2>
           <p className="mt-3 text-body">
