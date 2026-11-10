@@ -24,6 +24,8 @@ export default function ScrollToHash() {
     // Every click on a section anchor reuses the slot "default#id". A click must land on the section, so it forgets
     // the position saved there; Back and Forward still restore, because popstate saves it again on the way out.
     const onClick = (event) => {
+      // A modified click opens a new tab or window, so this page goes nowhere and keeps its saved positions.
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const link = event.target.closest?.('a[href]');
       if (!link || link.origin !== window.location.origin) return;
       if (link.pathname !== pathname) positions.current.set(current.current, window.scrollY);
