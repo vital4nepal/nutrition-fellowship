@@ -6,7 +6,7 @@ import { navLinks as links } from '../data/site';
 
 const sectionOf = (href) => href.split('#')[1];
 
-// The updates block has no link of its own: it belongs to "Events and Updates".
+// The updates block has no link of its own: it counts as the Events link.
 const navIdOf = (element) => (element.dataset.section === 'updates' ? 'events' : element.id);
 
 /** The id of the home page section that sits in the band under the header, or an empty string. */
