@@ -33,11 +33,22 @@ function useActiveSection() {
       },
       { rootMargin: '-30% 0px -60% 0px' },
     );
-    const targets = links.map((link) => sectionOf(link.href) && document.getElementById(sectionOf(link.href)));
+    const targets = links
+      .map((link) => sectionOf(link.href) && document.getElementById(sectionOf(link.href)))
+      .filter(Boolean);
     [...targets, document.querySelector('[data-section="updates"]')].forEach((element) => {
       if (element) observer.observe(element);
     });
-    return () => observer.disconnect();
+    // The observer fires only when a target enters or leaves the band. A click on a link that is already in it does not.
+    const onHashChange = () => {
+      const named = targets.find((element) => element.id === window.location.hash.slice(1));
+      if (named) setActive(navIdOf(named));
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('hashchange', onHashChange);
+    };
   }, [pathname]);
 
   return active;

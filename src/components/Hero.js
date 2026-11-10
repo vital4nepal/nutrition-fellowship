@@ -19,21 +19,21 @@ const slides = [
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const control =
-  'flex h-11 w-11 items-center justify-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink';
+  'flex h-11 w-10 items-center justify-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink';
 
 function Slideshow() {
   const [current, setCurrent] = useState(0);
   const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
-  const [stopped, setStopped] = useState(false);
-  // Photos that loaded or failed. The later photos wait for the first one, and autoplay waits for all of them,
-  // so a slow connection never fades to an empty frame.
-  const [settled, setSettled] = useState(0);
-  const settle = () => setSettled((count) => count + 1);
-  const autoplaying = settled === slides.length && !hovered && !focused && !stopped;
+  // A visitor who asks for reduced motion starts with the slideshow stopped. Play still works for them.
+  const [stopped, setStopped] = useState(prefersReducedMotion);
+  // The photos that loaded or failed, by index: a browser fires `load` again when it swaps to a larger file.
+  // The later photos wait for the first one, and autoplay waits for all of them, so no fade lands on an empty frame.
+  const [settled, setSettled] = useState(() => new Set());
+  const settle = (index) => setSettled((done) => (done.has(index) ? done : new Set(done).add(index)));
+  const autoplaying = settled.size === slides.length && !hovered && !stopped;
 
   useEffect(() => {
-    if (!autoplaying || prefersReducedMotion()) return undefined;
+    if (!autoplaying) return undefined;
     const timer = setInterval(() => setCurrent((index) => (index + 1) % slides.length), SLIDE_INTERVAL_MS);
     return () => clearInterval(timer);
   }, [autoplaying]);
@@ -48,12 +48,10 @@ function Slideshow() {
       className="relative aspect-[4/3] overflow-hidden border border-line bg-ink sm:aspect-[16/9]"
       onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
       onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={(event) => !event.currentTarget.contains(event.relatedTarget) && setFocused(false)}
     >
       {slides.map(({ name }, index) => {
         const first = index === 0;
-        const wanted = first || settled > 0;
+        const wanted = first || settled.has(0);
         return (
           <img
             key={name}
@@ -62,8 +60,8 @@ function Slideshow() {
             sizes="(min-width: 1024px) 800px, 100vw"
             alt=""
             fetchpriority={first ? 'high' : undefined}
-            onLoad={settle}
-            onError={settle}
+            onLoad={() => settle(index)}
+            onError={() => settle(index)}
             style={{ objectPosition: slides[index].focus }}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
               index === current ? 'opacity-100' : 'opacity-0'
@@ -80,7 +78,7 @@ function Slideshow() {
         >
           {slides[current].caption}
         </p>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5">
           <span className="mr-1 hidden text-meta tabular-nums text-paper/80 sm:block">
             {current + 1} / {slides.length}
           </span>
@@ -88,7 +86,7 @@ function Slideshow() {
             type="button"
             aria-label={stopped ? 'Play slideshow' : 'Pause slideshow'}
             onClick={() => setStopped(!stopped)}
-            className={`${control} hidden sm:flex`}
+            className={control}
           >
             {stopped ? <Play size={18} aria-hidden="true" /> : <Pause size={18} aria-hidden="true" />}
           </button>
