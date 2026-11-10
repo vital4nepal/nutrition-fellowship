@@ -9,8 +9,9 @@ const SLIDE_INTERVAL_MS = 6000;
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
 // A collage tile has a 1000px file and a 500px file. `focus` keeps the faces inside the crop.
-const BIG_TILE = '(min-width: 1024px) 540px, 66vw';
-const SMALL_TILE = '(min-width: 1024px) 270px, 33vw';
+// Below 1024px the frame is the screen minus the page padding, split into thirds.
+const BIG_TILE = '(min-width: 1024px) 540px, calc((100vw - 3rem) * 2 / 3)';
+const SMALL_TILE = '(min-width: 1024px) 270px, calc((100vw - 3rem) / 3)';
 const slides = [
   {
     name: 'vitamin-a',
@@ -20,7 +21,8 @@ const slides = [
       { name: 'vita-2', focus: '55% 45%', area: 'col-span-2 row-span-3', sizes: BIG_TILE },
       { name: 'vita-1', focus: '50% 40%', area: '', sizes: SMALL_TILE },
       { name: 'vita-3', focus: '50% 60%', area: '', sizes: SMALL_TILE },
-      { name: 'vita-4', focus: '50% 35%', area: '', sizes: SMALL_TILE },
+      // A portrait photo: its two files are 376px and 753px wide.
+      { name: 'vita-4', focus: '50% 35%', area: '', sizes: SMALL_TILE, widths: [376, 753] },
     ],
   },
   { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
@@ -42,12 +44,15 @@ function Collage({ tiles, showing, wanted, onSettle }) {
   // Adjusted during render, so the new tiles mount in the same commit as the slide change.
   if (showing !== wasShowing) {
     setWasShowing(showing);
-    if (showing) setRound(round + 1);
+    if (showing) {
+      setRound(round + 1);
+      setLoaded(new Set());
+    }
   }
 
   return (
     <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1 bg-ink">
-      {tiles.map(({ name, focus, area, sizes }, index) => {
+      {tiles.map(({ name, focus, area, sizes, widths: [small, large] = [500, 1000] }, index) => {
         const done = () => {
           markLoaded(index);
           if (index === 0) onSettle();
@@ -56,7 +61,7 @@ function Collage({ tiles, showing, wanted, onSettle }) {
           <img
             key={`${name}-${round}`}
             src={wanted ? `/hero/${name}.jpg` : undefined}
-            srcSet={wanted ? `/hero/${name}-500.jpg 500w, /hero/${name}.jpg 1000w` : undefined}
+            srcSet={wanted ? `/hero/${name}-500.jpg ${small}w, /hero/${name}.jpg ${large}w` : undefined}
             sizes={sizes}
             alt=""
             fetchpriority={index === 0 ? 'high' : 'low'}
