@@ -24,7 +24,7 @@ const D4N = () => (
             <div key={title} className={fill} style={{ flexGrow: minutes, flexBasis: 0 }} />
           ))}
         </div>
-        <ol className="mt-1">
+        <ol className="nf-stagger mt-1">
           {schedule.map(({ title, minutes, fill }) => (
             <li key={title} className="flex items-center gap-3 border-b border-line py-3 text-body">
               <span aria-hidden="true" className={`h-2.5 w-2.5 shrink-0 ${fill}`} />

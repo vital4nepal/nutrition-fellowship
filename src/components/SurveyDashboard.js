@@ -136,7 +136,7 @@ const SurveyDashboard = () => {
           ))}
         </div>
       </div>
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <BarCard finding={(skill) => `want training in ${skill}`} rows={skills} view={view} total={total} />
         <BarCard finding={(problem) => `name ${problem} as a challenge`} rows={challenges} view={view} total={total} />
         <ShareCard

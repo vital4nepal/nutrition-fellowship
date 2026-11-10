@@ -28,6 +28,16 @@ module.exports = {
       maxWidth: { content: "77.5rem", form: "35rem" },
       transitionDuration: { DEFAULT: "180ms" },
       transitionTimingFunction: { DEFAULT: "cubic-bezier(0.2, 0, 0, 1)" },
+      keyframes: {
+        menu: { from: { opacity: "0", transform: "translate(-50%, -4px)" }, to: { opacity: "1", transform: "translate(-50%, 0)" } },
+        rise: { from: { opacity: "0", transform: "translateY(12px)" }, to: { opacity: "1", transform: "none" } },
+        tile: { from: { opacity: "0", transform: "scale(1.06)" }, to: { opacity: "1", transform: "none" } },
+      },
+      animation: {
+        menu: "menu 160ms cubic-bezier(0.2, 0, 0, 1)",
+        rise: "rise 700ms cubic-bezier(0.2, 0, 0, 1) both",
+        tile: "tile 900ms cubic-bezier(0.2, 0, 0, 1) both",
+      },
     },
   },
   plugins: [],
