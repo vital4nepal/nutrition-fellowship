@@ -22,9 +22,8 @@ const slides = [
     collage: [
       { name: 'vita-2', focus: '55% 45%', area: 'col-span-2 row-span-3', sizes: BIG_TILE },
       { name: 'vita-1', focus: '50% 40%', area: '', sizes: SMALL_TILE },
-      { name: 'vita-3', focus: '50% 60%', area: '', sizes: SMALL_TILE },
-      // A portrait photo: its two files are 376px and 753px wide.
-      { name: 'vita-4', focus: '50% 35%', area: '', sizes: SMALL_TILE, widths: [376, 753] },
+      { name: 'vita-5', focus: '50% 45%', area: '', sizes: SMALL_TILE },
+      { name: 'vita-6', focus: '45% 55%', area: '', sizes: SMALL_TILE },
     ],
   },
   { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
