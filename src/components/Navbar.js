@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 
 import { navLinks as links } from '../data/site';
 
@@ -54,6 +54,69 @@ function useActiveSection() {
   return active;
 }
 
+const desktopLink =
+  'whitespace-nowrap text-ui font-medium text-ink underline-offset-[6px] hover:text-green hover:underline aria-[current=location]:text-green aria-[current=location]:underline transition-colors';
+
+/** A desktop nav item that opens a list of links. Click, Enter or Space opens it; Escape and a click outside close it. */
+function MenuItem({ link, current }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onPointerDown = (event) => {
+      if (!ref.current.contains(event.target)) setOpen(false);
+    };
+    const onKeyDown = (event) => {
+      if (event.key !== 'Escape') return;
+      setOpen(false);
+      ref.current.querySelector('button').focus();
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      onBlur={(event) => !event.currentTarget.contains(event.relatedTarget) && setOpen(false)}
+    >
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={`menu-${sectionOf(link.href)}`}
+        aria-current={current ? 'location' : undefined}
+        onClick={() => setOpen(!open)}
+        className={`flex h-11 items-center gap-1 ${desktopLink}`}
+      >
+        {link.label}
+        <ChevronDown size={16} aria-hidden="true" className={`transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+      <ul
+        id={`menu-${sectionOf(link.href)}`}
+        className={`${open ? 'block' : 'hidden'} absolute left-1/2 top-full z-10 mt-2 min-w-[12rem] -translate-x-1/2 animate-menu border border-line bg-paper py-1`}
+      >
+        {link.children.map((child) => (
+          <li key={child.id}>
+            <a
+              href={child.href}
+              onClick={() => setOpen(false)}
+              className="flex min-h-11 items-center px-4 text-ui text-ink transition-colors hover:bg-surface hover:text-green"
+            >
+              {child.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef(null);
@@ -96,13 +159,17 @@ const Navbar = () => {
       <ul className="hidden lg:flex items-center gap-5 xl:gap-7">
         {links.map((link) => (
           <li key={link.href}>
-            <a
-              href={link.href}
-              aria-current={sectionOf(link.href) === active ? 'location' : undefined}
-              className="whitespace-nowrap text-ui font-medium text-ink underline-offset-[6px] hover:text-green hover:underline aria-[current=location]:text-green aria-[current=location]:underline transition-colors"
-            >
-              {link.label}
-            </a>
+            {link.children ? (
+              <MenuItem link={link} current={sectionOf(link.href) === active} />
+            ) : (
+              <a
+                href={link.href}
+                aria-current={sectionOf(link.href) === active ? 'location' : undefined}
+                className={`flex h-11 items-center ${desktopLink}`}
+              >
+                {link.label}
+              </a>
+            )}
           </li>
         ))}
       </ul>
@@ -133,14 +200,33 @@ const Navbar = () => {
       >
         {links.map((link) => (
           <li key={link.href} className="border-t border-line">
-            <a
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              aria-current={sectionOf(link.href) === active ? 'location' : undefined}
-              className="flex h-12 items-center text-body text-ink hover:text-green aria-[current=location]:font-semibold aria-[current=location]:text-green transition-colors"
-            >
-              {link.label}
-            </a>
+            {link.children ? (
+              <>
+                <span className="flex h-12 items-center text-body text-muted">{link.label}</span>
+                <ul className="pb-2 pl-4">
+                  {link.children.map((child) => (
+                    <li key={child.id}>
+                      <a
+                        href={child.href}
+                        onClick={() => setIsOpen(false)}
+                        className="flex h-11 items-center text-body text-ink transition-colors hover:text-green"
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <a
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                aria-current={sectionOf(link.href) === active ? 'location' : undefined}
+                className="flex h-12 items-center text-body text-ink hover:text-green aria-[current=location]:font-semibold aria-[current=location]:text-green transition-colors"
+              >
+                {link.label}
+              </a>
+            )}
           </li>
         ))}
       </ul>

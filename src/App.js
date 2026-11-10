@@ -15,6 +15,7 @@ import Footer from './components/Footer';
 import ScrollToHash from './components/ScrollToHash';
 import { Section, container } from './components/ui';
 import ComingSoon from './components/ComingSoon';
+import { ChapterPage, InitiativePage } from './components/InitiativePage';
 
 const innerPages = [
   { path: '/profile', title: 'Nutrition Profile' },
@@ -57,6 +58,8 @@ function App() {
               <Thoughts/>
             </main>
         } />
+        <Route path="/initiatives/:id" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><InitiativePage /></main>} />
+        <Route path="/chapters/:id" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ChapterPage /></main>} />
         {innerPages.map(({ path, title }) => (
           <Route key={path} path={path} element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ComingSoon title={title} /></main>} />
         ))}
