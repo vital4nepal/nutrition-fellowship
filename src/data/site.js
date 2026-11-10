@@ -14,7 +14,7 @@ export const navLinks = [
   { href: '/#aboutus', label: 'About Us' },
   { href: '/#initiatives', label: 'Initiatives' },
   { href: '/#events', label: 'Events' },
-  { href: '/#country-chapter', label: 'Country Chapter', isNew: true },
+  { href: '/#country-chapter', label: 'Country Chapter' },
   { href: '/#thoughts', label: 'Contact Us' },
   { href: '/#highlights', label: 'Key Highlights' },
 ];

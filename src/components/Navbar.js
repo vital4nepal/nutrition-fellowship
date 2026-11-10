@@ -54,14 +54,6 @@ function useActiveSection() {
   return active;
 }
 
-// inline-block keeps the link underline from running under the badge.
-const NewMark = () => (
-  <>
-    <span className="sr-only">, </span>
-    <span className="ml-2 inline-block bg-meadow px-1.5 py-0.5 text-meta font-semibold leading-none text-deep">New</span>
-  </>
-);
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef(null);
@@ -110,7 +102,6 @@ const Navbar = () => {
               className="whitespace-nowrap text-ui font-medium text-ink underline-offset-[6px] hover:text-green hover:underline aria-[current=location]:text-green aria-[current=location]:underline transition-colors"
             >
               {link.label}
-              {link.isNew && <NewMark />}
             </a>
           </li>
         ))}
@@ -149,7 +140,6 @@ const Navbar = () => {
               className="flex h-12 items-center text-body text-ink hover:text-green aria-[current=location]:font-semibold aria-[current=location]:text-green transition-colors"
             >
               {link.label}
-              {link.isNew && <NewMark />}
             </a>
           </li>
         ))}
