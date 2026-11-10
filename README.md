@@ -1,17 +1,19 @@
 # Nutrition Fellowship
 
-Website for the Nutrition Fellowship, live at https://nutfellowship.com.
+The website of the Nutrition Fellowship, live at https://nutfellowship.com.
 
-The site is a single-page React app. It shows the fellowship's initiatives, events, announcements and a document repository. Five inner pages (a newsletter profile, two blogs, a research article and a policy page) show "Coming soon".
+The fellowship is a network of nutrition students and professionals in Nepal and South Asia. The site shows the
+Student Pulse Survey results, the D4N 2026 Learning Lab, the initiatives, the country chapters, events and documents.
 
 ## Stack
 
 - React 18 with Create React App (`react-scripts` 5)
-- React Router 7 for the pages
-- Tailwind CSS 3 for the styles
-- Lucide and Font Awesome for icons
+- React Router 7
+- Tailwind CSS 3
+- Lucide and Font Awesome icons
+- Cloudflare Pages for hosting
 
-## Run it on your computer
+## Run it
 
 Use Node 20 or newer.
 
@@ -26,48 +28,45 @@ The site opens at http://localhost:3000.
 
 ```
 npm run build
+npx serve -s build
 ```
 
-The build writes the finished site to `build/`. To check it, run `npx serve -s build`.
-The `-s` flag makes every address load `index.html`, which the router needs.
+The build writes the site to `build/`. The `-s` flag sends every address to `index.html`, which the router needs.
 
-## Folders
-
-| Path | What it holds |
-| --- | --- |
-| `src/App.js` | The routes and the home page layout |
-| `src/components/` | One file per page section. `ui.js` holds the shared layout parts and `ComingSoon.js` the inner page placeholder |
-| `src/data/site.js` | The shared site data |
-| `public/` | Images, PDFs, `index.html`, favicon and `manifest.json` |
-| `tailwind.config.js` | Tailwind setup, scans `src/` |
-
-## Routes
+## Pages
 
 | Address | Page |
 | --- | --- |
 | `/` | Home |
-| `/profile` | Newsletter profile (coming soon) |
-| `/policy2025` | Policy 2025 (coming soon) |
-| `/aiinnutrition` | Research: AI in nutrition (coming soon) |
-| `/nfn2ndmeetblog` | Blog: second meeting (coming soon) |
-| `/nrcinternblog` | Blog: NRC intern (coming soon) |
-| any other address | Page not found, with a link to the home page |
+| `/initiatives/:id` | One initiative. `gen-n` has content; the others show "Coming soon" |
+| `/chapters/:id` | One country chapter. `nepal` goes to the home page section; the others show "Coming soon" |
+| `/profile`, `/policy2025`, `/aiinnutrition`, `/nfn2ndmeetblog`, `/nrcinternblog` | "Coming soon" |
+| any other address | Page not found |
+
+## Change the content
+
+Most text and numbers live in `src/data/`. Edit them there, not in the components.
+
+| To change | Edit |
+| --- | --- |
+| Email, social links, nav, chapters, D4N date and register link | `src/data/site.js` |
+| Pulse Survey counts | `src/data/pulseSurvey.js` |
+| Initiatives and the Gen-N page | `src/data/initiatives.js` |
+| Hero slides and collage | `slides` in `src/components/Hero.js` |
 
 ## Deploy
 
-Cloudflare Pages builds the site from the `main` branch. Each push to `main` starts a new deployment.
+Cloudflare Pages builds `main` on each push. Every other branch gets a preview at
+`https://<branch>.nut-fellowship.pages.dev`.
 
 | Setting | Value |
 | --- | --- |
-| Framework preset | None |
 | Build command | `npm run build` |
-| Build output directory | `build` |
-| Node version | 20 (set `NODE_VERSION` if the build fails on Node) |
+| Output directory | `build` |
+| Node version | 20 |
 
-The domain `nutfellowship.com` uses Cloudflare DNS. Both `nutfellowship.com` and `www.nutfellowship.com` point at the Pages project.
+## More
 
-## Notes
-
-- The `build/` folder is not in Git. Cloudflare builds it on each deployment.
-- The "Place your thoughts" form posts to Web3Forms. The Web3Forms access key is in `src/components/Thoughts.js`.
-- Add secrets to a `.env` file. Git ignores it. Never commit a key.
+- [Architecture](docs/architecture.md)
+- [Components](docs/components.md)
+- [Data model](docs/data-model.md)
