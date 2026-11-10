@@ -21,11 +21,13 @@ export default function ScrollToHash() {
   useEffect(() => {
     // A page link is saved at the click, the last moment before the shorter page clamps the scroll.
     // Back, Forward and a section anchor are saved at popstate, which still sees the old position.
+    // Every click on a section anchor reuses the slot "default#id". A click must land on the section, so it forgets
+    // the position saved there; Back and Forward still restore, because popstate saves it again on the way out.
     const onClick = (event) => {
       const link = event.target.closest?.('a[href]');
-      if (link && link.origin === window.location.origin && link.pathname !== pathname) {
-        positions.current.set(current.current, window.scrollY);
-      }
+      if (!link || link.origin !== window.location.origin) return;
+      if (link.pathname !== pathname) positions.current.set(current.current, window.scrollY);
+      else if (link.hash) positions.current.delete(`default${link.hash}`);
     };
     const onPopState = () => positions.current.set(current.current, window.scrollY);
     document.addEventListener('click', onClick, true);
