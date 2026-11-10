@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowDown, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { ALL, countries, respondentsFor } from '../data/pulseSurvey';
+import { d4n } from '../data/site';
 import About from './About';
 import CoverpageRight from './CoverpageRight';
 import { SectionTitle, container } from './ui';
@@ -199,21 +200,22 @@ const Hero = () => (
           </a>
         </article>
         <article className="flex flex-col bg-deep p-6 text-paper">
-          <h2 className="text-sub">D4N Cohort</h2>
+          <h2 className="text-sub">D4N 2026 Learning Lab</h2>
           <p className="mt-3 text-body text-paper/90">
-            Delivering for Nutrition Conference, Colombo, 2 to 4 December 2026.
+            {d4n.labDate}, {d4n.labTime}. Hybrid, at the {d4n.venue}.
           </p>
           <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-2 pt-4">
-            {/* No registration link exists yet, so the button is disabled instead of pointing nowhere. */}
-            <button
-              type="button"
-              disabled
-              className="inline-flex min-h-11 cursor-not-allowed items-center bg-accent px-6 font-semibold text-paper opacity-70"
+            <a
+              href={d4n.registerHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center gap-2 bg-accent px-6 font-semibold text-paper transition-colors hover:bg-paper hover:text-deep"
             >
               Register
-            </button>
+              <ArrowUpRight size={18} aria-hidden="true" />
+            </a>
             <a href="/#d4n" className={cardLink}>
-              Schedule
+              Details
               <ArrowDown size={18} aria-hidden="true" />
             </a>
           </div>
