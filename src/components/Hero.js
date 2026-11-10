@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ALL, countries, respondentsFor } from '../data/pulseSurvey';
-import { container } from './ui';
+import About from './About';
+import CoverpageRight from './CoverpageRight';
+import { SectionTitle, container } from './ui';
 
 const SLIDE_INTERVAL_MS = 6000;
 
@@ -39,7 +41,7 @@ function Slideshow() {
 
   return (
     <figure
-      className="relative aspect-[4/3] overflow-hidden bg-ink sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[30rem]"
+      className="relative aspect-[4/3] overflow-hidden border border-line bg-ink sm:aspect-[16/9]"
       onPointerEnter={(event) => event.pointerType === 'mouse' && setPaused(true)}
       onPointerLeave={(event) => event.pointerType === 'mouse' && setPaused(false)}
       onFocus={() => setPaused(true)}
@@ -87,22 +89,18 @@ const cardLink =
   'inline-flex min-h-11 items-center gap-2 font-semibold underline-offset-4 transition-colors hover:underline';
 
 const Hero = () => (
-  <section data-section="hero" className={`${container} pb-12 pt-8 lg:pb-16 lg:pt-12`}>
-    <h1 className="text-[clamp(2.5rem,6.5vw,5rem)] leading-[1.05] tracking-[-0.02em] text-green">
-      Nutrition Fellowship
-    </h1>
-    <div className="mt-8 grid gap-4 lg:mt-10 lg:grid-cols-12">
+  <section data-section="hero" className={`${container} pb-12 pt-6 lg:pb-16 lg:pt-8`}>
+    <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
       <div className="lg:col-span-8">
+        <SectionTitle as="h1" className="mb-6 lg:mb-8">Nutrition Fellowship</SectionTitle>
         <Slideshow />
+        <About />
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1">
+      <div className="grid content-start gap-4 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1 lg:border-l lg:border-line lg:pl-8">
         <article className="flex flex-col border border-line bg-surface p-6">
           <h2 className="text-sub text-green">Student Pulse Survey</h2>
           <p className="mt-3 text-body">
-            <strong className="font-serif text-[2.75rem] font-semibold leading-none text-ink">
-              {respondentsFor(ALL)}
-            </strong>{' '}
-            students in {countryList} told us what they need to grow as nutrition professionals.
+            <strong className="font-semibold text-ink">{respondentsFor(ALL)} students</strong> in {countryList} answered.
           </p>
           <a href="/#dashboard" className={`${cardLink} mt-auto pt-4 text-green`}>
             See the results
@@ -112,7 +110,7 @@ const Hero = () => (
         <article className="flex flex-col bg-deep p-6 text-paper">
           <h2 className="text-sub">D4N Cohort</h2>
           <p className="mt-3 text-body text-paper/90">
-            A student session at the Delivering for Nutrition Conference in Colombo, Sri Lanka, 2 to 4 December 2026.
+            Delivering for Nutrition Conference, Colombo, 2 to 4 December 2026.
           </p>
           <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-2 pt-4">
             {/* No registration link exists yet, so the button is disabled instead of pointing nowhere. */}
@@ -129,6 +127,9 @@ const Hero = () => (
             </a>
           </div>
         </article>
+        <div id="highlights" className="mt-4 sm:col-span-2 lg:col-span-1">
+          <CoverpageRight />
+        </div>
       </div>
     </div>
   </section>

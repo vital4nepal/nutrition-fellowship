@@ -3,9 +3,7 @@ import Topbar from './components/Topbar';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import SurveyDashboard from './components/SurveyDashboard';
-import About from './components/About';
 import D4N from './components/D4N';
-import CoverpageRight from './components/CoverpageRight';
 import CountryChapter from './components/CountryChapter';
 import Repository from './components/Repository';
 import Events from './components/Events';
@@ -43,11 +41,9 @@ function App() {
             <main id="main" tabIndex={-1} className="outline-none">
               <Hero />
               <SurveyDashboard />
-              <About />
               <D4N />
               <Initiatives/>
               <CountryChapter />
-              <Section name="highlights" id="highlights"><CoverpageRight /></Section>
               <Repository/>
               <Events/>
               <Section

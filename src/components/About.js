@@ -1,38 +1,98 @@
-import React from 'react';
-import { Section, SectionTitle } from './ui';
+import React, { useState } from 'react';
 
-// The vision and the pillars come from the Fellowship brief. Each pillar line is the brief's text, shortened.
-const pillars = [
-  { name: 'Convene', line: 'Build networks that share knowledge and drive collective action.' },
-  { name: 'Celebrate', line: 'Share the stories of nutrition champions and the lessons they learned.' },
-  { name: 'Collaborate', line: 'Advocate for political will, accountability and resources for nutrition.' },
-  { name: 'Connect', line: 'Link global and national institutions for research, data and innovation.' },
-  { name: 'Coach', line: 'Give students and emerging professionals the skills to lead nutrition initiatives.' },
+const pillars = ['Celebrate', 'Convene', 'Coach', 'Collaborate', 'Connect'];
+
+const tabs = [
+  {
+    id: 'value',
+    label: 'Value Proposition',
+    panel: (
+      <div className="space-y-3 text-body text-ink">
+        <p className="max-w-[65ch]">
+          We unite three generations of stakeholders from Nepal and around the world, combining experience, innovation, and passion to accelerate the fight against undernutrition in Nepal.
+        </p>
+        <p className="max-w-[65ch]">
+          Through this fellowship, we foster meaningful connections, convene diverse perspectives, and promote transformative collaboration.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 'vision',
+    label: 'Our Vision',
+    panel: (
+      <div className="space-y-3">
+        <p className="max-w-[65ch] font-serif text-sub font-semibold text-green">
+          “No Nepali is deprived of right to be free from undernutrition and suffer from ills effect of overnutrition”
+        </p>
+        <p className="max-w-[65ch] text-body text-muted">
+          “Bound by purpose, United for Nutrition: A fellowship to Nourish Generations”
+        </p>
+        <ul className="flex flex-wrap gap-x-4 gap-y-1 text-ui font-semibold text-green">
+          {pillars.map((pillar) => (
+            <li key={pillar}>{pillar}</li>
+          ))}
+        </ul>
+      </div>
+    ),
+  },
 ];
 
-const About = () => (
-  <Section name="about" id="aboutus" bordered={false}>
-    <SectionTitle>About Us</SectionTitle>
-    <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:gap-12">
-      <blockquote className="font-serif text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold italic leading-tight text-ink lg:col-span-7">
-        “A world free from the effects of undernutrition and overnutrition.”
-      </blockquote>
-      <div className="space-y-4 text-body lg:col-span-5">
-        <p>
-          We unite three generations of stakeholders from Nepal and around the world, combining experience, innovation, and passion to accelerate the fight against undernutrition.
-        </p>
-        <p className="font-semibold text-green">Bound by purpose, united for nutrition.</p>
+/** The About Us tabs under the slideshow. The arrow keys, Home and End move between the tabs. */
+const About = () => {
+  const [activeTab, setActiveTab] = useState(tabs[0].id);
+
+  const onTabKeyDown = (event) => {
+    const current = tabs.findIndex((tab) => tab.id === activeTab);
+    const targets = {
+      ArrowLeft: (current + tabs.length - 1) % tabs.length,
+      ArrowRight: (current + 1) % tabs.length,
+      Home: 0,
+      End: tabs.length - 1,
+    };
+    if (!(event.key in targets)) return;
+    event.preventDefault();
+    const next = tabs[targets[event.key]].id;
+    setActiveTab(next);
+    document.getElementById(`about-tab-${next}`).focus();
+  };
+
+  return (
+    <div id="aboutus" className="mt-6">
+      <div role="tablist" aria-label="About Us" onKeyDown={onTabKeyDown} className="flex gap-6 border-b border-line">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            role="tab"
+            id={`about-tab-${tab.id}`}
+            aria-selected={tab.id === activeTab}
+            aria-controls={`about-panel-${tab.id}`}
+            tabIndex={tab.id === activeTab ? 0 : -1}
+            onClick={() => setActiveTab(tab.id)}
+            className={`-mb-px h-11 border-b-2 text-base font-semibold transition-colors hover:text-green ${
+              tab.id === activeTab ? 'border-accent text-ink' : 'border-transparent text-muted'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      <div className="min-h-[140px] pt-4">
+        {tabs.map((tab) => (
+          <div
+            key={tab.id}
+            role="tabpanel"
+            id={`about-panel-${tab.id}`}
+            aria-labelledby={`about-tab-${tab.id}`}
+            hidden={tab.id !== activeTab}
+          >
+            {tab.panel}
+          </div>
+        ))}
       </div>
     </div>
-    <ul className="mt-12 grid border-t border-line sm:grid-cols-2 lg:grid-cols-5">
-      {pillars.map(({ name, line }) => (
-        <li key={name} className="border-b border-line py-5 sm:pr-6 lg:border-b-0 lg:border-l lg:px-6 lg:first:border-l-0 lg:first:pl-0">
-          <h3 className="text-xl text-green">{name}</h3>
-          <p className="mt-2 text-ui text-ink">{line}</p>
-        </li>
-      ))}
-    </ul>
-  </Section>
-);
+  );
+};
 
 export default About;

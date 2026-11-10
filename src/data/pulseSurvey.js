@@ -32,9 +32,9 @@ export const sdgOutlook = [
 export const skills = [
   { id: 'research', label: 'Research', counts: [74, 92, 72, 30] },
   { id: 'data-analysis', label: 'Data analysis', counts: [56, 67, 40, 24] },
-  { id: 'public-speaking', label: 'Presentation and public speaking', counts: [5, 60, 68, 21] },
+  { id: 'public-speaking', label: 'Public speaking', counts: [5, 60, 68, 21] },
   { id: 'leadership', label: 'Leadership', counts: [3, 46, 64, 14] },
-  { id: 'social-media', label: 'Social media and communication', counts: [22, 35, 44, 7] },
+  { id: 'social-media', label: 'Social media', counts: [22, 35, 44, 7] },
   { id: 'program-management', label: 'Program management', counts: [6, 35, 39, 13] },
   { id: 'scientific-writing', label: 'Scientific writing', counts: [4, 32, 30, 20] },
   { id: 'advocacy', label: 'Advocacy', counts: [41, 8, 7, 4] },
@@ -43,9 +43,9 @@ export const skills = [
 ];
 
 export const challenges = [
-  { id: 'time', label: 'Time management and workload', counts: [8, 37, 47, 15] },
-  { id: 'practical', label: 'Practical and field exposure', counts: [26, 47, 10, 17] },
-  { id: 'content', label: 'Understanding course content', counts: [19, 30, 28, 9] },
+  { id: 'time', label: 'Time and workload', counts: [8, 37, 47, 15] },
+  { id: 'practical', label: 'Field exposure', counts: [26, 47, 10, 17] },
+  { id: 'content', label: 'Course content', counts: [19, 30, 28, 9] },
   { id: 'language', label: 'Language barriers', counts: [0, 0, 48, 2] },
   { id: 'research', label: 'Research and data skills', counts: [9, 22, 3, 6] },
   { id: 'resources', label: 'Study resources', counts: [8, 21, 3, 6] },

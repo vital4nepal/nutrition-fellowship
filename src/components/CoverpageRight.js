@@ -36,8 +36,8 @@ const highlights = [
 
 const CoverpageRight = () => (
   <>
-    <SectionTitle>Key Highlights</SectionTitle>
-    <ul className="mt-6 border-t border-line lg:grid lg:grid-cols-2 lg:gap-x-8">
+    <SectionTitle size="sidebar">Key Highlights</SectionTitle>
+    <ul className="mt-4 border-t border-line">
       {highlights.map((highlight) => (
         <li key={highlight.topic}>
           <a
