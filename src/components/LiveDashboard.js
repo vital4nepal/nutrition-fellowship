@@ -20,7 +20,7 @@ const LiveDashboard = () => (
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1 font-semibold text-green ${textLink}`}
+              className={`inline-flex min-h-11 items-center gap-1 font-semibold text-green ${textLink}`}
             >
               {label}
               <ArrowUpRight size={16} aria-hidden="true" />
