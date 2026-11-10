@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowDown, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { ALL, countries, respondentsFor } from '../data/pulseSurvey';
 import About from './About';
@@ -8,11 +8,8 @@ import { SectionTitle, container } from './ui';
 const SLIDE_INTERVAL_MS = 6000;
 
 // Each photo has a 1600px file and an 800px file for phones. `focus` keeps the faces inside the crop.
+// The newest event comes first.
 const slides = [
-  { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
-  { name: 'data-camp-cafodat', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
-  { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
-  { name: 'data-camp-mmihs', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },
   {
     name: 'vitamin-a',
     caption: 'Vitamin A and deworming campaign, November 2026',
@@ -24,22 +21,36 @@ const slides = [
       { src: '/hero/vita-4.jpg', focus: '50% 35%', area: '' },
     ],
   },
+  { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
+  { name: 'data-camp-cafodat', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
+  { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
+  { name: 'data-camp-mmihs', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },
 ];
 
-/** The four campaign photos of one slide. Each time the slide shows, the tiles settle in one after another. */
+/**
+ * The four campaign photos of one slide. Each time the slide shows, the tiles settle in one after another.
+ * `round` changes only when the slide comes back, so the tiles replay on entry and stay put while it fades out.
+ */
 function Collage({ tiles, showing, wanted, onSettle }) {
+  const [round, setRound] = useState(0);
+  const wasShowing = useRef(showing);
+  useEffect(() => {
+    if (showing && !wasShowing.current) setRound((count) => count + 1);
+    wasShowing.current = showing;
+  }, [showing]);
+
   return (
     <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1 bg-ink">
       {tiles.map(({ src, focus, area }, index) => (
         <img
-          key={showing ? `${src}-on` : src}
+          key={`${src}-${round}`}
           src={wanted ? src : undefined}
           alt=""
-          loading="lazy"
+          fetchpriority={index === 0 ? 'high' : undefined}
           onLoad={index === 0 ? onSettle : undefined}
           onError={index === 0 ? onSettle : undefined}
           style={{ objectPosition: focus, animationDelay: `${index * 140}ms` }}
-          className={`h-full w-full object-cover ${area} ${showing ? 'animate-tile' : ''}`}
+          className={`h-full w-full animate-tile object-cover ${area}`}
         />
       ))}
     </div>
