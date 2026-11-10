@@ -32,7 +32,7 @@ const messages = {
   error: (
     <>
       Could not send your message. Please email us at{' '}
-      <a href={emailHref} target="_blank" rel="noopener noreferrer" className={`underline ${textLink}`}>{email}</a>.
+      <a href={emailHref} className={`underline ${textLink}`}>{email}</a>.
     </>
   ),
 };
