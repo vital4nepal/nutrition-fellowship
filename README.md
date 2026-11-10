@@ -41,7 +41,7 @@ The build writes the site to `build/`. The `-s` flag sends every address to `ind
 | `/initiatives/:id` | One initiative. `gen-n` has content; the others show "Coming soon" |
 | `/chapters/:id` | One country chapter. `nepal` goes to the home page section; the others show "Coming soon" |
 | `/profile`, `/policy2025`, `/aiinnutrition`, `/nfn2ndmeetblog`, `/nrcinternblog` | "Coming soon" |
-| any other address | Page not found |
+| any other address | The 404 page |
 
 ## Change the content
 

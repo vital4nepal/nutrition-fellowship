@@ -4,11 +4,12 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { initiatives } from '../data/initiatives';
 import { chapters } from '../data/site';
 import ComingSoon, { SITE_TITLE } from './ComingSoon';
+import NotFound from './NotFound';
 import { SectionTitle, SubTitle, textLink } from './ui';
 
 const backLink = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
 
-/** /initiatives/:id. An initiative with no `page` yet, or an unknown id, shows the "Coming soon" body. */
+/** /initiatives/:id. An initiative with no `page` yet shows "Coming soon". An unknown id shows the 404 page. */
 export function InitiativePage() {
   const { id } = useParams();
   const initiative = initiatives.find((item) => item.id === id);
@@ -21,7 +22,7 @@ export function InitiativePage() {
     };
   }, [initiative]);
 
-  if (!initiative) return <ComingSoon title="Page not found">This page does not exist.</ComingSoon>;
+  if (!initiative) return <NotFound />;
   if (!initiative.page) return <ComingSoon title={initiative.title} />;
 
   const { intro, photos, goals, steps, link } = initiative.page;
@@ -90,7 +91,7 @@ export function ChapterPage() {
   const { id } = useParams();
   const chapter = chapters.find((item) => item.id === id);
   if (chapter && !chapter.href.startsWith('/chapters/')) return <Navigate to={chapter.href} replace />;
-  if (!chapter) return <ComingSoon title="Page not found">This page does not exist.</ComingSoon>;
+  if (!chapter) return <NotFound />;
   return (
     <ComingSoon title={`${chapter.label} Chapter`}>
       The {chapter.label} chapter is coming soon. Students in {chapter.label} already answered the Pulse Survey.
