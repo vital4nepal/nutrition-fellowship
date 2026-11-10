@@ -26,8 +26,10 @@ function useActiveSection() {
           if (isIntersecting) inBand.add(target);
           else inBand.delete(target);
         });
-        const last = [...inBand].pop();
-        setActive(last ? navIdOf(last) : '');
+        // Two targets can sit side by side in the hero. The one the address names wins, so a clicked link stays current.
+        const named = [...inBand].find((element) => element.id === window.location.hash.slice(1));
+        const chosen = named ?? [...inBand].pop();
+        setActive(chosen ? navIdOf(chosen) : '');
       },
       { rootMargin: '-30% 0px -60% 0px' },
     );

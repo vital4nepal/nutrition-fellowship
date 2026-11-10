@@ -9,6 +9,20 @@ const TOP_ROWS = 4;
 
 const percent = (count, total) => Math.round((count / total) * 100);
 
+/** Whole percentages that add up to exactly 100: the leftover points go to the largest remainders. */
+function sharesOf(counts) {
+  const total = counts.reduce((sum, count) => sum + count, 0);
+  const exact = counts.map((count) => (count / total) * 100);
+  const shares = exact.map(Math.floor);
+  const leftover = 100 - shares.reduce((sum, share) => sum + share, 0);
+  exact
+    .map((value, index) => ({ index, remainder: value - Math.floor(value) }))
+    .sort((a, b) => b.remainder - a.remainder)
+    .slice(0, leftover)
+    .forEach(({ index }) => { shares[index] += 1; });
+  return shares;
+}
+
 const confidenceFill = {
   'very-confident': 'bg-chart-pos-strong',
   confident: 'bg-chart-pos',
@@ -21,7 +35,10 @@ const sdgFill = { yes: 'bg-chart-pos-strong', no: 'bg-chart-neg-strong', unsure:
 const card = 'border border-line bg-surface p-5';
 const cardTitle = 'font-sans text-ui font-semibold text-ink';
 
-/** The most frequent answers as thin bars. Every bar is a share of 100%, so the cards read on one scale. */
+/**
+ * The most frequent answers as thin bars. Every bar is a share of 100%, so the cards read on one scale.
+ * Answers with the same count keep the order of the data file.
+ */
 function BarCard({ title, rows, view, total }) {
   const ranked = rows
     .map((row) => ({ ...row, count: countFor(row, view) }))
@@ -41,7 +58,7 @@ function BarCard({ title, rows, view, total }) {
               </div>
               <div className="mt-1 h-1.5 bg-line/60">
                 <div
-                  className="h-full rounded-r-[4px] bg-green transition-[width] duration-500"
+                  className="h-full bg-green transition-[width] duration-500"
                   style={{ width: `${share}%` }}
                 />
               </div>
@@ -55,7 +72,9 @@ function BarCard({ title, rows, view, total }) {
 
 /** One bar split into the share of each answer. The legend carries every value. */
 function ShareCard({ title, rows, view, total, fills }) {
-  const parts = rows.map((row) => ({ ...row, count: countFor(row, view) }));
+  const counts = rows.map((row) => countFor(row, view));
+  const shares = sharesOf(counts);
+  const parts = rows.map((row, index) => ({ ...row, count: counts[index], share: shares[index] }));
   return (
     <figure className={card}>
       <figcaption className={cardTitle}>{title}</figcaption>
@@ -69,11 +88,11 @@ function ShareCard({ title, rows, view, total, fills }) {
         ))}
       </div>
       <ul className="mt-4 space-y-1.5 text-meta">
-        {parts.map(({ id, label, count }) => (
+        {parts.map(({ id, label, count, share }) => (
           <li key={id} className="flex items-center gap-2" title={`${count} of ${total} students`}>
             <span aria-hidden="true" className={`h-2.5 w-2.5 shrink-0 ${fills[id]}`} />
             <span className="text-muted">{label}</span>
-            <span className="ml-auto font-semibold tabular-nums text-ink">{percent(count, total)}%</span>
+            <span className="ml-auto font-semibold tabular-nums text-ink">{share}%</span>
           </li>
         ))}
       </ul>
@@ -88,7 +107,7 @@ const SurveyDashboard = () => {
   return (
     <Section name="dashboard" id="dashboard">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <SectionTitle>Student Pulse Survey</SectionTitle>
+        <SectionTitle>Survey Results</SectionTitle>
         <div role="group" aria-label="Country" className="flex flex-wrap gap-1.5">
           {views.map(({ id, label }) => (
             <button
@@ -103,11 +122,11 @@ const SurveyDashboard = () => {
           ))}
         </div>
       </div>
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <BarCard title="Skills they want" rows={skills} view={view} total={total} />
         <BarCard title="Top challenges" rows={challenges} view={view} total={total} />
         <ShareCard title="Confident of a relevant job" rows={jobConfidence} view={view} total={total} fills={confidenceFill} />
-        <ShareCard title="Country will reach SDG targets" rows={sdgOutlook} view={view} total={total} fills={sdgFill} />
+        <ShareCard title="On track for SDG targets" rows={sdgOutlook} view={view} total={total} fills={sdgFill} />
       </div>
     </Section>
   );

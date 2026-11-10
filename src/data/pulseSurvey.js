@@ -7,12 +7,6 @@ export const countries = [
   { id: 'pakistan', label: 'Pakistan', respondents: 46 },
 ];
 
-export const profile = [
-  { id: 'studying', label: 'Studying only', counts: [33, 76, 80, 26] },
-  { id: 'seeking', label: 'Studying and looking for work', counts: [13, 32, 15, 14] },
-  { id: 'working', label: 'Studying and working', counts: [39, 11, 31, 6] },
-];
-
 // Nepal offered a sixth answer, "Somewhat worried" (1 response). It is counted under "Worried".
 export const jobConfidence = [
   { id: 'very-confident', label: 'Very confident', counts: [5, 9, 20, 7] },
@@ -22,6 +16,7 @@ export const jobConfidence = [
   { id: 'very-worried', label: 'Very worried', counts: [22, 11, 3, 3] },
 ];
 
+// Nepal was asked if the country "will reach" its nutrition SDG target. The other three were asked if it is "on track".
 export const sdgOutlook = [
   { id: 'yes', label: 'Yes', counts: [22, 46, 38, 10] },
   { id: 'no', label: 'No', counts: [32, 38, 29, 14] },
@@ -45,9 +40,9 @@ export const skills = [
 export const challenges = [
   { id: 'time', label: 'Time and workload', counts: [8, 37, 47, 15] },
   { id: 'practical', label: 'Field exposure', counts: [26, 47, 10, 17] },
-  { id: 'content', label: 'Course content', counts: [19, 30, 28, 9] },
+  { id: 'content', label: 'Understanding content', counts: [19, 30, 28, 9] },
   { id: 'language', label: 'Language barriers', counts: [0, 0, 48, 2] },
-  { id: 'research', label: 'Research and data skills', counts: [9, 22, 3, 6] },
+  { id: 'research', label: 'Research skills', counts: [9, 22, 3, 6] },
   { id: 'resources', label: 'Study resources', counts: [8, 21, 3, 6] },
   { id: 'focus', label: 'Concentration and motivation', counts: [4, 22, 7, 5] },
   { id: 'finance', label: 'Financial difficulties', counts: [3, 9, 15, 7] },

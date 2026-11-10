@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowDown, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { ALL, countries, respondentsFor } from '../data/pulseSurvey';
 import About from './About';
 import CoverpageRight from './CoverpageRight';
@@ -7,32 +7,36 @@ import { SectionTitle, container } from './ui';
 
 const SLIDE_INTERVAL_MS = 6000;
 
-// Every photo is 1600px wide and fills the frame. `focus` keeps the faces inside the crop on a phone.
+// Each photo has a 1600px file and an 800px file for phones. `focus` keeps the faces inside the crop.
 const slides = [
-  { src: '/hero/second-meet.jpg', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
-  { src: '/hero/data-camp-cafodat.jpg', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
-  { src: '/hero/canva-workshop.jpg', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
-  { src: '/hero/data-camp-mmihs.jpg', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },
-  { src: '/hero/strategic-planning.jpg', caption: 'Strategic planning meet, December 2024', focus: '50% 55%' },
+  { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
+  { name: 'data-camp-cafodat', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
+  { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
+  { name: 'data-camp-mmihs', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },
+  { name: 'strategic-planning', caption: 'Strategic planning meet, December 2024', focus: '50% 55%' },
 ];
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const arrowButton =
+const control =
   'flex h-11 w-11 items-center justify-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink';
 
 function Slideshow() {
   const [current, setCurrent] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
   const [stopped, setStopped] = useState(false);
-  // The later photos wait for the first one, so they never compete with the first paint.
-  const [firstLoaded, setFirstLoaded] = useState(false);
+  // Photos that loaded or failed. The later photos wait for the first one, and autoplay waits for all of them,
+  // so a slow connection never fades to an empty frame.
+  const [settled, setSettled] = useState(0);
+  const settle = () => setSettled((count) => count + 1);
+  const autoplaying = settled === slides.length && !hovered && !focused && !stopped;
 
   useEffect(() => {
-    if (paused || stopped || prefersReducedMotion()) return undefined;
+    if (!autoplaying || prefersReducedMotion()) return undefined;
     const timer = setInterval(() => setCurrent((index) => (index + 1) % slides.length), SLIDE_INTERVAL_MS);
     return () => clearInterval(timer);
-  }, [paused, stopped]);
+  }, [autoplaying]);
 
   const step = (offset) => {
     setCurrent((index) => (index + offset + slides.length) % slides.length);
@@ -42,21 +46,25 @@ function Slideshow() {
   return (
     <figure
       className="relative aspect-[4/3] overflow-hidden border border-line bg-ink sm:aspect-[16/9]"
-      onPointerEnter={(event) => event.pointerType === 'mouse' && setPaused(true)}
-      onPointerLeave={(event) => event.pointerType === 'mouse' && setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
+      onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
+      onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={(event) => !event.currentTarget.contains(event.relatedTarget) && setFocused(false)}
     >
-      {slides.map((slide, index) => {
+      {slides.map(({ name }, index) => {
         const first = index === 0;
+        const wanted = first || settled > 0;
         return (
           <img
-            key={slide.src}
-            src={first || firstLoaded ? slide.src : undefined}
+            key={name}
+            src={wanted ? `/hero/${name}.jpg` : undefined}
+            srcSet={wanted ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg 1600w` : undefined}
+            sizes="(min-width: 1024px) 800px, 100vw"
             alt=""
             fetchpriority={first ? 'high' : undefined}
-            onLoad={first ? () => setFirstLoaded(true) : undefined}
-            style={{ objectPosition: slide.focus }}
+            onLoad={settle}
+            onError={settle}
+            style={{ objectPosition: slides[index].focus }}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
               index === current ? 'opacity-100' : 'opacity-0'
             }`}
@@ -65,17 +73,29 @@ function Slideshow() {
       })}
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/90 to-transparent" />
       <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-6">
-        <p aria-live="polite" className="max-w-[32ch] font-serif text-base font-semibold leading-snug text-paper sm:text-sub">
+        {/* The caption is announced only after the visitor takes control, never on each autoplay turn. */}
+        <p
+          aria-live={stopped ? 'polite' : 'off'}
+          className="max-w-[32ch] font-serif text-base font-semibold leading-snug text-paper sm:text-sub"
+        >
           {slides[current].caption}
         </p>
-        <div className="flex shrink-0 items-center gap-3">
-          <span className="hidden text-meta tabular-nums text-paper/80 sm:block">
+        <div className="flex shrink-0 items-center gap-2">
+          <span className="mr-1 hidden text-meta tabular-nums text-paper/80 sm:block">
             {current + 1} / {slides.length}
           </span>
-          <button type="button" aria-label="Previous photo" onClick={() => step(-1)} className={arrowButton}>
+          <button
+            type="button"
+            aria-label={stopped ? 'Play slideshow' : 'Pause slideshow'}
+            onClick={() => setStopped(!stopped)}
+            className={`${control} hidden sm:flex`}
+          >
+            {stopped ? <Play size={18} aria-hidden="true" /> : <Pause size={18} aria-hidden="true" />}
+          </button>
+          <button type="button" aria-label="Previous photo" onClick={() => step(-1)} className={control}>
             <ChevronLeft size={20} aria-hidden="true" />
           </button>
-          <button type="button" aria-label="Next photo" onClick={() => step(1)} className={arrowButton}>
+          <button type="button" aria-label="Next photo" onClick={() => step(1)} className={control}>
             <ChevronRight size={20} aria-hidden="true" />
           </button>
         </div>
@@ -84,7 +104,8 @@ function Slideshow() {
   );
 }
 
-const countryList = `${countries.slice(0, -1).map((country) => country.label).join(', ')} and ${countries.at(-1).label}`;
+const lastCountry = countries[countries.length - 1].label;
+const countryList = `${countries.slice(0, -1).map((country) => country.label).join(', ')} and ${lastCountry}`;
 const cardLink =
   'inline-flex min-h-11 items-center gap-2 font-semibold underline-offset-4 transition-colors hover:underline';
 
@@ -117,7 +138,7 @@ const Hero = () => (
             <button
               type="button"
               disabled
-              className="inline-flex min-h-11 cursor-not-allowed items-center bg-accent px-6 font-semibold text-paper"
+              className="inline-flex min-h-11 cursor-not-allowed items-center bg-accent px-6 font-semibold text-paper opacity-70"
             >
               Register
             </button>

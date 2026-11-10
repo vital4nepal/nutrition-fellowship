@@ -13,7 +13,7 @@ const D4N = () => (
   <Section name="d4n" id="d4n">
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
       <div className="lg:col-span-5">
-        <SectionTitle>D4N Cohort</SectionTitle>
+        <SectionTitle>D4N Schedule</SectionTitle>
         <p className="mt-4 max-w-[45ch] text-body">
           Students present at the Delivering for Nutrition Conference in Colombo, Sri Lanka, 2 to 4 December 2026.
         </p>
