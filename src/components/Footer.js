@@ -48,8 +48,7 @@ function Footer() {
             </a>
           </p>
           <p>
-            Copyright © {new Date().getFullYear()} All Rights Reserved{" "}
-            <a href="/" className={underlineLink}>NutritionFellowshipForNepal</a>
+            Copyright © {new Date().getFullYear()} All Rights Reserved
           </p>
         </div>
       </div>
