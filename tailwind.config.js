@@ -21,7 +21,7 @@ module.exports = {
         "title-sm": ["1.625rem", { lineHeight: "1.25", letterSpacing: "-0.01em" }],
         sub: ["1.375rem", { lineHeight: "1.3" }],
         body: ["1.0625rem", { lineHeight: "1.6" }],
-        meta: ["0.875rem", { lineHeight: "1.5" }],
+        meta: ["0.9375rem", { lineHeight: "1.5" }],
         display: ["2.5rem", { lineHeight: "1.15", letterSpacing: "-0.015em" }],
         ui: ["0.9375rem", { lineHeight: "1.5" }],
       },

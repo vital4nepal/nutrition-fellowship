@@ -80,7 +80,7 @@ function Collage({ tiles, showing, wanted, onSettle }) {
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const control =
-  'flex h-11 w-10 items-center justify-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink';
+  'flex h-11 w-11 items-center justify-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink';
 
 function Slideshow() {
   const [current, setCurrent] = useState(0);
@@ -106,7 +106,7 @@ function Slideshow() {
 
   return (
     <figure
-      className="relative aspect-[4/3] overflow-hidden border border-line bg-ink sm:aspect-[16/9]"
+      className="relative aspect-[4/3] overflow-hidden border border-line bg-ink [--nf-green:theme(colors.paper)] sm:aspect-[16/9]"
       onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
       onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
     >
@@ -199,7 +199,7 @@ const Hero = () => (
             <ArrowDown size={18} aria-hidden="true" />
           </a>
         </article>
-        <article className="flex flex-col bg-deep p-6 text-paper">
+        <article className="flex flex-col bg-deep p-6 text-paper [--nf-green:theme(colors.paper)]">
           <h2 className="text-sub">D4N 2026 Learning Lab</h2>
           <p className="mt-3 text-body text-paper/90">
             {d4n.labDate}, {d4n.labTime}. Hybrid, at the {d4n.venue}.
