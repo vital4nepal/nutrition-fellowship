@@ -17,6 +17,8 @@ import { Section, container } from './components/ui';
 import ComingSoon from './components/ComingSoon';
 import { ChapterPage, InitiativePage } from './components/InitiativePage';
 import NotFound from './components/NotFound';
+import ResourcesPage from './components/ResourcesPage';
+import DashboardPage from './components/DashboardPage';
 
 const innerPages = [
   { path: '/profile', title: 'Nutrition Profile' },
@@ -61,6 +63,8 @@ function App() {
         } />
         <Route path="/initiatives/:id" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><InitiativePage /></main>} />
         <Route path="/chapters/:id" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ChapterPage /></main>} />
+        <Route path="/resources" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ResourcesPage /></main>} />
+        <Route path="/dashboard" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><DashboardPage /></main>} />
         {innerPages.map(({ path, title }) => (
           <Route key={path} path={path} element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ComingSoon title={title} /></main>} />
         ))}
