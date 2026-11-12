@@ -23,7 +23,7 @@ function Footer() {
           </div>
 
           <div className="lg:col-span-3 lg:col-start-7">
-            <SubTitle tone="text-inherit">Useful Links</SubTitle>
+            <SubTitle as="h2" tone="text-inherit">Useful Links</SubTitle>
             <ul className="mt-2">
               {usefulLinks.map((link) => (
                 <li key={link.href}>
@@ -36,7 +36,7 @@ function Footer() {
           </div>
 
           <div className="lg:col-span-3">
-            <SubTitle tone="text-inherit">Get in Touch</SubTitle>
+            <SubTitle as="h2" tone="text-inherit">Get in Touch</SubTitle>
             <SocialLinks className="mt-2 gap-3" linkClassName="border border-paper/30 hover:border-paper" />
           </div>
         </div>
