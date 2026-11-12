@@ -1,5 +1,8 @@
 import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
+// True shows the maintenance bar above the top bar. Set it to false and deploy to take the bar down.
+export const maintenance = true;
+
 export const email = 'info@nutfellowship.com';
 export const emailHref = `mailto:${email}`;
 

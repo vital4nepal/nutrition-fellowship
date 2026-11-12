@@ -17,6 +17,8 @@ import { Section, container } from './components/ui';
 import ComingSoon from './components/ComingSoon';
 import { ChapterPage, InitiativePage } from './components/InitiativePage';
 import NotFound from './components/NotFound';
+import MaintenanceBanner from './components/MaintenanceBanner';
+import { maintenance } from './data/site';
 
 const innerPages = [
   { path: '/profile', title: 'Nutrition Profile' },
@@ -27,6 +29,7 @@ const innerPages = [
 ];
 
 function App() {
+  if (maintenance) return <MaintenanceBanner />;
   return (
     <Router>
       <ScrollToHash />
