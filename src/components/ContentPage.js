@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight, Download } from 'lucide-react';
+import usePageMeta from '../hooks/usePageMeta';
 import { SITE_TITLE } from './ComingSoon';
 import PhotoCarousel from './PhotoCarousel';
 import { SectionTitle, SiteLink, SubTitle, groupTitleLink, textLink } from './ui';
@@ -15,6 +16,7 @@ function ContentPage({
   section,
   backTo,
   title,
+  description,
   date,
   summary,
   pointsTitle,
@@ -24,12 +26,7 @@ function ContentPage({
   documents = [],
   links = [],
 }) {
-  useEffect(() => {
-    document.title = `${title} | ${section} | ${SITE_TITLE}`;
-    return () => {
-      document.title = SITE_TITLE;
-    };
-  }, [title, section]);
+  usePageMeta(`${title} | ${section} | ${SITE_TITLE}`, description);
 
   return (
     <article>

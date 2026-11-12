@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import usePageMeta from '../hooks/usePageMeta';
 import { initiatives } from '../data/initiatives';
 import { chapters } from '../data/site';
 import ComingSoon, { SITE_TITLE } from './ComingSoon';
@@ -14,18 +15,15 @@ export function InitiativePage() {
   const { id } = useParams();
   const initiative = initiatives.find((item) => item.id === id);
 
-  useEffect(() => {
-    if (!initiative?.page) return undefined;
-    document.title = `${initiative.title} | ${SITE_TITLE}`;
-    return () => {
-      document.title = SITE_TITLE;
-    };
-  }, [initiative]);
-
   if (!initiative) return <NotFound />;
   if (!initiative.page) return <ComingSoon title={initiative.title} />;
+  return <InitiativeArticle initiative={initiative} />;
+}
 
+// Apart from InitiativePage so the page meta is set only for an initiative that has a page.
+function InitiativeArticle({ initiative }) {
   const { intro, photos, goals, steps, link } = initiative.page;
+  usePageMeta(`${initiative.title} | ${SITE_TITLE}`, intro);
   return (
     <article>
       <Link to="/#initiatives" className={backLink}>

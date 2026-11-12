@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import usePageMeta from '../hooks/usePageMeta';
 import { SITE_TITLE } from './ComingSoon';
 import { SectionTitle, textLink } from './ui';
 
@@ -8,10 +9,10 @@ import { SectionTitle, textLink } from './ui';
  * A click inside the site lands here. A direct visit never does: the server redirects it, see public/_redirects.
  */
 function ExternalRedirect({ title, href }) {
+  usePageMeta(`${title} | ${SITE_TITLE}`, `Opens the ${title} of the ${SITE_TITLE} on another site.`);
   useEffect(() => {
-    document.title = `${title} | ${SITE_TITLE}`;
     window.location.replace(href);
-  }, [title, href]);
+  }, [href]);
 
   return (
     <>

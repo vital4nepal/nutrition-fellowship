@@ -1,20 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import usePageMeta from '../hooks/usePageMeta';
 import { contentsLabel, resources } from '../data/resources';
 import { SITE_TITLE } from './ComingSoon';
 import { SectionTitle, groupTitleLink, textLink } from './ui';
 
 const TITLE = 'Resources';
+const DESCRIPTION = 'Documents and photos from our meetings and programs.';
 
 /** /resources. One card for each folder in data/resources.js. A card opens the page of its folder. */
 function ResourcesPage() {
-  useEffect(() => {
-    document.title = `${TITLE} | ${SITE_TITLE}`;
-    return () => {
-      document.title = SITE_TITLE;
-    };
-  }, []);
+  usePageMeta(`${TITLE} | ${SITE_TITLE}`, DESCRIPTION);
 
   return (
     <>
@@ -24,7 +21,7 @@ function ResourcesPage() {
       </Link>
       <SectionTitle as="h1" className="mt-4 animate-rise">{TITLE}</SectionTitle>
       <p className="mt-4 max-w-[60ch] animate-rise text-sub text-ink [animation-delay:100ms]">
-        Documents and photos from our meetings and programs.
+        {DESCRIPTION}
       </p>
 
       <ul className="nf-stagger mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

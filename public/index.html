@@ -12,11 +12,13 @@
        passion to accelerate the fight against undernutrition in Nepal."
     />
     
-    <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
-   
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!-- The home address. src/hooks/usePageMeta.js changes it for each other route. -->
+    <link rel="canonical" href="https://nutfellowship.com/" />
+
     <!-- Browsers keep a favicon for a long time. Give a changed icon a new file name so they fetch it again. -->
     <link rel="icon" href="%PUBLIC_URL%/nf-favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/nf-logo.png">
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png">
     <title>Nutrition Fellowship</title>
     <!-- The preview card that chat apps and social sites show for a shared link. The image URL must be absolute. -->
     <meta property="og:type" content="website" />
@@ -31,6 +33,22 @@
     <meta name="twitter:title" content="Nutrition Fellowship" />
     <meta name="twitter:description" content="Three generations united for nutrition: students and professionals in Nepal and South Asia." />
     <meta name="twitter:image" content="https://nutfellowship.com/og-image.jpg" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Nutrition Fellowship",
+        "url": "https://nutfellowship.com",
+        "logo": "https://nutfellowship.com/nf-logo.png",
+        "email": "info@nutfellowship.com",
+        "sameAs": [
+          "https://www.facebook.com/nutfellowship/",
+          "https://www.instagram.com/nutfellowship/?hl=en",
+          "https://www.linkedin.com/in/nutfellowship/",
+          "https://x.com/nutfellowship"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

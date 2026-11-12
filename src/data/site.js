@@ -3,7 +3,9 @@ import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome
 // The build reads REACT_APP_MAINTENANCE. The value "true" turns the maintenance page on. Any other value or none turns it off.
 export const maintenance = process.env.REACT_APP_MAINTENANCE === 'true';
 
-export const email = 'info@nutfellowship.com';
+export const siteUrl = 'https://nutfellowship.com';
+
+export const email ='info@nutfellowship.com';
 export const emailHref = `mailto:${email}`;
 
 export const socials = [
