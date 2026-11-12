@@ -23,7 +23,7 @@ const documents = [
     ],
   },
   {
-    category: 'Researches',
+    category: 'Research',
     links: [{ title: 'AI in Nutrition', path: '/aiinnutrition' }],
   },
 ];

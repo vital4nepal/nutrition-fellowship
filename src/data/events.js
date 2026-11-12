@@ -15,7 +15,7 @@ export const events = [
     id: 'data-camp-padma-kanya',
     date: '01/02/2025',
     img: '/Recentevents/thumbs/Pk data camp.jpg',
-    title: 'Nutrition Data Camp: at Padma Kanya College',
+    title: 'Nutrition Data Camp at Padma Kanya College',
     summary: campSummary('Padma Kanya College'),
     photos: campPhotos('homescience'),
     links: campLinks,
@@ -24,7 +24,7 @@ export const events = [
     id: 'data-camp-cafodat',
     date: '01/05/2025',
     img: '/Recentevents/thumbs/CAFODAT data camp.jpg',
-    title: 'Nutrition Data Camp: at CAFODAT College',
+    title: 'Nutrition Data Camp at CAFODAT College',
     summary: campSummary('CAFODAT College'),
     photos: campPhotos('cafodat'),
     links: campLinks,
@@ -45,12 +45,12 @@ export const events = [
     id: 'data-camp-mmihs',
     date: '01/20/2025',
     img: '/Recentevents/thumbs/DC-mmihs1.jpg',
-    title: 'Nutrition Data Camp: at MMIHS',
+    title: 'Nutrition Data Camp at MMIHS',
     summary: campSummary('MMIHS'),
     photos: campPhotos('mmihs'),
     links: campLinks,
   },
-  { id: 'canva-workshop-batch-1', date: '02/19/2025', img: '/Recentevents/thumbs/canvabatch1.jpg', title: 'Canva Workshop among different colleges: Batch 1' },
+  { id: 'canva-workshop-batch-1', date: '02/19/2025', img: '/Recentevents/thumbs/canvabatch1.jpg', title: 'Canva workshop among different colleges: Batch 1' },
 ];
 
 /** "01/17/2025" becomes "17 January 2025". */

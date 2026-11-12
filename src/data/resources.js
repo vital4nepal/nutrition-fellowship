@@ -65,7 +65,7 @@ export const resources = [
     title: 'Reports',
     description: 'The Fellowship brief and the stunting profile of Nepal.',
     summary:
-      'Short reports from the Fellowship. The newsletter is the Fellowship brief: the vision and the five pillars. The nutrition profile shows where Nepal stands on stunting against its World Health Assembly target.',
+      'Short reports from the Fellowship. The Fellowship brief gives the vision and the five pillars. The nutrition profile shows where Nepal stands on stunting against its World Health Assembly target.',
     pointsTitle: 'In the nutrition profile',
     points: [
       'Nepal committed to cut stunting by 40% by 2025, from 47% to 24%.',
@@ -75,7 +75,7 @@ export const resources = [
     coverFocus: '50% 12%',
     imageKind: 'preview',
     documents: [
-      { title: 'Newsletter', description: 'The Fellowship brief: the vision and the five pillars.', file: '/document_pdfs/Nutrition Fellowship Brief.pdf', kind: 'PDF', size: '0.1 MB' },
+      { title: 'Nutrition Fellowship brief', description: 'The Fellowship brief: the vision and the five pillars.', file: '/document_pdfs/Nutrition Fellowship Brief.pdf', kind: 'PDF', size: '0.1 MB' },
       { title: 'Nutrition Profiles', description: 'World Health Assembly target profile: stunting in Nepal.', file: '/document_pdfs/Stunting profile.pdf', kind: 'PDF', size: '0.4 MB' },
     ],
     photos: [photo('reports', 'newsletter'), photo('reports', 'nutrition-profiles')],
