@@ -209,7 +209,8 @@ const Hero = () => (
               href={d4n.registerHref}
               target="_blank"
               rel="noopener noreferrer"
-              className={primaryButton}
+              // On the dark card the green fill would match the card, so the button turns to paper.
+              className={`${primaryButton} !bg-paper !text-deep hover:!bg-meadow`}
             >
               Register
               <ArrowUpRight size={18} aria-hidden="true" />
