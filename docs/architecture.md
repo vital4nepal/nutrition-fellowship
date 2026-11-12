@@ -34,7 +34,7 @@ Cloudflare Pages returns `index.html` for unknown paths, so a direct visit to a 
 ## Styles
 
 - Tailwind with a fixed palette and no border radius, set in `tailwind.config.js`.
-- Global rules, fonts and animations are in `src/index.css`.
+- Global rules and scroll animations are in `src/index.css`. Fonts load from Fontsource in `src/index.js`. Card and menu animations are in `tailwind.config.js`.
 - Sections fade in on scroll with CSS `animation-timeline: view()`. A browser without support shows them
   without the animation.
 - `prefers-reduced-motion` turns every animation off.
