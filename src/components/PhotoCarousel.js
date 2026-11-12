@@ -48,10 +48,9 @@ function PhotoCarousel({ label, photos }) {
   const near = [current - 1, current, current + 1].map((index) => (index + total) % total);
 
   return (
-    <div role="group" aria-roledescription="carousel" aria-label={label}>
+    // The arrow keys work while focus is on a button or a thumbnail. The photo itself is not a tab stop.
+    <div role="group" aria-roledescription="carousel" aria-label={label} onKeyDown={onKeyDown}>
       <div
-        tabIndex={0}
-        onKeyDown={onKeyDown}
         onPointerDown={(event) => {
           if (event.pointerType !== 'mouse') swipeStart.current = event.clientX;
         }}
