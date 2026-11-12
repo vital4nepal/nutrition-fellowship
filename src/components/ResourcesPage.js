@@ -1,72 +1,26 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowUpRight, Download } from 'lucide-react';
-import { resources } from '../data/resources';
+import { Link, Navigate, useLocation } from 'react-router-dom';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { contentsLabel, resources } from '../data/resources';
 import { SITE_TITLE } from './ComingSoon';
-import { SectionTitle, SubTitle, groupTitleLink, textLink } from './ui';
+import { SectionTitle, groupTitleLink, textLink } from './ui';
 
 const TITLE = 'Resources';
 
-function Documents({ documents }) {
-  return (
-    <ul className="mt-6 border-t border-line">
-      {documents.map(({ title, file, kind, size }) => (
-        <li key={file}>
-          <a
-            href={file}
-            download
-            className="group flex min-h-14 items-center justify-between gap-4 border-b border-line py-3"
-          >
-            <span className={`text-base font-semibold text-ink lg:text-body ${groupTitleLink}`}>{title}</span>
-            <span className="flex shrink-0 items-center gap-2 text-meta tabular-nums text-muted">
-              {kind}, {size}
-              <Download size={18} aria-hidden="true" className="text-green" />
-            </span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function Photos({ title, photos }) {
-  return (
-    <>
-      <SubTitle className="mt-10">Photos</SubTitle>
-      <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-        {photos.map(({ src, thumb }, index) => (
-          <li key={src}>
-            <a
-              href={src}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Open photo ${index + 1} of ${photos.length}, ${title}`}
-              className="block bg-surface"
-            >
-              <img
-                loading="lazy"
-                src={thumb}
-                alt=""
-                width={480}
-                height={320}
-                className="aspect-[3/2] w-full object-cover transition-opacity hover:opacity-90"
-              />
-            </a>
-          </li>
-        ))}
-      </ul>
-    </>
-  );
-}
-
-/** /resources. The files of each Drive folder in data/resources.js: documents to download and a photo grid. */
+/** /resources. One card for each folder in data/resources.js. A card opens the page of its folder. */
 function ResourcesPage() {
+  const { hash } = useLocation();
+
   useEffect(() => {
     document.title = `${TITLE} | ${SITE_TITLE}`;
     return () => {
       document.title = SITE_TITLE;
     };
   }, []);
+
+  // The first version of this page had one section for each folder, at /resources#<id>.
+  const old = resources.find(({ id }) => hash === `#${id}`);
+  if (old) return <Navigate to={`/resources/${old.id}`} replace />;
 
   return (
     <>
@@ -79,23 +33,39 @@ function ResourcesPage() {
         Documents and photos from our meetings and programs.
       </p>
 
-      {resources.map(({ id, title, description, driveHref, documents, photos }) => (
-        <section key={id} id={id} className="mt-14 scroll-mt-[calc(var(--nf-header-h)+16px)] border-t border-line pt-10">
-          <SectionTitle size="sidebar" className="lg:text-title-sm">{title}</SectionTitle>
-          <p className="mt-2 max-w-[60ch] text-body text-muted">{description}</p>
-          <Documents documents={documents} />
-          <Photos title={title} photos={photos} />
-          <a
-            href={driveHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`mt-8 inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`}
-          >
-            More files in Google Drive
-            <ArrowUpRight size={18} aria-hidden="true" />
-          </a>
-        </section>
-      ))}
+      <ul className="nf-stagger mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {resources.map((resource) => (
+          <li key={resource.id}>
+            <Link
+              to={`/resources/${resource.id}`}
+              className="group flex h-full flex-col border border-line bg-surface transition-colors hover:border-green"
+            >
+              <div className="aspect-[3/2] overflow-hidden border-b border-line bg-ink">
+                <img
+                  loading="lazy"
+                  src={resource.cover.thumb}
+                  srcSet={`${resource.cover.thumb} 480w, ${resource.cover.src} 1400w`}
+                  sizes="(min-width: 768px) 560px, 100vw"
+                  alt=""
+                  width={480}
+                  height={320}
+                  style={{ objectPosition: resource.coverFocus }}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <h2 className={`text-sub text-green ${groupTitleLink}`}>{resource.title}</h2>
+                {resource.date && <p className="mt-1 text-meta tabular-nums text-muted">{resource.date}</p>}
+                <p className="mt-3 text-body text-ink">{resource.description}</p>
+                <p className="mt-auto flex items-center justify-between gap-4 pt-5 text-meta font-semibold text-green">
+                  {contentsLabel(resource)}
+                  <ArrowRight size={20} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
+                </p>
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

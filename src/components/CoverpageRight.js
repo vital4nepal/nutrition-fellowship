@@ -6,13 +6,13 @@ const highlights = [
     image: '/KeyHighlights/thumbs/NutritionDashboard.png',
     topic: 'Nutrition Dashboard',
     description: 'The Nutrition Dashboard of Nepal',
-    link: '/dashboard',
+    link: '/nutrition-dashboard',
   },
   {
     image: '/KeyHighlights/thumbs/NFNbanner.jpg',
     topic: 'Jan 17 Documents',
     description: 'The documents from the 2nd Nutrition Fellowship meeting',
-    link: '/resources#jan-17-documents',
+    link: '/resources/jan-17-documents',
   },
   {
     image: '/KeyHighlights/thumbs/Dr. RP Bichha.jpg',

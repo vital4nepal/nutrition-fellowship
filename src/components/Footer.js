@@ -4,7 +4,7 @@ import SocialLinks from './SocialLinks';
 import { SiteLink, SubTitle, container, underlineLink } from './ui';
 
 const usefulLinks = [
-  { href: '/dashboard', label: 'Nutrition Dashboard' },
+  { href: '/nutrition-dashboard', label: 'Nutrition Dashboard' },
   { href: '/resources', label: 'Resources' },
   { href: 'http://www.nnfsp.gov.np/', label: 'Nepal Nutrition and Food Security Portal' },
 ];
