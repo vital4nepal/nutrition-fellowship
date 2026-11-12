@@ -58,6 +58,8 @@ function Events() {
                 loading="lazy"
                 decoding="async"
                 src={img}
+                srcSet={`${encodeURI(img.replace('.jpg', '-640.jpg'))} 640w, ${encodeURI(img)} 960w`}
+                sizes="(min-width: 1280px) 280px, (min-width: 1024px) 22vw, (min-width: 768px) 31vw, (min-width: 640px) 46vw, calc(100vw - 32px)"
                 alt=""
                 className="aspect-[3/2] w-full object-cover transition-opacity group-hover:opacity-90"
               />
