@@ -21,7 +21,9 @@ import ResourcesPage from './components/ResourcesPage';
 import ResourcePage from './components/ResourcePage';
 import EventPage from './components/EventPage';
 import ExternalRedirect from './components/ExternalRedirect';
+import MaintenanceBanner from './components/MaintenanceBanner';
 import { dashboard } from './data/resources';
+import { maintenance } from './data/site';
 
 const innerPages = [
   { path: '/profile', title: 'Nutrition Profile' },
@@ -37,6 +39,7 @@ const Page = ({ padding = 'lg:py-16', children }) => (
 );
 
 function App() {
+  if (maintenance) return <MaintenanceBanner />;
   return (
     <Router>
       <ScrollToHash />
