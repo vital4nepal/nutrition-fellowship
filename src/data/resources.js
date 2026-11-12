@@ -72,7 +72,7 @@ export const resources = [
       'In the latest figures, 25% of children are still stunted.',
     ],
     cover: photo('reports', 'nutrition-profiles'),
-    coverFocus: '50% 12%',
+    coverFocus: '50% 0%',
     imageKind: 'preview',
     documents: [
       { title: 'Newsletter', description: 'The Fellowship brief: the vision and the five pillars.', file: '/document_pdfs/Nutrition Fellowship Brief.pdf', kind: 'PDF', size: '0.1 MB' },
