@@ -16,7 +16,7 @@ function Field({ name, label, type, autoComplete }) {
   return (
     <div>
       <label htmlFor={id} className="mb-2 block text-ui font-semibold text-ink">
-        {label}
+        {label} <span className="font-normal text-muted">(required)</span>
       </label>
       {type === 'textarea' ? (
         <textarea id={id} name={name} required className={`${inputClass} min-h-[160px] resize-y py-3`} />
@@ -28,6 +28,7 @@ function Field({ name, label, type, autoComplete }) {
 }
 
 const messages = {
+  sending: 'Sending your message...',
   sent: 'Thank you! Message sent successfully!',
   error: (
     <>
@@ -42,6 +43,8 @@ function Thoughts() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    // The button stays focusable while sending (aria-disabled), so this guard blocks a second submit.
+    if (status === 'sending') return;
     const form = event.target;
     const formData = new FormData(form);
     formData.append("access_key", "6649cfe5-e72b-4818-aa36-de58ef34225d");
@@ -88,8 +91,8 @@ function Thoughts() {
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-5">
           <button
             type="submit"
-            disabled={status === 'sending'}
-            className="h-12 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep disabled:opacity-60"
+            aria-disabled={status === 'sending'}
+            className="h-12 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep aria-disabled:opacity-60"
           >
             Submit
           </button>
