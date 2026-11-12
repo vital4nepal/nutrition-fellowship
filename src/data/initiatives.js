@@ -34,5 +34,5 @@ export const initiatives = [
     },
   },
   { id: 'advocacy', title: 'Advocacy and Campaigns', img: '/Initiatives/thumbs/Advocacy.png', width: 163, height: 128 },
-  { id: 'technology', title: 'Technology in Nutrition', img: '/Initiatives/thumbs/TechInNut.png', width: 256, height: 128 },
+  { id: 'technology', title: 'Technology in Nutrition', img: '/Initiatives/thumbs/TechInNut-128.png', width: 128, height: 128 },
 ];
