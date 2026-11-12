@@ -17,7 +17,7 @@ function Footer() {
           <div className="md:col-span-2 lg:col-span-5">
             <img src="/nf-logo.png" alt="Nutrition Fellowship" className="h-16 w-auto" />
             <p className="mt-4 max-w-[60ch] text-ui">
-              Nutrition Fellowship for Nepal aims to unite three generations of stakeholders
+              Nutrition Fellowship aims to unite three generations of stakeholders
               from Nepal and around the world.
             </p>
           </div>
@@ -49,7 +49,7 @@ function Footer() {
             </a>
           </p>
           <p>
-            Copyright © {new Date().getFullYear()} All Rights Reserved
+            Copyright © {new Date().getFullYear()} SidArt Foundation. All Rights Reserved
           </p>
         </div>
       </div>
