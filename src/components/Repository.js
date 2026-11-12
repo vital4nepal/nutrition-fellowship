@@ -51,7 +51,7 @@ function Resource({ title, path, pdfUrl }) {
       <Link to={path} className={`${titleClass} ${textLink}`}>
         {title}
       </Link>
-      <a href={pdfUrl} download aria-label={`Download ${title}`} className={`${slotClass} text-green`}>
+      <a href={pdfUrl} download aria-label={`Download ${title}`} className={`${slotClass} text-green transition-colors hover:bg-green hover:text-paper`}>
         <Download size={20} aria-hidden="true" />
       </a>
     </li>
