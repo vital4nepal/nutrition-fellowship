@@ -17,6 +17,7 @@ function EventPage() {
       section="Events"
       backTo={{ to: '/#events', label: 'Events and Updates' }}
       title={title}
+      description={summary ?? `${title}, ${longDate(date)}.`}
       date={longDate(date)}
       summary={summary}
       pointsTitle={pointsTitle}

@@ -10,13 +10,14 @@ function ResourcePage() {
   const resource = resources.find((item) => item.id === id);
   if (!resource) return <NotFound />;
 
-  const { title, date, summary, pointsTitle, points, photos, imageKind, documents, driveHref } = resource;
+  const { title, description, date, summary,pointsTitle, points, photos, imageKind, documents, driveHref } = resource;
   return (
     <ContentPage
       key={id}
       section="Resources"
       backTo={{ to: '/resources', label: 'All resources' }}
       title={title}
+      description={description}
       date={date}
       summary={summary}
       pointsTitle={pointsTitle}

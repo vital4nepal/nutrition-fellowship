@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import usePageMeta from '../hooks/usePageMeta';
 import { SectionTitle, textLink } from './ui';
 
 export const SITE_TITLE = 'Nutrition Fellowship';
 
 /** The body of an inner page that has no content yet. */
 const ComingSoon = ({ title, children = 'Coming soon.' }) => {
-  useEffect(() => {
-    document.title = `${title} | ${SITE_TITLE}`;
-    return () => {
-      document.title = SITE_TITLE;
-    };
-  }, [title]);
+  usePageMeta(`${title} | ${SITE_TITLE}`, `${title}: coming soon on the ${SITE_TITLE} site.`);
 
   return (
     <>
