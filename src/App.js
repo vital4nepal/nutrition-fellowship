@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Topbar from './components/Topbar';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -37,6 +38,26 @@ const innerPages = [
 const Page = ({ padding = 'lg:py-16', children }) => (
   <main id="main" tabIndex={-1} className={`${container} py-12 outline-none ${padding}`}>{children}</main>
 );
+
+/**
+ * After a route change, focus moves to main and a live region reads the new page title.
+ * It renders after Routes so its effect runs after the page has set document.title.
+ * A link with a hash keeps its focus start, because ScrollToHash scrolls to the section.
+ */
+function RouteFocus() {
+  const { pathname, hash } = useLocation();
+  const previous = useRef(pathname);
+  const [announcement, setAnnouncement] = useState('');
+
+  useEffect(() => {
+    if (previous.current === pathname) return;
+    previous.current = pathname;
+    if (!hash) document.getElementById('main')?.focus({ preventScroll: true });
+    setAnnouncement(document.title);
+  }, [pathname, hash]);
+
+  return <div role="status" className="sr-only">{announcement}</div>;
+}
 
 function App() {
   if (maintenance) return <MaintenanceBanner />;
@@ -83,6 +104,7 @@ function App() {
         ))}
         <Route path="*" element={<Page padding="lg:py-24"><NotFound /></Page>} />
       </Routes>
+      <RouteFocus />
       <Footer />
     </Router>
   );
