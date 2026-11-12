@@ -93,7 +93,7 @@ export function ChapterPage() {
   if (chapter && !chapter.href.startsWith('/chapters/')) return <Navigate to={chapter.href} replace />;
   if (!chapter) return <NotFound />;
   return (
-    <ComingSoon title={`${chapter.label} Chapter`}>
+    <ComingSoon title={`${chapter.label} Chapter`} back={{ to: '/#country-chapter', label: 'Country Chapters' }}>
       The {chapter.label} chapter is coming soon. Students in {chapter.label} already answered the Pulse Survey.
     </ComingSoon>
   );
