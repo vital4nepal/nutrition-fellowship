@@ -65,7 +65,7 @@ function ContentPage({
 
       {documents.length > 0 && (
         <section className="mt-16 border-t border-line pt-10" aria-label="Documents">
-          <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">Documents</SectionTitle>
+          <SectionTitle as="h2" size="sidebar">Documents</SectionTitle>
           <ul className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {documents.map(({ title: name, description, file, kind, size }) => (
               <li key={file}>
