@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Download } from 'lucide-react';
+import { resources } from '../data/resources';
 import { Section, SectionTitle, SubTitle, groupTitleLink, textLink } from './ui';
 
 const documents = [
   {
     category: 'Reports',
-    links: [
-      { title: 'Newsletter', path: '/resources/reports', pdfUrl: '/document_pdfs/Nutrition Fellowship Brief.pdf' },
-      { title: 'Nutrition Profiles', path: '/resources/reports', pdfUrl: '/document_pdfs/Stunting profile.pdf' },
-    ],
+    links: resources
+      .find(({ id }) => id === 'reports')
+      .documents.map(({ title, file }) => ({ title, path: '/resources/reports', pdfUrl: file })),
   },
   {
     category: 'Policies and Plans',
