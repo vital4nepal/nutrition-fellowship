@@ -28,7 +28,7 @@ function Field({ name, label, type, autoComplete }) {
 }
 
 const messages = {
-  sent: 'Thank you! Message sent successfully!',
+  sent: 'Thank you. We received your message.',
   error: (
     <>
       Could not send your message. Please email us at{' '}
