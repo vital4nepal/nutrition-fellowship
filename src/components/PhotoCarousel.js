@@ -6,12 +6,12 @@ const SWIPE_PX = 50;
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const control =
-  'absolute top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-paper/40 bg-ink/50 text-paper transition-colors hover:bg-paper hover:text-ink';
+  'flex h-11 w-11 items-center justify-center border border-line text-ink transition-colors hover:bg-ink hover:text-paper';
 
 /**
- * One large photo, a strip of small ones under it. Arrow keys, the buttons, the strip and a swipe change the photo.
+ * One large photo, a row of buttons and a strip of small ones under it. Arrow keys, the buttons, the strip and a swipe change the photo.
  * Only the photo on show and its two neighbours are in the page, so the next one is ready before it is wanted.
- * A photo shows whole on a dark mat, so a collage or a flyer is never cropped.
+ * A photo shows whole on a dark mat, and no control sits on it, so a collage or a flyer is never hidden.
  */
 function PhotoCarousel({ label, photos }) {
   const [current, setCurrent] = useState(0);
@@ -75,23 +75,21 @@ function PhotoCarousel({ label, photos }) {
             }`}
           />
         ))}
-        {total > 1 && (
-          <>
-            <button type="button" aria-label="Previous image" onClick={() => go(current - 1)} className={`${control} left-3`}>
-              <ChevronLeft size={22} aria-hidden="true" />
-            </button>
-            <button type="button" aria-label="Next image" onClick={() => go(current + 1)} className={`${control} right-3`}>
-              <ChevronRight size={22} aria-hidden="true" />
-            </button>
-            <p
-              aria-live="polite"
-              className="absolute bottom-3 right-3 bg-ink/70 px-2.5 py-1 text-meta tabular-nums text-paper"
-            >
-              {current + 1} / {total}
-            </p>
-          </>
-        )}
       </div>
+
+      {total > 1 && (
+        <div className="mt-3 flex items-center justify-between gap-3">
+          <button type="button" aria-label="Previous image" onClick={() => go(current - 1)} className={control}>
+            <ChevronLeft size={22} aria-hidden="true" />
+          </button>
+          <p aria-live="polite" className="text-meta tabular-nums text-ink">
+            {current + 1} / {total}
+          </p>
+          <button type="button" aria-label="Next image" onClick={() => go(current + 1)} className={control}>
+            <ChevronRight size={22} aria-hidden="true" />
+          </button>
+        </div>
+      )}
 
       {total > 1 && (
         <ul ref={strip} className="relative mt-3 flex gap-2 overflow-x-auto p-1">

@@ -77,16 +77,16 @@ const D4N = () => (
         </ol>
 
         <SubTitle className="mt-12">Organized with</SubTitle>
-        <ul className="mt-3 flex flex-wrap gap-2 text-meta">
+        <ul className="mt-1">
           {partners.map((partner) => (
-            <li key={partner} className="border border-line px-3 py-1.5 text-ink">
+            <li key={partner} className="border-b border-line py-3 text-body text-ink">
               {partner}
             </li>
           ))}
         </ul>
       </div>
 
-      <figure className="lg:col-span-5">
+      <figure className="mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none">
         <a href="/d4n-2026-learning-lab.jpg" target="_blank" rel="noopener noreferrer" className="group block">
           <img
             src="/d4n-2026-learning-lab.jpg"
