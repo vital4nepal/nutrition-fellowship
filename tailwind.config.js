@@ -6,9 +6,9 @@ module.exports = {
       paper: "#F6F4EE", surface: "#FCFBF8", ink: "#1D2420", muted: "#545B55",
       line: "#D8D3C7", "line-strong": "#8A877E",
       green: "#265728", deep: "#183A1B", accent: "#B15219", meadow: "#A5CA8E",
-      // Chart fills on the light surface: two greens, a neutral and two oranges.
-      "chart-pos-strong": "#265728", "chart-pos": "#7DB56A", "chart-neutral": "#CFCBBE",
-      "chart-neg": "#E8A46C", "chart-neg-strong": "#B8561B",
+      // Chart fills on the light surface: two greens, a neutral and two oranges. Each is at least 3:1 against surface.
+      "chart-pos-strong": "#265728", "chart-pos": "#6D9D5C", "chart-neutral": "#939087",
+      "chart-neg": "#C4814A", "chart-neg-strong": "#B8561B",
     },
     borderRadius: { none: "0px", DEFAULT: "0px" },
     boxShadow: { none: "none" },
