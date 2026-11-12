@@ -34,10 +34,15 @@ function PhotoCarousel({ label, photos }) {
   const onKeyDown = (event) => {
     // Alt or Cmd plus an arrow is the browser's Back and Forward.
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-    if (event.key === 'ArrowLeft') go(current - 1);
-    else if (event.key === 'ArrowRight') go(current + 1);
-    else return;
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
     event.preventDefault();
+    const step = event.key === 'ArrowLeft' ? -1 : 1;
+    const next = (current + step + total) % total;
+    go(next);
+    // The strip has one tab stop, the current thumbnail. Focus follows it, so the next arrow press keeps working.
+    if (strip.current?.contains(event.target)) {
+      strip.current.children[next].querySelector('button').focus({ preventScroll: true });
+    }
   };
 
   const onPointerUp = (event) => {
@@ -68,7 +73,7 @@ function PhotoCarousel({ label, photos }) {
             src={encodeURI(photos[index].src)}
             srcSet={`${encodeURI(photos[index].thumb)} 480w, ${encodeURI(photos[index].src)} 1400w`}
             sizes="(min-width: 1024px) 760px, 100vw"
-            alt={index === current ? `${label}, ${index + 1} of ${total}` : ''}
+            alt={index === current ? photos[index].alt ?? `${label}, ${index + 1} of ${total}` : ''}
             draggable={false}
             className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
               index === current ? 'opacity-100' : 'opacity-0'
@@ -101,6 +106,7 @@ function PhotoCarousel({ label, photos }) {
                 type="button"
                 aria-label={`Show image ${index + 1}`}
                 aria-current={index === current}
+                tabIndex={index === current ? 0 : -1}
                 onClick={() => go(index)}
                 // A bar marks the current image. The outline is left to keyboard focus.
                 className={`block border-b-4 bg-ink transition-opacity ${
