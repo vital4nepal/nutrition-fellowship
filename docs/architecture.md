@@ -18,7 +18,7 @@ Browser -> Cloudflare (DNS, CDN) -> Cloudflare Pages (build/ from main)
   Repository, Events, the updates block and Thoughts.
 - `/initiatives/:id` and `/chapters/:id` render `InitiativePage` and `ChapterPage` from `InitiativePage.js`.
 - `/resources` renders `ResourcesPage`. `/resources/:id` renders `ResourcePage` and `/events/:id` renders `EventPage`. Both use `ContentPage`.
-- The files come from Google Drive and live in `public/resources/`. No link on the site opens a Drive folder as the main action.
+- The files from Google Drive live in `public/resources/`. The two report PDFs live in `public/document_pdfs/`. No link on the site opens a Drive folder as the main action.
 - `/nutrition-dashboard` renders `ExternalRedirect`, which sends the visitor to the dashboard site. Cloudflare Pages does the same for a direct visit, from `public/_redirects`.
 - Five old inner pages render `ComingSoon`. Every unknown address renders `NotFound`.
 
@@ -43,7 +43,7 @@ Cloudflare Pages returns `index.html` for unknown paths, so a direct visit to a 
 
 - Hero photos have a 1600px file and an `-800` file. Collage tiles have a 1000px file and a `-500` file.
   `srcSet` and `sizes` pick the smaller file on phones.
-- The logo is `public/nf-logo.png`. The favicon is `public/favicon-64.png`.
+- The logo is `public/nf-logo.png`. The favicon is `public/nf-favicon.png`.
 
 ## External services
 
