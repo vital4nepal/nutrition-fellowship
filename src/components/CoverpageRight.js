@@ -1,18 +1,18 @@
 import React from 'react';
-import { SectionTitle, groupTitleLink } from './ui';
+import { SectionTitle, SiteLink, groupTitleLink } from './ui';
 
 const highlights = [
   {
     image: '/KeyHighlights/thumbs/NutritionDashboard.png',
     topic: 'Nutrition Dashboard',
     description: 'The Nutrition Dashboard of Nepal',
-    link: 'https://nutrition-dashboard-vision.vercel.app/',
+    link: '/dashboard',
   },
   {
     image: '/KeyHighlights/thumbs/NFNbanner.jpg',
     topic: 'Jan 17 Documents',
     description: 'The documents from the 2nd Nutrition Fellowship meeting',
-    link: 'https://drive.google.com/drive/folders/11yDaiLP9wzxMpP1vY4zqsY3uewHR__oO?usp=drive_link',
+    link: '/resources',
   },
   {
     image: '/KeyHighlights/thumbs/Dr. RP Bichha.jpg',
@@ -40,7 +40,7 @@ const CoverpageRight = () => (
     <ul className="mt-4 border-t border-line">
       {highlights.map((highlight) => (
         <li key={highlight.topic}>
-          <a
+          <SiteLink
             href={highlight.link}
             className="group flex min-h-[80px] gap-4 border-b border-line py-3"
           >
@@ -58,7 +58,7 @@ const CoverpageRight = () => (
               </span>
               <span className="line-clamp-2 text-meta text-muted lg:line-clamp-3">{highlight.description}</span>
             </span>
-          </a>
+          </SiteLink>
         </li>
       ))}
     </ul>

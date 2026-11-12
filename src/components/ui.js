@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export const container = 'mx-auto max-w-content px-4 lg:px-6';
 export const underlineLink = 'underline-offset-4 transition-colors hover:underline';
@@ -9,6 +10,15 @@ const titleSizes = {
   section: 'text-title-sm lg:text-display',
   sidebar: 'text-sub',
 };
+
+/** A site route opens without a reload. Any other address is an outside link. */
+export function SiteLink({ href, children, ...props }) {
+  return href.startsWith('/') ? (
+    <Link to={href} {...props}>{children}</Link>
+  ) : (
+    <a href={href} {...props}>{children}</a>
+  );
+}
 
 /** A home page band: optional hairline on top, the page container inside, and the data-section name the screenshots key on. */
 export function Section({ name, id, bordered = true, padding = 'py-12 lg:py-16', className = '', children }) {

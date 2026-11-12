@@ -1,10 +1,11 @@
 import React from "react";
 import { email, emailHref } from '../data/site';
 import SocialLinks from './SocialLinks';
-import { SubTitle, container, underlineLink } from './ui';
+import { SiteLink, SubTitle, container, underlineLink } from './ui';
 
 const usefulLinks = [
-  { href: 'https://nutrition-dashboard-vision.vercel.app/', label: 'Nutrition Dashboard' },
+  { href: '/dashboard', label: 'Nutrition Dashboard' },
+  { href: '/resources', label: 'Resources' },
   { href: 'http://www.nnfsp.gov.np/', label: 'Nepal Nutrition and Food Security Portal' },
 ];
 
@@ -26,9 +27,9 @@ function Footer() {
             <ul className="mt-2">
               {usefulLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className={`flex min-h-11 items-center text-meta ${underlineLink}`}>
+                  <SiteLink href={link.href} className={`flex min-h-11 items-center text-meta ${underlineLink}`}>
                     {link.label}
-                  </a>
+                  </SiteLink>
                 </li>
               ))}
             </ul>

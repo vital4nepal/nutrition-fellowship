@@ -28,7 +28,7 @@ export const initiatives = [
         { title: 'Recommend', text: 'The teams present. The group discusses what is required to reach the targets that are still pending.' },
       ],
       link: {
-        href: 'https://drive.google.com/drive/folders/1_PZuUUcI1jwHlIVtsgN01VcXAdH8B8PO?usp=drive_link',
+        href: '/resources',
         label: 'Data Camp agenda, photos and slides',
       },
     },

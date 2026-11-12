@@ -78,10 +78,10 @@ export function InitiativePage() {
         </section>
       </div>
 
-      <a href={link.href} target="_blank" rel="noopener noreferrer" className={`mt-12 ${backLink}`}>
+      <Link to={link.href} className={`mt-12 ${backLink}`}>
         {link.label}
         <ArrowUpRight size={18} aria-hidden="true" />
-      </a>
+      </Link>
     </article>
   );
 }
