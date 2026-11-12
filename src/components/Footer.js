@@ -15,7 +15,7 @@ function Footer() {
       <div className={`${container} py-14`}>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-12 lg:gap-y-10">
           <div className="md:col-span-2 lg:col-span-5">
-            <img src="/nf-logo.png" alt="Nutrition Fellowship" className="h-16 w-auto" />
+            <img src="/nf-logo-128.png" width="128" height="128" alt="Nutrition Fellowship" className="h-16 w-auto" />
             <p className="mt-4 max-w-[60ch] text-ui">
               Nutrition Fellowship for Nepal aims to unite three generations of stakeholders
               from Nepal and around the world.
