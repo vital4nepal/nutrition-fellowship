@@ -13,20 +13,6 @@ const pillars = ['Celebrate', 'Convene', 'Coach', 'Collaborate', 'Connect'];
 
 const tabs = [
   {
-    id: 'value',
-    label: 'Value Proposition',
-    panel: (
-      <div className="space-y-3 text-body text-ink">
-        <p className="max-w-[65ch]">
-          We unite three generations of stakeholders from Nepal and around the world, combining experience, innovation, and passion to accelerate the fight against undernutrition in Nepal.
-        </p>
-        <p className="max-w-[65ch]">
-          Through this fellowship, we foster meaningful connections, convene diverse perspectives, and promote transformative collaboration.
-        </p>
-      </div>
-    ),
-  },
-  {
     id: 'vision',
     label: 'Our Vision',
     panel: (
@@ -42,6 +28,20 @@ const tabs = [
             <li key={pillar}>{pillar}</li>
           ))}
         </ul>
+      </div>
+    ),
+  },
+  {
+    id: 'value',
+    label: 'Value Proposition',
+    panel: (
+      <div className="space-y-3 text-body text-ink">
+        <p className="max-w-[65ch]">
+          We unite three generations of stakeholders from Nepal and around the world, combining experience, innovation, and passion to accelerate the fight against undernutrition in Nepal.
+        </p>
+        <p className="max-w-[65ch]">
+          Through this fellowship, we foster meaningful connections, convene diverse perspectives, and promote transformative collaboration.
+        </p>
       </div>
     ),
   },
