@@ -1,5 +1,3 @@
-import { faFacebookF, faInstagram, faLinkedinIn, faXTwitter } from '@fortawesome/free-brands-svg-icons';
-
 // The build reads REACT_APP_MAINTENANCE. The value "true" turns the maintenance page on. Any other value or none turns it off.
 export const maintenance = process.env.REACT_APP_MAINTENANCE === 'true';
 
@@ -7,10 +5,10 @@ export const email = 'info@nutfellowship.com';
 export const emailHref = `mailto:${email}`;
 
 export const socials = [
-  { name: 'Facebook', href: 'https://www.facebook.com/nutfellowship/', icon: faFacebookF },
-  { name: 'Instagram', href: 'https://www.instagram.com/nutfellowship/?hl=en', icon: faInstagram },
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/nutfellowship/', icon: faLinkedinIn },
-  { name: 'X', href: 'https://x.com/nutfellowship', icon: faXTwitter },
+  { name: 'Facebook', href: 'https://www.facebook.com/nutfellowship/' },
+  { name: 'Instagram', href: 'https://www.instagram.com/nutfellowship/?hl=en' },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/nutfellowship/' },
+  { name: 'X', href: 'https://x.com/nutfellowship' },
 ];
 
 // The D4N 2026 Learning Lab, from the event flyer. The register link is where the flyer's QR code leads.
