@@ -114,7 +114,7 @@ const SurveyDashboard = () => {
     <Section name="dashboard" id="dashboard">
       <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
         <div>
-          <SectionTitle>Student Pulse Survey</SectionTitle>
+          <SectionTitle>Students' Aspirations, Challenges and Needs: South Asia Pulse Survey</SectionTitle>
           <p className="mt-3 max-w-[60ch] text-body">
             We asked nutrition students what they want to learn, what holds them back and how they see their future.{' '}
             <strong className="font-semibold text-ink">
