@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { events } from '../data/events';
+import { events, longDate } from '../data/events';
 import { Section, SectionTitle, SubTitle, groupTitleLink } from './ui';
 
 const arrowButton =
@@ -61,7 +61,7 @@ function Events() {
                 alt=""
                 className="aspect-[3/2] w-full object-cover transition-opacity group-hover:opacity-90"
               />
-              <p className="mt-3 text-meta tabular-nums text-muted">{date}</p>
+              <p className="mt-3 text-meta tabular-nums text-muted">{longDate(date)}</p>
               <p className={`mt-1 line-clamp-2 text-base font-semibold text-ink lg:text-body ${groupTitleLink}`}>{title}</p>
             </Link>
           </li>
