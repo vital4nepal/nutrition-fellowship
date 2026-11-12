@@ -13,6 +13,7 @@ function ResourcePage() {
   const { title, date, summary, pointsTitle, points, photos, imageKind, documents, driveHref } = resource;
   return (
     <ContentPage
+      key={id}
       section="Resources"
       backTo={{ to: '/resources', label: 'All resources' }}
       title={title}

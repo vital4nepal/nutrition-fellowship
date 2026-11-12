@@ -49,7 +49,7 @@ function ContentPage({
           <p className="text-body text-ink">{summary ?? 'More photos and documents are coming soon.'}</p>
           {points.length > 0 && (
             <>
-              <SubTitle className="mt-8">{pointsTitle}</SubTitle>
+              <SubTitle as="h2" className="mt-8">{pointsTitle}</SubTitle>
               <ul className="mt-4 space-y-3 text-body">
                 {points.map((point) => (
                   <li key={point} className="flex gap-3">

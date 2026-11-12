@@ -33,6 +33,6 @@ export function SectionTitle({ as: Tag = 'h2', size = 'section', children, class
   return <Tag className={`${titleSizes[size]} text-green ${className}`}>{children}</Tag>;
 }
 
-export function SubTitle({ tone = 'text-ink', children, className = '' }) {
-  return <h3 className={`text-xl lg:text-sub ${tone} ${className}`}>{children}</h3>;
+export function SubTitle({ as: Tag = 'h3', tone = 'text-ink', children, className = '' }) {
+  return <Tag className={`text-xl lg:text-sub ${tone} ${className}`}>{children}</Tag>;
 }

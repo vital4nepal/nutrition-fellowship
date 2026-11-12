@@ -59,7 +59,7 @@ function PhotoCarousel({ label, photos }) {
         onPointerCancel={() => {
           swipeStart.current = null;
         }}
-        className="relative aspect-[3/2] touch-pan-y select-none overflow-hidden border border-line bg-ink"
+        className="relative aspect-[3/2] touch-pan-y touch-pinch-zoom select-none overflow-hidden border border-line bg-ink"
       >
         {[...new Set(near)].map((index) => (
           <img
@@ -101,8 +101,9 @@ function PhotoCarousel({ label, photos }) {
                 aria-label={`Show image ${index + 1}`}
                 aria-current={index === current}
                 onClick={() => go(index)}
-                className={`block bg-ink transition-opacity ${
-                  index === current ? 'outline outline-2 outline-offset-2 outline-green' : 'opacity-60 hover:opacity-100'
+                // A bar marks the current image. The outline is left to keyboard focus.
+                className={`block border-b-4 bg-ink transition-opacity ${
+                  index === current ? 'border-green' : 'border-transparent opacity-60 hover:opacity-100'
                 }`}
               >
                 <img loading="lazy" src={thumb} alt="" width={96} height={64} className="h-16 w-24 object-cover" />

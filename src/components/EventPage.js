@@ -13,6 +13,7 @@ function EventPage() {
   const { title, date, summary, pointsTitle, points, documents, links } = event;
   return (
     <ContentPage
+      key={id}
       section="Events"
       backTo={{ to: '/#events', label: 'Events and Updates' }}
       title={title}

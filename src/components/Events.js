@@ -5,7 +5,7 @@ import { events } from '../data/events';
 import { Section, SectionTitle, SubTitle, groupTitleLink } from './ui';
 
 const arrowButton =
-  'flex h-11 w-11 items-center justify-center border border-line-strong text-ink transition-colors hover:border-green hover:text-green disabled:cursor-default disabled:opacity-40 disabled:hover:border-line-strong disabled:hover:text-ink';
+  'flex h-11 w-11 items-center justify-center border border-line-strong text-ink transition-colors hover:border-green hover:text-green aria-disabled:cursor-default aria-disabled:opacity-40 aria-disabled:hover:border-line-strong aria-disabled:hover:text-ink';
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -14,7 +14,9 @@ function Events() {
   const track = useRef(null);
   const [edge, setEdge] = useState({ start: true, end: false });
 
+  // The arrows use aria-disabled, not disabled: a disabled button drops the keyboard focus.
   const step = (direction) => {
+    if (direction < 0 ? edge.start : edge.end) return;
     const card = track.current.firstElementChild;
     track.current.scrollBy({
       left: direction * card.getBoundingClientRect().width,
@@ -36,10 +38,10 @@ function Events() {
           <SubTitle className="mt-2">Recent Events</SubTitle>
         </div>
         <div className="flex gap-2">
-          <button type="button" aria-label="Previous events" disabled={edge.start} onClick={() => step(-1)} className={arrowButton}>
+          <button type="button" aria-label="Previous events" aria-disabled={edge.start} onClick={() => step(-1)} className={arrowButton}>
             <ChevronLeft size={20} aria-hidden="true" />
           </button>
-          <button type="button" aria-label="Next events" disabled={edge.end} onClick={() => step(1)} className={arrowButton}>
+          <button type="button" aria-label="Next events" aria-disabled={edge.end} onClick={() => step(1)} className={arrowButton}>
             <ChevronRight size={20} aria-hidden="true" />
           </button>
         </div>
@@ -51,7 +53,7 @@ function Events() {
       >
         {events.map(({ id, date, img, title }) => (
           <li key={id} className="w-full shrink-0 snap-start px-3 sm:w-1/2 md:w-1/3 lg:w-1/4">
-            <Link to={`/events/${id}`} className="group block">
+            <Link to={`/events/${id}`} className="group block focus-visible:-outline-offset-2">
               <img
                 loading="lazy"
                 decoding="async"

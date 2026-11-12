@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, Navigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { contentsLabel, resources } from '../data/resources';
 import { SITE_TITLE } from './ComingSoon';
@@ -9,18 +9,12 @@ const TITLE = 'Resources';
 
 /** /resources. One card for each folder in data/resources.js. A card opens the page of its folder. */
 function ResourcesPage() {
-  const { hash } = useLocation();
-
   useEffect(() => {
     document.title = `${TITLE} | ${SITE_TITLE}`;
     return () => {
       document.title = SITE_TITLE;
     };
   }, []);
-
-  // The first version of this page had one section for each folder, at /resources#<id>.
-  const old = resources.find(({ id }) => hash === `#${id}`);
-  if (old) return <Navigate to={`/resources/${old.id}`} replace />;
 
   return (
     <>

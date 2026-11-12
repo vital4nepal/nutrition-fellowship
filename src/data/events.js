@@ -6,7 +6,7 @@ const campSummary = (college) =>
   `A Data Camp is a one-day session where nutrition students work on real national data and check how far Nepal is from its nutrition targets. This one was at ${college}.`;
 const campLinks = [{ href: '/resources/data-camp', label: 'Data Camp agenda, slides and photos' }];
 
-// `date` is month/day/year. The newest event comes last. `img` is the card photo, with its 480px copy in thumbs/.
+// `date` is month/day/year. The newest event comes last. `img` is the card photo: a 960px copy in thumbs/.
 // An event with `photos`, `documents` or `summary` shows them on its page at /events/<id>. One without shows its card photo.
 export const events = [
   { id: 'first-meet', date: '08/01/2024', img: '/Recentevents/thumbs/1st meet.jpg', title: 'Nutrition Fellowship for Nepal: First Meet' },

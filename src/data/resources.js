@@ -1,7 +1,8 @@
 // Each entry is one group of files. It has a card on /resources and its own page at /resources/<id>.
 // A group from a Google Drive folder has `driveHref` and its files are copied into public/resources/<folder>/.
 // Files that stay only in Drive are not copied: spreadsheets with participant names and costs, videos and large decks.
-// A photo has a 1400px file and a 480px file in thumbs/. `imageKind` names the images when they are not photos.
+// A photo has a large file (1400px on the longest side) and a smaller copy in thumbs/ (480px, or 800px for the report previews).
+// `imageKind` names the images when they are not photos.
 const photo = (dir, name) => ({ src: `/resources/${dir}/${name}.jpg`, thumb: `/resources/${dir}/thumbs/${name}.jpg` });
 const range = (count) => Array.from({ length: count }, (_, index) => index + 1);
 
