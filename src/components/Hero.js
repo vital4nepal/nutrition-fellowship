@@ -106,7 +106,7 @@ function Slideshow() {
 
   return (
     <figure
-      className="relative aspect-[4/3] overflow-hidden border border-line bg-ink sm:aspect-[16/9]"
+      className="relative aspect-[4/3] overflow-hidden border border-line bg-ink [--nf-green:theme(colors.paper)] sm:aspect-[16/9]"
       onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
       onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
     >
@@ -199,7 +199,7 @@ const Hero = () => (
             <ArrowDown size={18} aria-hidden="true" />
           </a>
         </article>
-        <article className="flex flex-col bg-deep p-6 text-paper">
+        <article className="flex flex-col bg-deep p-6 text-paper [--nf-green:theme(colors.paper)]">
           <h2 className="text-sub">D4N 2026 Learning Lab</h2>
           <p className="mt-3 text-body text-paper/90">
             {d4n.labDate}, {d4n.labTime}. Hybrid, at the {d4n.venue}.
