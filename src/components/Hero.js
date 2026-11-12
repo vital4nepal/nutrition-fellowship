@@ -7,6 +7,8 @@ import CoverpageRight from './CoverpageRight';
 import { SectionTitle, container } from './ui';
 
 const SLIDE_INTERVAL_MS = 6000;
+// A slide downloads this long before autoplay shows it, so no fade lands on an empty frame.
+const LOOKAHEAD_MS = 3000;
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
 // A collage tile has a large file and a `-500` file, 1000px and 500px wide.
@@ -37,7 +39,7 @@ const slides = [
  * `round` changes only when the slide comes back, so the tiles replay on entry and stay put while it fades out.
  * A tile stays hidden until its photo loads, so the entrance never plays over an empty frame.
  */
-function Collage({ tiles, showing, wanted, onSettle }) {
+function Collage({ tiles, showing, onSettle }) {
   const [loaded, setLoaded] = useState(() => new Set());
   const markLoaded = (index) => setLoaded((done) => (done.has(index) ? done : new Set(done).add(index)));
   const [round, setRound] = useState(0);
@@ -61,8 +63,8 @@ function Collage({ tiles, showing, wanted, onSettle }) {
         return (
           <img
             key={`${name}-${round}`}
-            src={wanted ? `/hero/${name}.jpg` : undefined}
-            srcSet={wanted ? `/hero/${name}-500.jpg 500w, /hero/${name}.jpg 1000w` : undefined}
+            src={`/hero/${name}.jpg`}
+            srcSet={`/hero/${name}-500.jpg 500w, /hero/${name}.jpg 1000w`}
             sizes={sizes}
             alt=""
             fetchpriority={index === 0 ? 'high' : 'low'}
@@ -87,20 +89,27 @@ function Slideshow() {
   const [hovered, setHovered] = useState(false);
   // A visitor who asks for reduced motion starts with the slideshow stopped. Play still works for them.
   const [stopped, setStopped] = useState(prefersReducedMotion);
-  // The photos that loaded or failed, by index: a browser fires `load` again when it swaps to a larger file.
-  // The later photos wait for the first one, and autoplay waits for all of them, so no fade lands on an empty frame.
-  const [settled, setSettled] = useState(() => new Set());
-  const settle = (index) => setSettled((done) => (done.has(index) ? done : new Set(done).add(index)));
-  const autoplaying = settled.size === slides.length && !hovered && !stopped;
+  // Autoplay starts after the first photo settles. Later slides get their `src` only when about to show,
+  // so the first paint is the largest one and the hidden photos cost no bytes at load.
+  const [ready, setReady] = useState(false);
+  const [wanted, setWanted] = useState(() => new Set([0]));
+  const autoplaying = ready && !hovered && !stopped;
 
   useEffect(() => {
     if (!autoplaying) return undefined;
-    const timer = setInterval(() => setCurrent((index) => (index + 1) % slides.length), SLIDE_INTERVAL_MS);
-    return () => clearInterval(timer);
-  }, [autoplaying]);
+    const next = (current + 1) % slides.length;
+    const warm = setTimeout(() => setWanted((set) => new Set(set).add(next)), SLIDE_INTERVAL_MS - LOOKAHEAD_MS);
+    const turn = setTimeout(() => setCurrent(next), SLIDE_INTERVAL_MS);
+    return () => {
+      clearTimeout(warm);
+      clearTimeout(turn);
+    };
+  }, [autoplaying, current]);
 
   const step = (offset) => {
-    setCurrent((index) => (index + offset + slides.length) % slides.length);
+    const target = (current + offset + slides.length) % slides.length;
+    setWanted((set) => new Set(set).add(target));
+    setCurrent(target);
     setStopped(true);
   };
 
@@ -111,27 +120,24 @@ function Slideshow() {
       onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
     >
       {slides.map(({ name, collage }, index) => {
-        const first = index === 0;
-        const wanted = first || settled.has(0);
         if (collage) {
           return (
             <div
               key={name}
               className={`transition-opacity duration-700 ${index === current ? 'opacity-100' : 'opacity-0'}`}
             >
-              <Collage tiles={collage} showing={index === current} wanted={wanted} onSettle={() => settle(index)} />
+              <Collage tiles={collage} showing={index === current} onSettle={() => setReady(true)} />
             </div>
           );
         }
         return (
           <img
             key={name}
-            src={wanted ? `/hero/${name}.jpg` : undefined}
-            srcSet={wanted ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg 1600w` : undefined}
+            src={wanted.has(index) ? `/hero/${name}.jpg` : undefined}
+            srcSet={wanted.has(index) ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg 1600w` : undefined}
             sizes="(min-width: 1024px) 800px, 100vw"
             alt=""
-            onLoad={() => settle(index)}
-            onError={() => settle(index)}
+            fetchpriority="low"
             style={{ objectPosition: slides[index].focus }}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
               index === current ? 'opacity-100' : 'opacity-0'
