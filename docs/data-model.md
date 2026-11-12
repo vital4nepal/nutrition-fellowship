@@ -34,8 +34,14 @@ Each `counts` array follows the order of `countries`. Percentages are computed, 
 - An initiative without `page` shows "Coming soon" at `/initiatives/<id>`.
 - `page` holds `{ intro, photos[], goals[], steps[], link }`. The Gen-N page uses it.
 
+## `resources.js`
+
+- `resources` is a list of `{ id, title, description, image, href }`. Each entry is one Google Drive folder on `/resources`.
+- `dashboard` is `{ title, description, href }`. `/dashboard` shows `href` in an iframe.
+
 ## Add or change content
 
+- A new Drive folder: add an entry to `resources`. The folder must be shared as "anyone with the link".
 - A new survey count: edit the `counts` array. Keep the country order.
 - A new initiative page: add a `page` object to its entry.
 - A new chapter page: add an entry to `chapters` with `href: '/chapters/<id>'`.

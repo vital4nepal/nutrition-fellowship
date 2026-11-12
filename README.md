@@ -40,6 +40,8 @@ The build writes the site to `build/`. The `-s` flag sends every address to `ind
 | `/` | Home |
 | `/initiatives/:id` | One initiative. `gen-n` has content; the others show "Coming soon" |
 | `/chapters/:id` | One country chapter. `nepal` goes to the home page section; the others show "Coming soon" |
+| `/resources` | One card for each Google Drive folder |
+| `/dashboard` | The Nutrition Dashboard app in an iframe, with an "Open full screen" link |
 | `/profile`, `/policy2025`, `/aiinnutrition`, `/nfn2ndmeetblog`, `/nrcinternblog` | "Coming soon" |
 | any other address | The 404 page |
 
@@ -52,6 +54,7 @@ Most text and numbers live in `src/data/`. Edit them there, not in the component
 | Email, social links, nav, chapters, D4N date and register link | `src/data/site.js` |
 | Pulse Survey counts | `src/data/pulseSurvey.js` |
 | Initiatives and the Gen-N page | `src/data/initiatives.js` |
+| Drive folders on `/resources` and the dashboard address | `src/data/resources.js` |
 | Hero slides and collage | `slides` in `src/components/Hero.js` |
 
 ## Deploy
