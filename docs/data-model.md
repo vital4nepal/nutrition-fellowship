@@ -38,7 +38,7 @@ Each `counts` array follows the order of `countries`. Percentages are computed, 
 
 - `resources` is a list of `{ id, title, date?, description, summary, pointsTitle, points[], cover, coverFocus?, imageKind?, driveHref?, documents[], photos[] }`. Each entry has a card on `/resources` and a page at `/resources/<id>`.
 - An entry from a Google Drive folder has `driveHref`, and its files are copied into `public/resources/<folder>/`.
-- A document is `{ title, description, file, kind, size }`. A photo is `{ src, thumb }`: a 1400px file and a 480px file in `thumbs/`.
+- A document is `{ title, description, file, kind, size }`. A photo is `{ src, thumb }`: a large file (1400px on the longest side) and a smaller copy in `thumbs/`.
 - Spreadsheets with participant names or costs, videos and large decks stay in Drive only.
 - `dashboard` is `{ title, href }`. `/nutrition-dashboard` sends the visitor to `href`. Change `public/_redirects` too.
 

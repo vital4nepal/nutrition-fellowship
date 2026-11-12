@@ -9,7 +9,7 @@ All components are in `src/components/`. Each home page section is one file.
 | `Topbar.js` | Sticky header with the logo, the name and the nav |
 | `Navbar.js` | Desktop nav with the Chapter dropdown, and the mobile menu |
 | `Footer.js` | Logo, useful links, social links, email and copyright |
-| `ui.js` | Shared parts: `Section`, `SectionTitle`, `SubTitle`, `container` and link classes |
+| `ui.js` | Shared parts: `Section`, `SectionTitle`, `SubTitle`, `SiteLink`, `container` and link classes |
 | `ScrollToHash.js` | Lands hash links on their section and restores scroll on Back and Forward |
 
 ## Home page sections

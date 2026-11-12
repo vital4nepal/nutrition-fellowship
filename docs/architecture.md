@@ -20,7 +20,7 @@ Browser -> Cloudflare (DNS, CDN) -> Cloudflare Pages (build/ from main)
 - `/resources` renders `ResourcesPage`. `/resources/:id` renders `ResourcePage` and `/events/:id` renders `EventPage`. Both use `ContentPage`.
 - The files come from Google Drive and live in `public/resources/`. No link on the site opens a Drive folder as the main action.
 - `/nutrition-dashboard` renders `ExternalRedirect`, which sends the visitor to the dashboard site. Cloudflare Pages does the same for a direct visit, from `public/_redirects`.
-- Five old inner pages and every unknown address render `ComingSoon`.
+- Five old inner pages render `ComingSoon`. Every unknown address renders `NotFound`.
 
 Cloudflare Pages returns `index.html` for unknown paths, so a direct visit to a route works.
 
