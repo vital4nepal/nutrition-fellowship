@@ -5,7 +5,7 @@ module.exports = {
       transparent: "transparent", current: "currentColor", inherit: "inherit",
       paper: "#F6F4EE", surface: "#FCFBF8", ink: "#1D2420", muted: "#545B55",
       line: "#D8D3C7", "line-strong": "#8A877E",
-      green: "#265728", deep: "#183A1B", accent: "#B8561B", meadow: "#A5CA8E",
+      green: "#265728", deep: "#183A1B", accent: "#B15219", meadow: "#A5CA8E",
       // Chart fills on the light surface: two greens, a neutral and two oranges.
       "chart-pos-strong": "#265728", "chart-pos": "#7DB56A", "chart-neutral": "#CFCBBE",
       "chart-neg": "#E8A46C", "chart-neg-strong": "#B8561B",
