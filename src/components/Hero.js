@@ -80,7 +80,7 @@ function Collage({ tiles, showing, wanted, onSettle }) {
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const control =
-  'flex h-11 w-10 items-center justify-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink';
+  'flex h-11 w-11 items-center justify-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink';
 
 function Slideshow() {
   const [current, setCurrent] = useState(0);
