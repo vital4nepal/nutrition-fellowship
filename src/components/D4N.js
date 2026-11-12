@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowUpRight, CalendarDays, Clock, MapPin } from 'lucide-react';
 import { d4n } from '../data/site';
-import { Section, SectionTitle, SubTitle } from './ui';
+import { Section, SectionTitle, SubTitle, primaryButton } from './ui';
 
 // The session plan from the D4N concept note. `minutes` drives the width of each block on the timeline.
 const schedule = [
@@ -54,7 +54,7 @@ const D4N = () => (
           href={d4n.registerHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-flex min-h-11 items-center gap-2 bg-accent px-6 font-semibold text-paper transition-colors hover:bg-deep"
+          className={`mt-6 ${primaryButton}`}
         >
           Register
           <ArrowUpRight size={18} aria-hidden="true" />

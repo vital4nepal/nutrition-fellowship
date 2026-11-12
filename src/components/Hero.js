@@ -4,7 +4,7 @@ import { ALL, countries, respondentsFor } from '../data/pulseSurvey';
 import { d4n } from '../data/site';
 import About from './About';
 import CoverpageRight from './CoverpageRight';
-import { SectionTitle, container } from './ui';
+import { SectionTitle, container, primaryButton } from './ui';
 
 const SLIDE_INTERVAL_MS = 6000;
 
@@ -209,7 +209,7 @@ const Hero = () => (
               href={d4n.registerHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center gap-2 bg-accent px-6 font-semibold text-paper transition-colors hover:bg-paper hover:text-deep"
+              className={primaryButton}
             >
               Register
               <ArrowUpRight size={18} aria-hidden="true" />

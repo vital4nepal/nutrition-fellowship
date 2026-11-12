@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 export const container = 'mx-auto max-w-content px-4 lg:px-6';
 export const underlineLink = 'underline-offset-4 transition-colors hover:underline';
 export const textLink = `${underlineLink} hover:text-green`;
+/** The one fill for a primary action: Register, Submit and the 404 home button. */
+export const primaryButton =
+  'inline-flex min-h-11 items-center gap-2 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep';
 // For a title inside a link row: the row carries `group`, so the whole row is the hover target.
 export const groupTitleLink = 'underline-offset-4 transition-colors group-hover:text-green group-hover:underline';
 const titleSizes = {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { SITE_TITLE } from './ComingSoon';
-import { SectionTitle, textLink } from './ui';
+import { SectionTitle, primaryButton, textLink } from './ui';
 
 // The places most visitors look for. Hash links use <a>, so ScrollToHash lands them on the section.
 const suggestions = [
@@ -35,7 +35,7 @@ const NotFound = () => {
         </p>
         <Link
           to="/"
-          className="mt-8 inline-flex min-h-11 animate-rise items-center gap-2 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep [animation-delay:240ms]"
+          className={`mt-8 animate-rise [animation-delay:240ms] ${primaryButton}`}
         >
           <ArrowLeft size={18} aria-hidden="true" />
           Back to home
