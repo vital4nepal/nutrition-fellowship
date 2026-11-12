@@ -31,6 +31,11 @@ const innerPages = [
   { path: '/nrcinternblog', title: 'Nutrition Rehabilitation Center: Internship blog' },
 ];
 
+// The body of every page except the home page. The skip link jumps to its id.
+const Page = ({ padding = 'lg:py-16', children }) => (
+  <main id="main" tabIndex={-1} className={`${container} py-12 outline-none ${padding}`}>{children}</main>
+);
+
 function App() {
   return (
     <Router>
@@ -64,20 +69,16 @@ function App() {
               <Thoughts/>
             </main>
         } />
-        <Route path="/initiatives/:id" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><InitiativePage /></main>} />
-        <Route path="/chapters/:id" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ChapterPage /></main>} />
-        <Route path="/resources" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ResourcesPage /></main>} />
-        <Route path="/resources/:id" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ResourcePage /></main>} />
-        <Route path="/events/:id" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><EventPage /></main>} />
-        <Route path="/nutrition-dashboard" element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ExternalRedirect title={dashboard.title} href={dashboard.href} /></main>} />
+        <Route path="/initiatives/:id" element={<Page><InitiativePage /></Page>} />
+        <Route path="/chapters/:id" element={<Page><ChapterPage /></Page>} />
+        <Route path="/resources" element={<Page><ResourcesPage /></Page>} />
+        <Route path="/resources/:id" element={<Page><ResourcePage /></Page>} />
+        <Route path="/events/:id" element={<Page><EventPage /></Page>} />
+        <Route path="/nutrition-dashboard" element={<Page><ExternalRedirect title={dashboard.title} href={dashboard.href} /></Page>} />
         {innerPages.map(({ path, title }) => (
-          <Route key={path} path={path} element={<main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-16`}><ComingSoon title={title} /></main>} />
+          <Route key={path} path={path} element={<Page><ComingSoon title={title} /></Page>} />
         ))}
-        <Route path="*" element={
-          <main id="main" tabIndex={-1} className={`${container} py-12 outline-none lg:py-24`}>
-            <NotFound />
-          </main>
-        } />
+        <Route path="*" element={<Page padding="lg:py-24"><NotFound /></Page>} />
       </Routes>
       <Footer />
     </Router>
