@@ -73,7 +73,7 @@ function PhotoCarousel({ label, photos }) {
             src={encodeURI(photos[index].src)}
             srcSet={`${encodeURI(photos[index].thumb)} 480w, ${encodeURI(photos[index].src)} 1400w`}
             sizes="(min-width: 1024px) 760px, 100vw"
-            alt={index === current ? `${label}, ${index + 1} of ${total}` : ''}
+            alt={index === current ? photos[index].alt ?? `${label}, ${index + 1} of ${total}` : ''}
             draggable={false}
             className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
               index === current ? 'opacity-100' : 'opacity-0'
