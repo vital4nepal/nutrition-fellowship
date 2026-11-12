@@ -37,7 +37,7 @@ All components are in `src/components/`. Each home page section is one file.
 | `ResourcesPage.js` | `/resources`: one card for each entry in `resources` |
 | `ResourcePage.js` | `/resources/:id`: passes one entry of `resources` to `ContentPage` |
 | `EventPage.js` | `/events/:id`: passes one entry of `events` to `ContentPage` |
-| `ContentPage.js` | The shared page: carousel, summary, goals, document cards and links |
+| `ContentPage.js` | The shared page: carousel, summary, key points, document cards and links |
 | `PhotoCarousel.js` | One large image and a thumbnail strip. Arrow keys, buttons, thumbnails and swipe change the image |
 | `ExternalRedirect.js` | `/nutrition-dashboard`: sends the visitor to another site |
 | `ComingSoon.js` | Placeholder for a page with no content yet. Exports `SITE_TITLE` |

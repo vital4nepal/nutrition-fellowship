@@ -11,6 +11,7 @@ Student Pulse Survey results, the D4N 2026 Learning Lab, the initiatives, the co
 - React Router 7
 - Tailwind CSS 3
 - Lucide and Font Awesome icons
+- Public Sans and Source Serif 4 through Fontsource
 - Cloudflare Pages for hosting
 
 ## Run it
@@ -41,7 +42,7 @@ The build writes the site to `build/`. The `-s` flag sends every address to `ind
 | `/initiatives/:id` | One initiative. `gen-n` has content; the others show "Coming soon" |
 | `/chapters/:id` | One country chapter. `nepal` goes to the home page section; the others show "Coming soon" |
 | `/resources` | One card for each group of documents and photos |
-| `/resources/:id` | One group: a photo carousel, a summary and the documents to download |
+| `/resources/:id` | One group: a photo carousel, a summary and the documents. A PDF opens in a tab and a slide deck downloads |
 | `/events/:id` | One event: its photos, a summary and its documents |
 | `/nutrition-dashboard` | Sends the visitor to the Nutrition Dashboard site |
 | `/profile`, `/policy2025`, `/aiinnutrition`, `/nfn2ndmeetblog`, `/nrcinternblog` | "Coming soon" |
