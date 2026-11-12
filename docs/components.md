@@ -17,7 +17,7 @@ All components are in `src/components/`. Each home page section is one file.
 | File | Section |
 | --- | --- |
 | `Hero.js` | Title, slideshow with the collage slide, About tabs, the survey and D4N cards, Key Highlights |
-| `About.js` | Value Proposition and Our Vision tabs, and the figures strip |
+| `About.js` | Our Vision and Value Proposition tabs, and the figures strip |
 | `CoverpageRight.js` | Key Highlights list |
 | `SurveyDashboard.js` | Student Pulse Survey charts with a country filter |
 | `D4N.js` | D4N 2026 Learning Lab: details, register link, session plan, organizers, flyer |
