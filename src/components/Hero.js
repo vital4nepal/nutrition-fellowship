@@ -4,7 +4,7 @@ import { ALL, countries, respondentsFor } from '../data/pulseSurvey';
 import { d4n } from '../data/site';
 import About from './About';
 import CoverpageRight from './CoverpageRight';
-import { SectionTitle, container } from './ui';
+import { SectionTitle, container, primaryButton } from './ui';
 
 const SLIDE_INTERVAL_MS = 6000;
 
@@ -145,7 +145,7 @@ function Slideshow() {
         {/* The caption is announced only after the visitor takes control, never on each autoplay turn. */}
         <p
           aria-live={stopped ? 'polite' : 'off'}
-          className="max-w-[46ch] font-serif text-meta font-semibold leading-snug text-paper sm:text-base lg:text-sub"
+          className="max-w-[46ch] font-serif text-meta font-semibold leading-snug text-paper sm:text-body lg:text-sub"
         >
           {slides[current].caption}
         </p>
@@ -209,7 +209,8 @@ const Hero = () => (
               href={d4n.registerHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center gap-2 bg-accent px-6 font-semibold text-paper transition-colors hover:bg-paper hover:text-deep"
+              // On the dark card the green fill would match the card, so the button turns to paper.
+              className={`${primaryButton} !bg-paper !text-deep hover:!bg-meadow`}
             >
               Register
               <ArrowUpRight size={18} aria-hidden="true" />

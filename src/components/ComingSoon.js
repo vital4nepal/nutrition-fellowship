@@ -5,8 +5,8 @@ import { SectionTitle, textLink } from './ui';
 
 export const SITE_TITLE = 'Nutrition Fellowship';
 
-/** The body of an inner page that has no content yet. */
-const ComingSoon = ({ title, children = 'Coming soon.' }) => {
+/** The body of an inner page that has no content yet. `back` is the link above the title, like on every inner page. */
+const ComingSoon = ({ title, children = 'Coming soon.', back = { to: '/', label: 'Back to home' } }) => {
   useEffect(() => {
     document.title = `${title} | ${SITE_TITLE}`;
     return () => {
@@ -16,12 +16,12 @@ const ComingSoon = ({ title, children = 'Coming soon.' }) => {
 
   return (
     <>
-      <SectionTitle as="h1">{title}</SectionTitle>
-      <p className="mt-4 text-sub text-ink">{children}</p>
-      <Link to="/" className={`mt-8 inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`}>
+      <Link to={back.to} className={`inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`}>
         <ArrowLeft size={18} aria-hidden="true" />
-        Back to home
+        {back.label}
       </Link>
+      <SectionTitle as="h1" className="mt-4">{title}</SectionTitle>
+      <p className="mt-4 text-sub text-ink">{children}</p>
     </>
   );
 };

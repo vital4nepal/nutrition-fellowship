@@ -79,7 +79,7 @@ const About = () => {
             aria-controls={`about-panel-${tab.id}`}
             tabIndex={tab.id === activeTab ? 0 : -1}
             onClick={() => setActiveTab(tab.id)}
-            className={`-mb-px h-11 border-b-2 text-base font-semibold transition-colors hover:text-green ${
+            className={`-mb-px h-11 border-b-2 text-ui font-semibold transition-colors hover:text-green ${
               tab.id === activeTab ? 'border-accent text-ink' : 'border-transparent text-muted'
             }`}
           >

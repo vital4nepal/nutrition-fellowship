@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Stand-ins for the web fonts while they load. size-adjust scales a system font to the width of the web font,
+ * so the lines break at the same words before and after the swap and the page does not jump.
+ */
+@font-face { font-family: 'Public Sans Fallback'; src: local('Arial'); font-weight: 400; size-adjust: 103.95%; }
+@font-face { font-family: 'Public Sans Fallback'; src: local('Arial Bold'); font-weight: 600 700; size-adjust: 98.08%; }
+@font-face { font-family: 'Source Serif 4 Fallback'; src: local('Georgia Bold'); font-weight: 600; size-adjust: 93.44%; }
+
 @layer base {
   :root {
     --nf-green: theme('colors.green');

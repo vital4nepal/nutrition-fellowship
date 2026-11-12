@@ -53,7 +53,7 @@ const CoverpageRight = () => (
               className="h-12 w-12 shrink-0 object-cover lg:h-14 lg:w-14"
             />
             <span className="min-w-0">
-              <span className={`block text-base font-semibold text-ink ${groupTitleLink}`}>
+              <span className={`block text-body font-semibold text-ink ${groupTitleLink}`}>
                 {highlight.topic}
               </span>
               <span className="line-clamp-2 text-meta text-muted lg:line-clamp-3">{highlight.description}</span>

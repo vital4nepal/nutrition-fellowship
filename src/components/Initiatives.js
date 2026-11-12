@@ -9,7 +9,7 @@ function Title({ title }) {
   const words = title.split(' ');
   const last = words.pop();
   return (
-    <span className={`text-lg font-semibold ${groupTitleLink}`}>
+    <span className={`text-body font-semibold ${groupTitleLink}`}>
       {words.join(' ')}{' '}
       <span className="whitespace-nowrap">
         {last}

@@ -6,24 +6,27 @@ module.exports = {
       paper: "#F6F4EE", surface: "#FCFBF8", ink: "#1D2420", muted: "#545B55",
       line: "#D8D3C7", "line-strong": "#8A877E",
       green: "#265728", deep: "#183A1B", accent: "#B15219", meadow: "#A5CA8E",
-      // Chart fills on the light surface: two greens, a neutral and two oranges.
-      "chart-pos-strong": "#265728", "chart-pos": "#7DB56A", "chart-neutral": "#CFCBBE",
-      "chart-neg": "#E8A46C", "chart-neg-strong": "#B8561B",
+      // Chart fills on the light surface: two greens, a neutral and two oranges. Each is at least 3:1 against surface.
+      "chart-pos-strong": "#265728", "chart-pos": "#6D9D5C", "chart-neutral": "#939087",
+      "chart-neg": "#C4814A", "chart-neg-strong": "#B8561B",
     },
     borderRadius: { none: "0px", DEFAULT: "0px" },
     boxShadow: { none: "none" },
     fontFamily: {
-      sans: ['"Public Sans Variable"', "system-ui", "sans-serif"],
-      serif: ['"Source Serif 4 Variable"', "Georgia", "serif"],
+      sans: ['"Public Sans Variable"', '"Public Sans Fallback"', "system-ui", "sans-serif"],
+      serif: ['"Source Serif 4 Variable"', '"Source Serif 4 Fallback"', "Georgia", "serif"],
     },
     extend: {
       fontSize: {
+        title: ["2rem", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
         "title-sm": ["1.625rem", { lineHeight: "1.25", letterSpacing: "-0.01em" }],
         sub: ["1.375rem", { lineHeight: "1.3" }],
         body: ["1.0625rem", { lineHeight: "1.6" }],
         meta: ["0.875rem", { lineHeight: "1.5" }],
         display: ["2.5rem", { lineHeight: "1.15", letterSpacing: "-0.015em" }],
         ui: ["0.9375rem", { lineHeight: "1.5" }],
+        numeral: ["6rem", { lineHeight: "1" }],
+        "numeral-lg": ["9rem", { lineHeight: "1" }],
       },
       maxWidth: { content: "77.5rem", form: "35rem" },
       transitionDuration: { DEFAULT: "180ms" },

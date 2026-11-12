@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { email, emailHref } from '../data/site';
-import { Section, SectionTitle, textLink } from './ui';
+import { Section, SectionTitle, primaryButton, textLink } from './ui';
 
 const fields = [
   { name: 'name', label: 'Full Name', type: 'text', autoComplete: 'name' },
@@ -89,7 +89,7 @@ function Thoughts() {
           <button
             type="submit"
             disabled={status === 'sending'}
-            className="h-12 bg-green px-6 font-semibold text-paper transition-colors hover:bg-deep disabled:opacity-60"
+            className={`h-12 disabled:opacity-60 ${primaryButton}`}
           >
             Submit
           </button>
