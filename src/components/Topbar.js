@@ -12,7 +12,7 @@ const Topbar = ({ children }) => {
           <img src="/nf-logo.png" alt="" className="h-11 lg:h-12 w-auto" />
           <span className="hidden leading-tight sm:block">
             <span className={`block font-serif text-base font-semibold text-green ${groupTitleLink}`}>Nutrition Fellowship</span>
-            <span className="block text-[0.75rem] text-muted">An initiative of SidArt Foundation</span>
+            <span className="block text-meta text-muted">An initiative of SidArt Foundation</span>
           </span>
           <span className="sr-only sm:hidden">Nutrition Fellowship</span>
         </a>
