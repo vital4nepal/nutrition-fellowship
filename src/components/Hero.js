@@ -106,42 +106,44 @@ function Slideshow() {
 
   return (
     <figure
-      className="relative aspect-[4/3] overflow-hidden border border-line bg-ink sm:aspect-[16/9]"
+      className="relative overflow-hidden border border-line bg-ink"
       onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
       onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
     >
-      {slides.map(({ name, collage }, index) => {
-        const first = index === 0;
-        const wanted = first || settled.has(0);
-        if (collage) {
+      <div className="relative aspect-[4/3] sm:aspect-[16/9]">
+        {slides.map(({ name, collage }, index) => {
+          const first = index === 0;
+          const wanted = first || settled.has(0);
+          if (collage) {
+            return (
+              <div
+                key={name}
+                className={`transition-opacity duration-700 ${index === current ? 'opacity-100' : 'opacity-0'}`}
+              >
+                <Collage tiles={collage} showing={index === current} wanted={wanted} onSettle={() => settle(index)} />
+              </div>
+            );
+          }
           return (
-            <div
+            <img
               key={name}
-              className={`transition-opacity duration-700 ${index === current ? 'opacity-100' : 'opacity-0'}`}
-            >
-              <Collage tiles={collage} showing={index === current} wanted={wanted} onSettle={() => settle(index)} />
-            </div>
+              src={wanted ? `/hero/${name}.jpg` : undefined}
+              srcSet={wanted ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg 1600w` : undefined}
+              sizes="(min-width: 1024px) 800px, 100vw"
+              alt=""
+              onLoad={() => settle(index)}
+              onError={() => settle(index)}
+              style={{ objectPosition: slides[index].focus }}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+                index === current ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
           );
-        }
-        return (
-          <img
-            key={name}
-            src={wanted ? `/hero/${name}.jpg` : undefined}
-            srcSet={wanted ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg 1600w` : undefined}
-            sizes="(min-width: 1024px) 800px, 100vw"
-            alt=""
-            onLoad={() => settle(index)}
-            onError={() => settle(index)}
-            style={{ objectPosition: slides[index].focus }}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-              index === current ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-        );
-      })}
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-ink/90 via-ink/60 to-transparent sm:h-1/2 sm:via-transparent" />
-      {/* On a phone the buttons take their own row, so a long caption keeps the full width. */}
-      <figcaption className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-4 sm:flex-row sm:items-end sm:justify-between sm:gap-4 sm:p-6">
+        })}
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 hidden h-1/2 bg-gradient-to-t from-ink/90 to-transparent lg:block" />
+      </div>
+      {/* Below lg the caption and buttons sit in a bar under the photos, so they never cover a tile. */}
+      <figcaption className="flex flex-col gap-2 p-4 sm:flex-row sm:items-end sm:justify-between sm:gap-4 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-6">
         {/* The caption is announced only after the visitor takes control, never on each autoplay turn. */}
         <p
           aria-live={stopped ? 'polite' : 'off'}
