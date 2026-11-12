@@ -38,7 +38,7 @@ export const skills = [
 ];
 
 export const challenges = [
-  { id: 'time', label: 'Time and workload', counts: [8, 37, 47, 15] },
+  { id: 'time', label: 'Academic pressure and workload', counts: [8, 37, 47, 15] },
   { id: 'practical', label: 'Field exposure', counts: [26, 47, 10, 17] },
   { id: 'content', label: 'Understanding content', counts: [19, 30, 28, 9] },
   { id: 'language', label: 'Language barriers', counts: [0, 0, 48, 2] },
