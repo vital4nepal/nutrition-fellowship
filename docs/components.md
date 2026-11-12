@@ -23,8 +23,8 @@ All components are in `src/components/`. Each home page section is one file.
 | `D4N.js` | D4N 2026 Learning Lab: details, register link, session plan, organizers, flyer |
 | `Initiatives.js` | Links to each initiative page |
 | `CountryChapter.js` | The Nepal chapter and the steps to start a chapter |
-| `Repository.js` | Document list with view and download links |
-| `Events.js` | Recent events carousel (`react-slick`) |
+| `Repository.js` | Document list. A report title opens its page and the icon downloads the PDF |
+| `Events.js` | Recent events row. It scrolls sideways and each card links to `/events/:id` |
 | `NextEvent.js`, `Announcements.js` | Upcoming events and announcements, both through `EntryList.js` |
 | `Thoughts.js` | Contact form, sent to Web3Forms |
 | `SocialLinks.js` | Social icon links from `socials` in `src/data/site.js` |
@@ -34,8 +34,12 @@ All components are in `src/components/`. Each home page section is one file.
 | File | Page |
 | --- | --- |
 | `InitiativePage.js` | `InitiativePage` for `/initiatives/:id` and `ChapterPage` for `/chapters/:id` |
-| `ResourcesPage.js` | `/resources`: for each entry in `resources`, a document list and a photo grid |
-| `DashboardPage.js` | `/dashboard`: the dashboard iframe and the "Open full screen" link |
+| `ResourcesPage.js` | `/resources`: one card for each entry in `resources` |
+| `ResourcePage.js` | `/resources/:id`: passes one entry of `resources` to `ContentPage` |
+| `EventPage.js` | `/events/:id`: passes one entry of `events` to `ContentPage` |
+| `ContentPage.js` | The shared page: carousel, summary, goals, document cards and links |
+| `PhotoCarousel.js` | One large image and a thumbnail strip. Arrow keys, buttons, thumbnails and swipe change the image |
+| `ExternalRedirect.js` | `/nutrition-dashboard`: sends the visitor to another site |
 | `ComingSoon.js` | Placeholder for a page with no content yet. Exports `SITE_TITLE` |
 | `NotFound.js` | The 404 page, with links to the most visited sections |
 

@@ -40,8 +40,10 @@ The build writes the site to `build/`. The `-s` flag sends every address to `ind
 | `/` | Home |
 | `/initiatives/:id` | One initiative. `gen-n` has content; the others show "Coming soon" |
 | `/chapters/:id` | One country chapter. `nepal` goes to the home page section; the others show "Coming soon" |
-| `/resources` | Documents to download and photo grids, copied from the Google Drive folders |
-| `/dashboard` | The Nutrition Dashboard app in an iframe, with an "Open full screen" link |
+| `/resources` | One card for each group of documents and photos |
+| `/resources/:id` | One group: a photo carousel, a summary and the documents to download |
+| `/events/:id` | One event: its photos, a summary and its documents |
+| `/nutrition-dashboard` | Sends the visitor to the Nutrition Dashboard site |
 | `/profile`, `/policy2025`, `/aiinnutrition`, `/nfn2ndmeetblog`, `/nrcinternblog` | "Coming soon" |
 | any other address | The 404 page |
 
@@ -54,7 +56,8 @@ Most text and numbers live in `src/data/`. Edit them there, not in the component
 | Email, social links, nav, chapters, D4N date and register link | `src/data/site.js` |
 | Pulse Survey counts | `src/data/pulseSurvey.js` |
 | Initiatives and the Gen-N page | `src/data/initiatives.js` |
-| Documents and photos on `/resources`, and the dashboard address | `src/data/resources.js`, files in `public/resources/` |
+| Documents and photos on `/resources`, and the dashboard address | `src/data/resources.js`, files in `public/resources/`, and `public/_redirects` |
+| Events and their pages | `src/data/events.js` |
 | Hero slides and collage | `slides` in `src/components/Hero.js` |
 
 ## Deploy

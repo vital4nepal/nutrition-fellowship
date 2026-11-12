@@ -17,7 +17,9 @@ Browser -> Cloudflare (DNS, CDN) -> Cloudflare Pages (build/ from main)
 - `/` renders the home page sections in order: Hero, SurveyDashboard, D4N, Initiatives, CountryChapter,
   Repository, Events, the updates block and Thoughts.
 - `/initiatives/:id` and `/chapters/:id` render `InitiativePage` and `ChapterPage` from `InitiativePage.js`.
-- `/resources` renders `ResourcesPage` and `/dashboard` renders `DashboardPage`. The files come from Google Drive and live in `public/resources/`. No link on the site opens a Drive folder as the main action.
+- `/resources` renders `ResourcesPage`. `/resources/:id` renders `ResourcePage` and `/events/:id` renders `EventPage`. Both use `ContentPage`.
+- The files come from Google Drive and live in `public/resources/`. No link on the site opens a Drive folder as the main action.
+- `/nutrition-dashboard` renders `ExternalRedirect`, which sends the visitor to the dashboard site. Cloudflare Pages does the same for a direct visit, from `public/_redirects`.
 - Five old inner pages and every unknown address render `ComingSoon`.
 
 Cloudflare Pages returns `index.html` for unknown paths, so a direct visit to a route works.
