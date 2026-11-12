@@ -12,7 +12,7 @@ const highlights = [
     image: '/KeyHighlights/thumbs/NFNbanner.jpg',
     topic: 'Jan 17 Documents',
     description: 'The documents from the 2nd Nutrition Fellowship meeting',
-    link: '/resources',
+    link: '/resources#jan-17-documents',
   },
   {
     image: '/KeyHighlights/thumbs/Dr. RP Bichha.jpg',
