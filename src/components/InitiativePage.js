@@ -52,7 +52,7 @@ export function InitiativePage() {
 
       <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-16">
         <section className="lg:col-span-5">
-          <SubTitle>What students learn</SubTitle>
+          <SubTitle as="h2">What students learn</SubTitle>
           <ul className="nf-stagger mt-4 space-y-3 text-body">
             {goals.map((goal) => (
               <li key={goal} className="flex gap-3">
@@ -63,7 +63,7 @@ export function InitiativePage() {
           </ul>
         </section>
         <section className="lg:col-span-7">
-          <SubTitle>How a Data Camp runs</SubTitle>
+          <SubTitle as="h2">How a Data Camp runs</SubTitle>
           <ol className="nf-stagger mt-4 border-t border-line">
             {steps.map(({ title, text }, index) => (
               <li key={title} className="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-line py-5">
@@ -78,10 +78,10 @@ export function InitiativePage() {
         </section>
       </div>
 
-      <a href={link.href} target="_blank" rel="noopener noreferrer" className={`mt-12 ${backLink}`}>
+      <Link to={link.href} className={`mt-12 ${backLink}`}>
         {link.label}
         <ArrowUpRight size={18} aria-hidden="true" />
-      </a>
+      </Link>
     </article>
   );
 }

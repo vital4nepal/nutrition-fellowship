@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Download } from 'lucide-react';
+import { resources } from '../data/resources';
 import { Section, SectionTitle, SubTitle, groupTitleLink, textLink } from './ui';
 
 const documents = [
   {
     category: 'Reports',
-    links: [
-      { title: 'Newsletter', pdfUrl: '/document_pdfs/Nutrition Fellowship Brief.pdf' },
-      { title: 'Nutrition Profiles', pdfUrl: '/document_pdfs/Stunting profile.pdf' },
-    ],
+    links: resources
+      .find(({ id }) => id === 'reports')
+      .documents.map(({ title, file }) => ({ title, path: '/resources/reports', pdfUrl: file })),
   },
   {
     category: 'Policies and Plans',
@@ -32,7 +32,7 @@ const rowClass = 'flex min-h-[56px] items-center justify-between border-b border
 const titleClass = 'block flex-1 py-3 pr-4 font-medium';
 const slotClass = 'flex h-11 w-11 shrink-0 items-center justify-center';
 
-// Every row ends in the same 44px slot. A PDF row has two links (title, download); a page row is one link.
+// Every row ends in the same 44px slot. A PDF row has two links (title opens its page, icon downloads); a page row is one link.
 function Resource({ title, path, pdfUrl }) {
   if (!pdfUrl) {
     return (
@@ -48,9 +48,9 @@ function Resource({ title, path, pdfUrl }) {
   }
   return (
     <li className={rowClass}>
-      <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className={`${titleClass} ${textLink}`}>
+      <Link to={path} className={`${titleClass} ${textLink}`}>
         {title}
-      </a>
+      </Link>
       <a href={pdfUrl} download aria-label={`Download ${title}`} className={`${slotClass} text-green`}>
         <Download size={20} aria-hidden="true" />
       </a>

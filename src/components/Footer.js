@@ -1,10 +1,11 @@
 import React from "react";
 import { email, emailHref } from '../data/site';
 import SocialLinks from './SocialLinks';
-import { SubTitle, container, underlineLink } from './ui';
+import { SiteLink, SubTitle, container, underlineLink } from './ui';
 
 const usefulLinks = [
-  { href: 'https://nutrition-dashboard-vision.vercel.app/', label: 'Nutrition Dashboard' },
+  { href: '/nutrition-dashboard', label: 'Nutrition Dashboard' },
+  { href: '/resources', label: 'Resources' },
   { href: 'http://www.nnfsp.gov.np/', label: 'Nepal Nutrition and Food Security Portal' },
 ];
 
@@ -22,20 +23,20 @@ function Footer() {
           </div>
 
           <div className="lg:col-span-3 lg:col-start-7">
-            <SubTitle tone="text-inherit">Useful Links</SubTitle>
+            <SubTitle as="h2" tone="text-inherit">Useful Links</SubTitle>
             <ul className="mt-2">
               {usefulLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className={`flex min-h-11 items-center text-meta ${underlineLink}`}>
+                  <SiteLink href={link.href} className={`flex min-h-11 items-center text-meta ${underlineLink}`}>
                     {link.label}
-                  </a>
+                  </SiteLink>
                 </li>
               ))}
             </ul>
           </div>
 
           <div className="lg:col-span-3">
-            <SubTitle tone="text-inherit">Get in Touch</SubTitle>
+            <SubTitle as="h2" tone="text-inherit">Get in Touch</SubTitle>
             <SocialLinks className="mt-2 gap-3" linkClassName="border border-paper/30 hover:border-paper" />
           </div>
         </div>

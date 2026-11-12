@@ -17,7 +17,10 @@ Browser -> Cloudflare (DNS, CDN) -> Cloudflare Pages (build/ from main)
 - `/` renders the home page sections in order: Hero, SurveyDashboard, D4N, Initiatives, CountryChapter,
   Repository, Events, the updates block and Thoughts.
 - `/initiatives/:id` and `/chapters/:id` render `InitiativePage` and `ChapterPage` from `InitiativePage.js`.
-- Five old inner pages and every unknown address render `ComingSoon`.
+- `/resources` renders `ResourcesPage`. `/resources/:id` renders `ResourcePage` and `/events/:id` renders `EventPage`. Both use `ContentPage`.
+- The files from Google Drive live in `public/resources/`. The two report PDFs live in `public/document_pdfs/`. No link on the site opens a Drive folder as the main action.
+- `/nutrition-dashboard` renders `ExternalRedirect`, which sends the visitor to the dashboard site. Cloudflare Pages does the same for a direct visit, from `public/_redirects`.
+- Five old inner pages render `ComingSoon`. Every unknown address renders `NotFound`.
 
 Cloudflare Pages returns `index.html` for unknown paths, so a direct visit to a route works.
 
@@ -31,7 +34,7 @@ Cloudflare Pages returns `index.html` for unknown paths, so a direct visit to a 
 ## Styles
 
 - Tailwind with a fixed palette and no border radius, set in `tailwind.config.js`.
-- Global rules, fonts and animations are in `src/index.css`.
+- Global rules and scroll animations are in `src/index.css`. Fonts load from Fontsource in `src/index.js`. Card and menu animations are in `tailwind.config.js`.
 - Sections fade in on scroll with CSS `animation-timeline: view()`. A browser without support shows them
   without the animation.
 - `prefers-reduced-motion` turns every animation off.
@@ -40,7 +43,7 @@ Cloudflare Pages returns `index.html` for unknown paths, so a direct visit to a 
 
 - Hero photos have a 1600px file and an `-800` file. Collage tiles have a 1000px file and a `-500` file.
   `srcSet` and `sizes` pick the smaller file on phones.
-- The logo is `public/nf-logo.png`. The favicon is `public/favicon-64.png`.
+- The logo is `public/nf-logo.png`. The favicon is `public/nf-favicon.png`.
 
 ## External services
 

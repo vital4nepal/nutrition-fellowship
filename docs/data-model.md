@@ -34,8 +34,23 @@ Each `counts` array follows the order of `countries`. Percentages are computed, 
 - An initiative without `page` shows "Coming soon" at `/initiatives/<id>`.
 - `page` holds `{ intro, photos[], goals[], steps[], link }`. The Gen-N page uses it.
 
+## `resources.js`
+
+- `resources` is a list of `{ id, title, date?, description, summary, pointsTitle, points[], cover, coverFocus?, imageKind?, driveHref?, documents[], photos[] }`. Each entry has a card on `/resources` and a page at `/resources/<id>`.
+- An entry from a Google Drive folder has `driveHref`, and its files are copied into `public/resources/<folder>/`.
+- A document is `{ title, description, file, kind, size }`. A photo is `{ src, thumb }`: a large file (1400px on the longest side) and a smaller copy in `thumbs/`.
+- Spreadsheets with participant names or costs, videos and large decks stay in Drive only.
+- `dashboard` is `{ title, href }`. `/nutrition-dashboard` sends the visitor to `href`. Change `public/_redirects` too.
+
+## `events.js`
+
+- `events` is a list of `{ id, date, img, title, summary?, pointsTitle?, points?, photos?, documents?, links? }`. `date` is month/day/year.
+- Each event has a page at `/events/<id>`. Without `photos` the page shows the card photo, and without `summary` it says more is coming soon.
+
 ## Add or change content
 
+- A new document or photo: copy the file into `public/resources/<folder>/` and add it to `resources`. Resize a photo first.
+- Content for an event: add `summary`, `photos` or `documents` to its entry in `events`.
 - A new survey count: edit the `counts` array. Keep the country order.
 - A new initiative page: add a `page` object to its entry.
 - A new chapter page: add an entry to `chapters` with `href: '/chapters/<id>'`.

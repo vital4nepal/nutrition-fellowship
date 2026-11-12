@@ -1,38 +1,34 @@
-import React, { useRef } from 'react';
-import Slider from 'react-slick';
+import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import 'slick-carousel/slick/slick.css';
-import { Section, SectionTitle, SubTitle } from './ui';
-
-const events = [
-  { date: '08/01/2024', img: '/Recentevents/thumbs/1st meet.jpg', title: 'Nutrition Fellowship for Nepal: First Meet' },
-  { date: '12/26/2024', img: '/Recentevents/thumbs/2nd meet.jpg', title: 'Strategic Planning for Fellowship Meet' },
-  { date: '01/02/2025', img: '/Recentevents/thumbs/Pk data camp.jpg', title: 'Nutrition Data Camp : at Padma Kanya College' },
-  { date: '01/05/2025', img: '/Recentevents/thumbs/CAFODAT data camp.jpg', title: 'Nutrition Data Camp : at CAFODAT College' },
-  { date: '01/17/2025', img: '/Recentevents/thumbs/Meet_and_Greet_12.jpg', title: '2nd Nutrition Fellowship for Nepal Meet' },
-  { date: '01/20/2025', img: '/Recentevents/thumbs/DC-mmihs1.jpg', title: 'Nutrition Data Camp : at MMIHS' },
-  { date: '02/19/2025', img: '/Recentevents/thumbs/canvabatch1.jpg', title: 'Canva Workshop among different colleges: Batch 1' },
-];
-
-const settings = {
-  arrows: false,
-  dots: false,
-  autoplay: false,
-  infinite: true,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  responsive: [
-    { breakpoint: 1024, settings: { slidesToShow: 3 } },
-    { breakpoint: 768, settings: { slidesToShow: 2 } },
-    { breakpoint: 640, settings: { slidesToShow: 1 } },
-  ],
-};
+import { events, longDate } from '../data/events';
+import { Section, SectionTitle, SubTitle, groupTitleLink } from './ui';
 
 const arrowButton =
-  'flex h-11 w-11 items-center justify-center border border-line-strong text-ink transition-colors hover:border-green hover:text-green';
+  'flex h-11 w-11 items-center justify-center border border-line-strong text-ink transition-colors hover:border-green hover:text-green aria-disabled:cursor-default aria-disabled:opacity-40 aria-disabled:hover:border-line-strong aria-disabled:hover:text-ink';
 
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** The row of event cards. It scrolls sideways and each card snaps to the left edge. Every card is a link to its page. */
 function Events() {
-  const sliderRef = useRef(null);
+  const track = useRef(null);
+  const [edge, setEdge] = useState({ start: true, end: false });
+
+  // The arrows use aria-disabled, not disabled: a disabled button drops the keyboard focus.
+  const step = (direction) => {
+    if (direction < 0 ? edge.start : edge.end) return;
+    const card = track.current.firstElementChild;
+    track.current.scrollBy({
+      left: direction * card.getBoundingClientRect().width,
+      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    });
+  };
+
+  const onScroll = ({ currentTarget }) =>
+    setEdge({
+      start: currentTarget.scrollLeft < 1,
+      end: currentTarget.scrollLeft + currentTarget.clientWidth >= currentTarget.scrollWidth - 1,
+    });
 
   return (
     <Section name="events" id="events" padding="pb-10 pt-12 lg:pb-12 lg:pt-16">
@@ -42,29 +38,35 @@ function Events() {
           <SubTitle className="mt-2">Recent Events</SubTitle>
         </div>
         <div className="flex gap-2">
-          <button type="button" aria-label="Previous events" onClick={() => sliderRef.current.slickPrev()} className={arrowButton}>
+          <button type="button" aria-label="Previous events" aria-disabled={edge.start} onClick={() => step(-1)} className={arrowButton}>
             <ChevronLeft size={20} aria-hidden="true" />
           </button>
-          <button type="button" aria-label="Next events" onClick={() => sliderRef.current.slickNext()} className={arrowButton}>
+          <button type="button" aria-label="Next events" aria-disabled={edge.end} onClick={() => step(1)} className={arrowButton}>
             <ChevronRight size={20} aria-hidden="true" />
           </button>
         </div>
       </div>
-      <div className="-mx-3 mt-8">
-        <Slider ref={sliderRef} {...settings}>
-          {events.map(({ date, img, title }) => (
-            <div key={title} className="px-3">
-              <figure>
-                <img loading="lazy" decoding="async" src={img} alt="" className="aspect-[3/2] w-full object-cover" />
-                <figcaption>
-                  <p className="mt-3 text-meta tabular-nums text-muted">{date}</p>
-                  <p className="mt-1 line-clamp-2 text-base font-semibold text-ink lg:text-body">{title}</p>
-                </figcaption>
-              </figure>
-            </div>
-          ))}
-        </Slider>
-      </div>
+      <ul
+        ref={track}
+        onScroll={onScroll}
+        className="-mx-3 mt-8 flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {events.map(({ id, date, img, title }) => (
+          <li key={id} className="w-full shrink-0 snap-start px-3 sm:w-1/2 md:w-1/3 lg:w-1/4">
+            <Link to={`/events/${id}`} className="group block focus-visible:-outline-offset-2">
+              <img
+                loading="lazy"
+                decoding="async"
+                src={img}
+                alt=""
+                className="aspect-[3/2] w-full object-cover transition-opacity group-hover:opacity-90"
+              />
+              <p className="mt-3 text-meta tabular-nums text-muted">{longDate(date)}</p>
+              <p className={`mt-1 line-clamp-2 text-base font-semibold text-ink lg:text-body ${groupTitleLink}`}>{title}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </Section>
   );
 }
