@@ -71,14 +71,20 @@ function ContentPage({
               <li key={file}>
                 <a
                   href={file}
-                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group flex h-full flex-col border border-line bg-surface p-5 transition-colors hover:border-green"
                 >
                   <span className={`text-base font-semibold text-ink lg:text-body ${groupTitleLink}`}>{name}</span>
                   <span className="mt-2 text-meta text-muted">{description}</span>
                   <span className="mt-auto flex items-center justify-between gap-3 pt-5 text-meta tabular-nums text-muted">
                     {kind}, {size}
-                    <Download size={20} aria-hidden="true" className="text-green" />
+                    {/* A browser shows a PDF in the tab and saves any other file. */}
+                    {kind === 'PDF' ? (
+                      <ArrowUpRight size={20} aria-hidden="true" className="text-green" />
+                    ) : (
+                      <Download size={20} aria-hidden="true" className="text-green" />
+                    )}
                   </span>
                 </a>
               </li>

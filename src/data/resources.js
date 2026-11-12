@@ -1,8 +1,7 @@
-// Each entry is one group of files. It has a card on /resources and its own page at /resources/<id>.
-// A group from a Google Drive folder has `driveHref` and its files are copied into public/resources/<folder>/.
-// Files that stay only in Drive are not copied: spreadsheets with participant names and costs, videos and large decks.
-// A photo has a large file (1400px on the longest side) and a smaller copy in thumbs/ (480px, or 800px for the report previews).
-// `imageKind` names the images when they are not photos.
+// Each entry is one group of files, with a card on /resources and a page at /resources/<id>.
+// A group from a Drive folder has `driveHref` and its files are in public/resources/<folder>/. Spreadsheets with
+// participant names and costs, videos and large decks stay in Drive only. A photo has a 1400px file (longest side)
+// and a smaller copy in thumbs/. `imageKind` names the images when they are not photos.
 const photo = (dir, name) => ({ src: `/resources/${dir}/${name}.jpg`, thumb: `/resources/${dir}/thumbs/${name}.jpg` });
 const range = (count) => Array.from({ length: count }, (_, index) => index + 1);
 
@@ -23,11 +22,11 @@ export const resources = [
     cover: photo('jan17', 'meet-and-greet-18'),
     driveHref: 'https://drive.google.com/drive/folders/11yDaiLP9wzxMpP1vY4zqsY3uewHR__oO?usp=drive_link',
     documents: [
-      { title: 'Meeting agenda', description: 'The goals, the schedule and the facilitators of the evening.', file: '/resources/jan17/docs/agenda.pdf', kind: 'PDF', size: '4.0 MB' },
-      { title: 'Nutrition Fellowship brief', description: 'The vision, the five pillars and how to join.', file: '/resources/jan17/docs/brief.pdf', kind: 'PDF', size: '0.1 MB' },
-      { title: 'Spotlight Series', description: 'Profiles of the nutrition champions from the Spotlight Series.', file: '/resources/jan17/docs/spotlight-series.pdf', kind: 'PDF', size: '0.4 MB' },
-      { title: 'Meet and Greet', description: 'Profiles of the professionals at the Meet and Greet.', file: '/resources/jan17/docs/meet-and-greet.pdf', kind: 'PDF', size: '0.5 MB' },
-      { title: 'Team and Guidance Group', description: 'The team and the guidance group of the Fellowship.', file: '/resources/jan17/docs/team-and-guidance-group.pdf', kind: 'PDF', size: '3.7 MB' },
+      { title: 'Meeting agenda', description: 'The goals, the schedule and the facilitators of the evening.', file: '/resources/jan17/docs/jan-17-agenda.pdf', kind: 'PDF', size: '4.0 MB' },
+      { title: 'Nutrition Fellowship brief', description: 'The vision, the five pillars and how to join.', file: '/resources/jan17/docs/jan-17-brief.pdf', kind: 'PDF', size: '0.1 MB' },
+      { title: 'Spotlight Series', description: 'Profiles of the nutrition champions from the Spotlight Series.', file: '/resources/jan17/docs/jan-17-spotlight-series.pdf', kind: 'PDF', size: '0.4 MB' },
+      { title: 'Meet and Greet', description: 'Profiles of the professionals at the Meet and Greet.', file: '/resources/jan17/docs/jan-17-meet-and-greet.pdf', kind: 'PDF', size: '0.5 MB' },
+      { title: 'Team and Guidance Group', description: 'The team and the guidance group of the Fellowship.', file: '/resources/jan17/docs/jan-17-team-and-guidance-group.pdf', kind: 'PDF', size: '3.7 MB' },
     ],
     photos: [
       photo('jan17', 'flyer'),
@@ -53,9 +52,9 @@ export const resources = [
     cover: photo('data-camp', 'cafodat1'),
     driveHref: 'https://drive.google.com/drive/folders/1_PZuUUcI1jwHlIVtsgN01VcXAdH8B8PO?usp=drive_link',
     documents: [
-      { title: 'Data Camp agenda', description: 'The sessions of the day, who leads each one and the materials.', file: '/resources/data-camp/docs/agenda.pdf', kind: 'PDF', size: '0.1 MB' },
-      { title: 'Data Camp presentation', description: 'The slides of the Data Camp.', file: '/resources/data-camp/docs/presentation.pptx', kind: 'PPTX', size: '5.9 MB' },
-      { title: 'Goal and objectives', description: 'The goal and the objectives of the Data Camp.', file: '/resources/data-camp/docs/goal-and-objectives.pptx', kind: 'PPTX', size: '0.1 MB' },
+      { title: 'Data Camp agenda', description: 'The sessions of the day, who leads each one and the materials.', file: '/resources/data-camp/docs/data-camp-agenda.pdf', kind: 'PDF', size: '0.1 MB' },
+      { title: 'Data Camp presentation', description: 'The slides of the Data Camp.', file: '/resources/data-camp/docs/data-camp-presentation.pptx', kind: 'PPTX', size: '5.9 MB' },
+      { title: 'Goal and objectives', description: 'The goal and the objectives of the Data Camp.', file: '/resources/data-camp/docs/data-camp-goal-and-objectives.pptx', kind: 'PPTX', size: '0.1 MB' },
     ],
     photos: [
       'cafodat1', 'cafodat2', 'cafodat3', 'mmihs1', 'homescience1', 'homescience2', 'homescience3', 'homescience4',
