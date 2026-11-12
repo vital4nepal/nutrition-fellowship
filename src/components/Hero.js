@@ -26,7 +26,7 @@ const slides = [
       { name: 'vita-6', focus: '45% 55%', area: '', sizes: SMALL_TILE },
     ],
   },
-  { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
+  { name: 'second-meet', caption: '2nd Nutrition Fellowship for Nepal Meet, January 2025', focus: '50% 40%' },
   { name: 'data-camp-cafodat', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
   { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
   { name: 'data-camp-mmihs', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },

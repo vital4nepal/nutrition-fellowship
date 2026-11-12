@@ -29,7 +29,7 @@ const innerPages = [
   { path: '/profile', title: 'Nutrition Profile' },
   { path: '/policy2025', title: 'Policy 2025' },
   { path: '/aiinnutrition', title: 'Research on AI in nutrition' },
-  { path: '/nfn2ndmeetblog', title: 'Nutrition Fellowship for Nepal: 2nd meet blog' },
+  { path: '/nfn2ndmeetblog', title: '2nd Nutrition Fellowship for Nepal Meet blog' },
   { path: '/nrcinternblog', title: 'Nutrition Rehabilitation Center: Internship blog' },
 ];
 

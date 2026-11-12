@@ -18,7 +18,7 @@ const documents = [
   {
     category: 'Blogs',
     links: [
-      { title: 'Nutrition Fellowship for Nepal : 2nd Meet', path: '/nfn2ndmeetblog' },
+      { title: '2nd Nutrition Fellowship for Nepal Meet', path: '/nfn2ndmeetblog' },
       { title: 'Internship at Nutrition Rehabilitation Center', path: '/nrcinternblog' },
     ],
   },
