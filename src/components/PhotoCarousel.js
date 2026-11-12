@@ -66,8 +66,8 @@ function PhotoCarousel({ label, photos }) {
           <img
             key={photos[index].src}
             src={encodeURI(photos[index].src)}
-            srcSet={`${encodeURI(photos[index].thumb)} 480w, ${encodeURI(photos[index].src)} 1400w`}
-            sizes="(min-width: 1024px) 760px, 100vw"
+            srcSet={photos[index].srcSet}
+            sizes="(min-width: 1280px) 780px, (min-width: 1024px) 62vw, calc(100vw - 34px)"
             alt={index === current ? `${label}, ${index + 1} of ${total}` : ''}
             draggable={false}
             className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
@@ -95,7 +95,7 @@ function PhotoCarousel({ label, photos }) {
 
       {total > 1 && (
         <ul ref={strip} className="relative mt-3 flex gap-2 overflow-x-auto p-1">
-          {photos.map(({ src, thumb }, index) => (
+          {photos.map(({ src, strip }, index) => (
             <li key={src} className="shrink-0">
               <button
                 type="button"
@@ -107,7 +107,7 @@ function PhotoCarousel({ label, photos }) {
                   index === current ? 'border-green' : 'border-transparent opacity-60 hover:opacity-100'
                 }`}
               >
-                <img loading="lazy" src={thumb} alt="" width={96} height={64} className="h-16 w-24 object-cover" />
+                <img loading="lazy" src={strip} alt="" width={96} height={64} className="h-16 w-24 object-cover" />
               </button>
             </li>
           ))}

@@ -38,8 +38,8 @@ function ResourcesPage() {
                 <img
                   loading="lazy"
                   src={resource.cover.thumb}
-                  srcSet={`${resource.cover.thumb} 480w, ${resource.cover.src} 1400w`}
-                  sizes="(min-width: 768px) 560px, 100vw"
+                  srcSet={resource.cover.srcSet}
+                  sizes="(min-width: 1024px) 380px, (min-width: 768px) 48vw, calc(100vw - 34px)"
                   alt=""
                   width={480}
                   height={320}

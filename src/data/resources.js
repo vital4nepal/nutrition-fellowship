@@ -1,8 +1,18 @@
 // Each entry is one group of files, with a card on /resources and a page at /resources/<id>.
 // A group from a Drive folder has `driveHref` and its files are in public/resources/<folder>/. Spreadsheets with
-// participant names and costs, videos and large decks stay in Drive only. A photo has a 1400px file (longest side)
-// and a smaller copy in thumbs/. `imageKind` names the images when they are not photos.
-const photo = (dir, name) => ({ src: `/resources/${dir}/${name}.jpg`, thumb: `/resources/${dir}/thumbs/${name}.jpg` });
+// participant names and costs, videos and large decks stay in Drive only. A photo has a 1400px file (longest side),
+// an -800 copy (800px wide), and in thumbs/ a 480px copy and a -192 copy for the strip. `imageKind` names the
+// images when they are not photos.
+const photo = (dir, name) => {
+  const src = `/resources/${dir}/${name}.jpg`;
+  const thumb = `/resources/${dir}/thumbs/${name}.jpg`;
+  return {
+    src,
+    thumb,
+    strip: `/resources/${dir}/thumbs/${name}-192.jpg`,
+    srcSet: `${thumb} 480w, /resources/${dir}/${name}-800.jpg 800w, ${src} 1400w`,
+  };
+};
 const range = (count) => Array.from({ length: count }, (_, index) => index + 1);
 
 export const resources = [
