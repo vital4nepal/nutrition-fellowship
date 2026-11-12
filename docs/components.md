@@ -34,7 +34,7 @@ All components are in `src/components/`. Each home page section is one file.
 | File | Page |
 | --- | --- |
 | `InitiativePage.js` | `InitiativePage` for `/initiatives/:id` and `ChapterPage` for `/chapters/:id` |
-| `ResourcesPage.js` | `/resources`: one card for each entry in `resources` |
+| `ResourcesPage.js` | `/resources`: for each entry in `resources`, a document list and a photo grid |
 | `DashboardPage.js` | `/dashboard`: the dashboard iframe and the "Open full screen" link |
 | `ComingSoon.js` | Placeholder for a page with no content yet. Exports `SITE_TITLE` |
 | `NotFound.js` | The 404 page, with links to the most visited sections |

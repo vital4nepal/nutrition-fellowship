@@ -36,12 +36,14 @@ Each `counts` array follows the order of `countries`. Percentages are computed, 
 
 ## `resources.js`
 
-- `resources` is a list of `{ id, title, description, image, href }`. Each entry is one Google Drive folder on `/resources`.
+- `resources` is a list of `{ id, title, description, driveHref, documents[], photos[] }`. Each entry is one Google Drive folder, copied into `public/resources/<folder>/`.
+- A document is `{ title, file, kind, size }`. A photo is `{ src, thumb }`: a 1400px file and a 480px file in `thumbs/`.
+- Spreadsheets with participant names or costs, videos and large decks stay in Drive only. `driveHref` leads to the whole folder.
 - `dashboard` is `{ title, description, href }`. `/dashboard` shows `href` in an iframe.
 
 ## Add or change content
 
-- A new Drive folder: add an entry to `resources`. The folder must be shared as "anyone with the link".
+- A new document or photo: copy the file into `public/resources/<folder>/` and add it to `resources`. Resize a photo first.
 - A new survey count: edit the `counts` array. Keep the country order.
 - A new initiative page: add a `page` object to its entry.
 - A new chapter page: add an entry to `chapters` with `href: '/chapters/<id>'`.
