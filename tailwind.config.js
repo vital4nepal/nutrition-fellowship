@@ -25,6 +25,8 @@ module.exports = {
         meta: ["0.875rem", { lineHeight: "1.5" }],
         display: ["2.5rem", { lineHeight: "1.15", letterSpacing: "-0.015em" }],
         ui: ["0.9375rem", { lineHeight: "1.5" }],
+        numeral: ["6rem", { lineHeight: "1" }],
+        "numeral-lg": ["9rem", { lineHeight: "1" }],
       },
       maxWidth: { content: "77.5rem", form: "35rem" },
       transitionDuration: { DEFAULT: "180ms" },

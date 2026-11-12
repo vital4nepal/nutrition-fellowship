@@ -15,7 +15,7 @@ export default function SocialLinks({ className = '', linkClassName = '' }) {
           aria-label={social.name}
           className={`flex h-11 w-11 items-center justify-center transition-colors ${linkClassName}`}
         >
-          <FontAwesomeIcon icon={social.icon} className="text-[18px]" />
+          <FontAwesomeIcon icon={social.icon} className="text-body" />
         </a>
       ))}
     </div>

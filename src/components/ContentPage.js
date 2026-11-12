@@ -75,7 +75,7 @@ function ContentPage({
                   rel="noopener noreferrer"
                   className="group flex h-full flex-col border border-line bg-surface p-5 transition-colors hover:border-green"
                 >
-                  <span className={`text-base font-semibold text-ink lg:text-body ${groupTitleLink}`}>{name}</span>
+                  <span className={`text-body font-semibold text-ink ${groupTitleLink}`}>{name}</span>
                   <span className="mt-2 text-meta text-muted">{description}</span>
                   <span className="mt-auto flex items-center justify-between gap-3 pt-5 text-meta tabular-nums text-muted">
                     {kind}, {size}

@@ -145,7 +145,7 @@ function Slideshow() {
         {/* The caption is announced only after the visitor takes control, never on each autoplay turn. */}
         <p
           aria-live={stopped ? 'polite' : 'off'}
-          className="max-w-[46ch] font-serif text-meta font-semibold leading-snug text-paper sm:text-base lg:text-sub"
+          className="max-w-[46ch] font-serif text-meta font-semibold leading-snug text-paper sm:text-body lg:text-sub"
         >
           {slides[current].caption}
         </p>

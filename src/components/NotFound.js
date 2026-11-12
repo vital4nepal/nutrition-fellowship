@@ -24,7 +24,7 @@ const NotFound = () => {
   return (
     <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
       <div className="lg:col-span-7">
-        <p aria-hidden="true" className="animate-rise font-serif text-[6rem] font-semibold leading-none text-line lg:text-[9rem]">
+        <p aria-hidden="true" className="animate-rise font-serif text-numeral font-semibold leading-none text-line lg:text-numeral-lg">
           404
         </p>
         <SectionTitle as="h1" className="mt-4 animate-rise [animation-delay:80ms]">
