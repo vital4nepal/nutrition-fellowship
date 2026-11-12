@@ -28,7 +28,7 @@ function ResourcesPage() {
       </p>
 
       <ul className="nf-stagger mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {resources.map((resource) => (
+        {resources.map((resource, index) => (
           <li key={resource.id}>
             <Link
               to={`/resources/${resource.id}`}
@@ -36,7 +36,8 @@ function ResourcesPage() {
             >
               <div className="aspect-[3/2] overflow-hidden border-b border-line bg-ink">
                 <img
-                  loading="lazy"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={index === 0 ? 'high' : undefined}
                   src={resource.cover.thumb}
                   srcSet={`${resource.cover.thumb} 480w, ${resource.cover.src} 1400w`}
                   sizes="(min-width: 768px) 560px, 100vw"
