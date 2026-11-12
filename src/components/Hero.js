@@ -9,7 +9,7 @@ import { SectionTitle, container } from './ui';
 const SLIDE_INTERVAL_MS = 6000;
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
-// A collage tile has a large file and a `-500` file, 1000px and 500px wide unless it says otherwise.
+// A collage tile has a large file and a `-500` file, 1000px and 500px wide.
 // `focus` keeps the faces inside the crop.
 // Below 1024px the frame is the screen minus the 2rem page padding, split into thirds.
 const BIG_TILE = '(min-width: 1024px) 540px, calc((100vw - 2rem) * 2 / 3)';
@@ -53,7 +53,7 @@ function Collage({ tiles, showing, wanted, onSettle }) {
 
   return (
     <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1 bg-ink">
-      {tiles.map(({ name, focus, area, sizes, widths: [small, large] = [500, 1000] }, index) => {
+      {tiles.map(({ name, focus, area, sizes }, index) => {
         const done = () => {
           markLoaded(index);
           if (index === 0) onSettle();
@@ -62,7 +62,7 @@ function Collage({ tiles, showing, wanted, onSettle }) {
           <img
             key={`${name}-${round}`}
             src={wanted ? `/hero/${name}.jpg` : undefined}
-            srcSet={wanted ? `/hero/${name}-500.jpg ${small}w, /hero/${name}.jpg ${large}w` : undefined}
+            srcSet={wanted ? `/hero/${name}-500.jpg 500w, /hero/${name}.jpg 1000w` : undefined}
             sizes={sizes}
             alt=""
             fetchpriority={index === 0 ? 'high' : 'low'}
