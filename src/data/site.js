@@ -16,7 +16,7 @@ export const socials = [
 // The D4N 2026 Learning Lab, from the event flyer. The register link is where the flyer's QR code leads.
 export const d4n = {
   registerHref: 'https://southasia.ifpri.info/d4n-2026-register/',
-  conference: 'Delivering for Nutrition in South Asia 2026',
+  conference: 'Delivering for Nutrition in South Asia 2026 Conference',
   conferenceDates: '30 November to 3 December 2026',
   labDate: '30 November 2026',
   labTime: '13:45 to 15:00 (LKT)',

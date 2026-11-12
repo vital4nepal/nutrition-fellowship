@@ -36,7 +36,7 @@ const D4N = () => (
           What does your generation need to address evolving nutrition challenges?
         </p>
         <p className="mt-3 max-w-[60ch] text-body">
-          A session on a workforce fit to deliver for nutrition in South Asia, at {d4n.conference} (
+          A session on a workforce fit to deliver for nutrition in South Asia, at the {d4n.conference} (
           {d4n.conferenceDates}). Students bring insights from the regional Pulse Survey and discuss skills, practical
           learning and careers.
         </p>
