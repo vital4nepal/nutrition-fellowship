@@ -29,7 +29,7 @@ export const initiatives = [
       ],
       link: {
         href: '/resources/data-camp',
-        label: 'Data Camp agenda, photos and slides',
+        label: 'Data Camp agenda, slides and photos',
       },
     },
   },

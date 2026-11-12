@@ -32,10 +32,10 @@ const tabs = [
     panel: (
       <div className="space-y-3">
         <p className="max-w-[65ch] font-serif text-sub font-semibold text-green">
-          “No Nepali is deprived of right to be free from undernutrition and suffer from ills effect of overnutrition”
+          “No Nepali is deprived of the right to be free from undernutrition and from suffering the ill effects of overnutrition”
         </p>
         <p className="max-w-[65ch] text-body text-muted">
-          “Bound by purpose, United for Nutrition: A fellowship to Nourish Generations”
+          “Bound by purpose, united for nutrition: a fellowship to nourish generations”
         </p>
         <ul className="flex flex-wrap gap-x-4 gap-y-1 text-ui font-semibold text-green">
           {pillars.map((pillar) => (

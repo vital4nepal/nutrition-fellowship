@@ -11,25 +11,25 @@ const highlights = [
   {
     image: '/KeyHighlights/thumbs/NFNbanner.jpg',
     topic: 'Jan 17 Documents',
-    description: 'The documents from the 2nd Nutrition Fellowship meeting',
+    description: 'The documents from the 2nd Nutrition Fellowship for Nepal Meet',
     link: '/resources/jan-17-documents',
   },
   {
     image: '/KeyHighlights/thumbs/Dr. RP Bichha.jpg',
     topic: 'Dr. RP Bichha Speech',
-    description: 'The speech given by Dr. RP Bichha at the 2nd Nutrition Fellowship meeting',
+    description: 'The speech given by Dr. RP Bichha at the 2nd Nutrition Fellowship for Nepal Meet',
     link: 'https://youtu.be/YxI-8DVWIQQ?si=tb7y2lsEyLm8_31v',
   },
   {
     image: '/KeyHighlights/thumbs/Miriam Krantz.jpg',
     topic: 'Miriam Krantz Speech',
-    description: 'The speech given by Miriam Krantz at the 2nd Nutrition Fellowship meeting',
+    description: 'The speech given by Miriam Krantz at the 2nd Nutrition Fellowship for Nepal Meet',
     link: 'https://youtu.be/YxI-8DVWIQQ?si=tb7y2lsEyLm8_31v',
   },
   {
     image: '/KeyHighlights/thumbs/Dr. Ramesh K Adhikari.jpg',
     topic: 'Dr. RK Adhikari Speech',
-    description: 'The speech given by Dr. Ramesh K Adhikari at the 2nd Nutrition Fellowship meeting',
+    description: 'The speech given by Dr. Ramesh K Adhikari at the 2nd Nutrition Fellowship for Nepal Meet',
     link: 'https://youtu.be/YxI-8DVWIQQ?si=tb7y2lsEyLm8_31v',
   },
 ];

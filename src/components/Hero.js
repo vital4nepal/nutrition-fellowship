@@ -26,7 +26,7 @@ const slides = [
       { name: 'vita-6', focus: '45% 55%', area: '', sizes: SMALL_TILE },
     ],
   },
-  { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
+  { name: 'second-meet', caption: '2nd Nutrition Fellowship for Nepal Meet, January 2025', focus: '50% 40%' },
   { name: 'data-camp-cafodat', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
   { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
   { name: 'data-camp-mmihs', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },
@@ -190,7 +190,7 @@ const Hero = () => (
       </div>
       <div className="grid content-start gap-4 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1 lg:border-l lg:border-line lg:pl-8 [&>*]:animate-rise [&>*:nth-child(2)]:[animation-delay:200ms] [&>*:nth-child(3)]:[animation-delay:320ms] [&>*:nth-child(1)]:[animation-delay:80ms]">
         <article className="flex flex-col border border-line bg-surface p-6">
-          <h2 className="text-sub text-green">Student Pulse Survey</h2>
+          <h2 className="text-sub text-green">Pulse Survey results</h2>
           <p className="mt-3 text-body">
             <strong className="font-semibold text-ink">{respondentsFor(ALL)} students</strong> in {countryList} answered.
           </p>
@@ -200,7 +200,7 @@ const Hero = () => (
           </a>
         </article>
         <article className="flex flex-col bg-deep p-6 text-paper">
-          <h2 className="text-sub">D4N 2026 Learning Lab</h2>
+          <h2 className="text-sub">Learning Lab, {d4n.labDate}</h2>
           <p className="mt-3 text-body text-paper/90">
             {d4n.labDate}, {d4n.labTime}. Hybrid, at the {d4n.venue}.
           </p>
