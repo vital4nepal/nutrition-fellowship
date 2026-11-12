@@ -42,9 +42,9 @@ function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-2 border-t border-paper/20 pt-6 text-meta md:flex-row md:items-center md:justify-between md:gap-8">
-          <p>
-            Questions? Email us at{" "}
-            <a href={emailHref} className={underlineLink}>
+          <p className="flex flex-wrap items-center gap-x-1">
+            Questions? Email us at
+            <a href={emailHref} className={`flex min-h-11 items-center ${underlineLink}`}>
               {email}
             </a>
           </p>
