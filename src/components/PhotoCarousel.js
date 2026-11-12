@@ -32,6 +32,8 @@ function PhotoCarousel({ label, photos }) {
   };
 
   const onKeyDown = (event) => {
+    // Alt or Cmd plus an arrow is the browser's Back and Forward.
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
     if (event.key === 'ArrowLeft') go(current - 1);
     else if (event.key === 'ArrowRight') go(current + 1);
     else return;
