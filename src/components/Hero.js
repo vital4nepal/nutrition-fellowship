@@ -183,6 +183,7 @@ const Hero = () => (
         <div className="animate-rise [animation-delay:120ms]">
           <Slideshow />
         </div>
+        <About />
       </div>
       <div className="grid content-start gap-4 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1 lg:border-l lg:border-line lg:pl-8 [&>*]:animate-rise [&>*:nth-child(2)]:[animation-delay:200ms] [&>*:nth-child(3)]:[animation-delay:320ms] [&>*:nth-child(1)]:[animation-delay:80ms]">
         <article className="flex flex-col border border-line bg-surface p-6">
@@ -219,10 +220,6 @@ const Hero = () => (
         <div id="highlights" className="mt-4 sm:col-span-2 lg:col-span-1">
           <CoverpageRight />
         </div>
-      </div>
-      {/* After the cards in the source order, so a phone reaches the event before the long About text. */}
-      <div className="lg:col-span-12">
-        <About />
       </div>
     </div>
   </section>
