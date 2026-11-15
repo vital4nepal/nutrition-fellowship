@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowDown, ArrowUpRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
-import { ALL, countries, respondentsFor } from '../data/pulseSurvey';
 import { d4n } from '../data/site';
 import About from './About';
 import CoverpageRight from './CoverpageRight';
@@ -173,8 +172,6 @@ function Slideshow() {
   );
 }
 
-const lastCountry = countries[countries.length - 1].label;
-const countryList = `${countries.slice(0, -1).map((country) => country.label).join(', ')} and ${lastCountry}`;
 const cardLink =
   'inline-flex min-h-11 items-center gap-2 font-semibold underline-offset-4 transition-colors hover:underline';
 
@@ -191,9 +188,8 @@ const Hero = () => (
       <div className="grid content-start gap-4 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1 lg:border-l lg:border-line lg:pl-8 [&>*]:animate-rise [&>*:nth-child(2)]:[animation-delay:200ms] [&>*:nth-child(3)]:[animation-delay:320ms] [&>*:nth-child(1)]:[animation-delay:80ms]">
         <article className="flex flex-col border border-line bg-surface p-6">
           <h2 className="text-sub text-green">Student Pulse Survey</h2>
-          <p className="mt-3 text-body">
-            <strong className="font-semibold text-ink">{respondentsFor(ALL)} students</strong> in {countryList} answered.
-          </p>
+          <p className="mt-3 text-body font-semibold text-ink">Voice and Appeals of nutrition students in South Asia</p>
+          <p className="mt-2 text-body">Pulse survey to understand aspirations, challenges and needs.</p>
           <a href="/#dashboard" className={`${cardLink} mt-auto pt-4 text-green`}>
             See the results
             <ArrowDown size={18} aria-hidden="true" />

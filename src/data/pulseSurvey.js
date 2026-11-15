@@ -7,27 +7,11 @@ export const countries = [
   { id: 'pakistan', label: 'Pakistan', respondents: 46 },
 ];
 
-// Nepal offered a sixth answer, "Somewhat worried" (1 response). It is counted under "Worried".
-export const jobConfidence = [
-  { id: 'very-confident', label: 'Very confident', counts: [5, 9, 20, 7] },
-  { id: 'confident', label: 'Confident', counts: [31, 38, 66, 21] },
-  { id: 'neutral', label: 'Neutral', counts: [24, 29, 28, 10] },
-  { id: 'worried', label: 'Worried', counts: [3, 32, 9, 5] },
-  { id: 'very-worried', label: 'Very worried', counts: [22, 11, 3, 3] },
-];
-
-// Nepal was asked if the country "will reach" its nutrition SDG target. The other three were asked if it is "on track".
-export const sdgOutlook = [
-  { id: 'yes', label: 'Yes', counts: [22, 46, 38, 10] },
-  { id: 'no', label: 'No', counts: [32, 38, 29, 14] },
-  { id: 'unsure', label: 'Do not know', counts: [31, 35, 59, 22] },
-];
-
-// A student could pick more than one skill and name more than one challenge, so these do not add up to 100%.
+// A student could pick more than one skill, so these do not add up to 100%.
 export const skills = [
   { id: 'research', label: 'Research', counts: [74, 92, 72, 30] },
   { id: 'data-analysis', label: 'Data analysis', counts: [56, 67, 40, 24] },
-  { id: 'public-speaking', label: 'Public speaking', counts: [5, 60, 68, 21] },
+  { id: 'public-speaking', label: 'Presentation', counts: [5, 60, 68, 21] },
   { id: 'leadership', label: 'Leadership', counts: [3, 46, 64, 14] },
   { id: 'social-media', label: 'Social media', counts: [22, 35, 44, 7] },
   { id: 'program-management', label: 'Program management', counts: [6, 35, 39, 13] },
@@ -37,19 +21,43 @@ export const skills = [
   { id: 'policy-analysis', label: 'Policy analysis', counts: [4, 15, 7, 4] },
 ];
 
-export const challenges = [
-  { id: 'time', label: 'Academic pressure and workload', counts: [8, 37, 47, 15] },
-  { id: 'practical', label: 'Field exposure', counts: [26, 47, 10, 17] },
-  { id: 'content', label: 'Understanding content', counts: [19, 30, 28, 9] },
-  { id: 'language', label: 'Language barriers', counts: [0, 0, 48, 2] },
-  { id: 'research', label: 'Research skills', counts: [9, 22, 3, 6] },
-  { id: 'resources', label: 'Study resources', counts: [8, 21, 3, 6] },
-  { id: 'focus', label: 'Concentration and motivation', counts: [4, 22, 7, 5] },
-  { id: 'finance', label: 'Financial difficulties', counts: [3, 9, 15, 7] },
-  { id: 'wellbeing', label: 'Stress and wellbeing', counts: [6, 9, 12, 5] },
-  { id: 'infrastructure', label: 'Infrastructure and transport', counts: [1, 14, 7, 6] },
-  { id: 'career', label: 'Career uncertainty', counts: [6, 12, 7, 2] },
-  { id: 'teaching', label: 'Teaching guidance', counts: [16, 7, 0, 3] },
+// The four dashboard themes in display order. Only "skills" is computed from the counts above;
+// the rest is typed from the owner's website updates document and has no per-country split.
+export const themes = [
+  { id: 'skills', title: 'Skills students want to build', kind: 'bars' },
+  {
+    id: 'challenges',
+    title: 'Challenges students face',
+    kind: 'list',
+    items: [
+      'Academic pressure and time management',
+      'Limited program exposure and research experience',
+      'Language and communication barriers',
+      'Financial and resource constraints',
+    ],
+    note: 'Many students have also raised the issue of mental health.',
+  },
+  {
+    id: 'policy',
+    title: 'Policy and program awareness',
+    kind: 'stats',
+    stats: [
+      { id: 'who-targets', value: '51%', text: 'were aware of World Health Assembly nutrition targets' },
+      // The survey sheets agree: 116 of 376 students answered yes.
+      { id: 'sdg-track', value: '1 in 3', text: 'believed their country was on track to meet the nutrition SDGs' },
+      { id: 'programme', value: '1 in 4', text: 'students have had exposure to a government nutrition programme' },
+    ],
+  },
+  {
+    id: 'career',
+    title: 'Financial and career issues',
+    kind: 'stats',
+    stats: [
+      // 53% is the owner's figure. The survey sheets give 52% (197 of 376 confident or very confident).
+      { id: 'job-confidence', value: 'Only 53%', text: 'of students feel confident about securing a relevant nutrition job' },
+      { id: 'job-status', value: '4 out of 10', text: 'students are either working or looking for a job' },
+    ],
+  },
 ];
 
 export const ALL = 'all';
