@@ -11,9 +11,10 @@ const facts = [
 
 const pillars = ['Celebrate', 'Convene', 'Coach', 'Collaborate', 'Connect'];
 
-/** The About Us block under the slideshow: vision, value proposition and reach. */
+/** The About Us block under the hero: vision and value proposition side by side, then the reach. */
 const About = () => (
-  <div id="aboutus" className="mt-8 space-y-8">
+  <div id="aboutus" className="space-y-8 border-t border-line pt-8 lg:space-y-10 lg:pt-10">
+    <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
     <section className="space-y-3">
       <SectionTitle as="h2" size="sidebar">Our Vision</SectionTitle>
       <p className="max-w-[65ch] font-serif text-sub font-semibold text-green">
@@ -36,6 +37,7 @@ const About = () => (
         The Fellowship also gives them a platform to participate in policy discussions and use their collective voice to improve policies and programmes and advocate for accountability on nutrition commitments.
       </p>
     </section>
+    </div>
 
     <section className="space-y-3">
       <SectionTitle as="h2" size="sidebar">Our Reach</SectionTitle>
