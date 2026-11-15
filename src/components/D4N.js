@@ -21,6 +21,18 @@ const partners = [
   'Nutrition Fellowship',
 ];
 
+// The two parts of the Learning Lab, in the owner's words.
+const parts = [
+  {
+    lead: 'Part 1 | What does the nutrition workforce need?',
+    text: 'Governments, partners, faculty and students will discuss how to strengthen the nutrition workforce.',
+  },
+  {
+    lead: 'Part 2 | What can partners do together?',
+    text: 'Partners will discuss how to strengthen learning including use of technology and program exposure. The event will build commitment and roadmap to enhance capacity of students to address undernutrition now and emerging nutrition challenges.',
+  },
+];
+
 const facts = [
   { icon: CalendarDays, text: d4n.labDate },
   { icon: Clock, text: d4n.labTime },
@@ -32,14 +44,16 @@ const D4N = () => (
     <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
       <div className="lg:col-span-7">
         <SectionTitle>D4N 2026 Learning Lab</SectionTitle>
-        <p className="mt-4 max-w-[48ch] font-serif text-sub font-semibold text-ink">
-          What does your generation need to address evolving nutrition challenges?
-        </p>
-        <p className="mt-3 max-w-[60ch] text-body">
-          A session on a workforce fit to deliver for nutrition in South Asia, at {d4n.conference} (
-          {d4n.conferenceDates}). Students bring insights from the regional Pulse Survey and discuss skills, practical
-          learning and careers.
-        </p>
+        <p className="mt-4 max-w-[48ch] font-serif text-sub font-semibold text-ink">{d4n.theme}</p>
+        <p className="mt-3 max-w-[60ch] text-body">Delivering for Nutrition Conference 2026 ({d4n.conferenceDates}).</p>
+
+        <div className="mt-4 max-w-[60ch] space-y-4 text-body">
+          {parts.map(({ lead, text }) => (
+            <p key={lead}>
+              <span className="font-semibold text-ink">{lead}</span> {text}
+            </p>
+          ))}
+        </div>
 
         <ul className="mt-6 space-y-2 text-body">
           {facts.map(({ icon: Icon, text }) => (

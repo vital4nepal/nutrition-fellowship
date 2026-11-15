@@ -197,7 +197,8 @@ const Hero = () => (
         </article>
         <article className="flex flex-col bg-deep p-6 text-paper">
           <h2 className="text-sub">D4N 2026 Learning Lab</h2>
-          <p className="mt-3 text-body text-paper/90">
+          <p className="mt-3 text-body text-paper/90">{d4n.theme}</p>
+          <p className="mt-2 text-body text-paper/90">
             {d4n.labDate}, {d4n.labTime}. Hybrid, at the {d4n.venue}.
           </p>
           <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-2 pt-4">
