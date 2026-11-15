@@ -45,11 +45,19 @@ const SkillBars = () => (
   </>
 );
 
+/** Text with **bold** words: the odd parts of the split are the marked words. */
+const Marked = ({ text }) =>
+  text.split('**').map((part, index) =>
+    index % 2 ? <strong key={part} className="font-semibold">{part}</strong> : part,
+  );
+
 const ChallengeList = ({ items, note }) => (
   <>
     <ul className="divide-y divide-line border-y border-line">
       {items.map((item) => (
-        <li key={item} className="py-3 text-ui text-ink">{item}</li>
+        <li key={item} className="py-3 text-ui text-ink">
+          <Marked text={item} />
+        </li>
       ))}
     </ul>
     <p className="mt-4 text-ui font-semibold text-ink">{note}</p>

@@ -29,11 +29,12 @@ export const themes = [
     id: 'challenges',
     title: 'Challenges students face',
     kind: 'list',
+    // Words between ** ** show in bold.
     items: [
-      'Academic pressure and time management',
-      'Limited program exposure and research experience',
-      'Language and communication barriers',
-      'Financial and resource constraints',
+      '**Academic pressure** and time management',
+      'Limited **program exposure** and **research experience**',
+      '**Language** and communication barriers',
+      '**Financial** and resource constraints',
     ],
     note: 'Many students have also raised the issue of mental health.',
   },
