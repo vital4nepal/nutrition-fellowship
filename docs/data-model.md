@@ -8,7 +8,7 @@ The content data is in `src/data/`. Components read it. There is no API.
 | --- | --- | --- |
 | `email`, `emailHref` | string | Contact address and its `mailto:` link |
 | `socials` | `{ name, href, icon }[]` | Footer social links |
-| `d4n` | `{ registerHref, conference, conferenceDates, labDate, labTime, venue }` | D4N card and section |
+| `d4n` | `{ registerHref, theme, conferenceDates, labDate, labTime, venue }` | D4N card and section |
 | `chapters` | `{ id, label, href }[]` | Chapter dropdown and `/chapters/:id` |
 | `navLinks` | `{ href, label, children? }[]` | Nav. A link with `children` opens a menu |
 
@@ -19,8 +19,8 @@ The counts come from the Student Pulse Survey analysis sheets. Only totals are s
 | Export | Shape |
 | --- | --- |
 | `countries` | `{ id, label, respondents }[]` in the order Nepal, Bangladesh, Sri Lanka, Pakistan |
-| `jobConfidence`, `sdgOutlook` | `{ id, label, counts[4] }[]`. One answer per student, so the counts add up to `respondents` |
-| `skills`, `challenges` | `{ id, label, counts[4] }[]`. Students picked more than one, so the counts do not add up |
+| `skills` | `{ id, label, counts[4] }[]`. Students picked more than one, so the counts do not add up |
+| `themes` | The four dashboard cards in order. Only `skills` is computed from the counts. The others are findings typed from the owner's website updates document |
 | `ALL` | The id for all countries |
 | `countFor(row, countryId)` | The count of one answer for one country or for `ALL` |
 | `respondentsFor(countryId)` | The number of students for one country or for `ALL` |
