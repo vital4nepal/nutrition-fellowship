@@ -8,6 +8,7 @@ Cloudflare Pages serves the static `build/` folder.
 ```
 Browser -> Cloudflare (DNS, CDN) -> Cloudflare Pages (build/ from main)
                                   -> Web3Forms (contact form POST)
+                                  -> tile.openstreetmap.org (map tiles, chapter pages only)
 ```
 
 ## Routing
@@ -16,7 +17,8 @@ Browser -> Cloudflare (DNS, CDN) -> Cloudflare Pages (build/ from main)
 
 - `/` renders the home page sections in order: Hero, SurveyDashboard, D4N, Initiatives,
   Repository, Events, the updates block and Thoughts.
-- `/initiatives/:id` and `/chapters/:id` render `InitiativePage` and `ChapterPage` from `InitiativePage.js`.
+- `/initiatives/:id` renders `InitiativePage`. `/chapters/:id` renders `ChapterPage`.
+- `ChapterPage` loads `ChapterMap` with `React.lazy`. Leaflet and the border data are in that chunk, so the home page does not load them.
 - `/resources` renders `ResourcesPage`. `/resources/:id` renders `ResourcePage` and `/events/:id` renders `EventPage`. Both use `ContentPage`.
 - The files from Google Drive live in `public/resources/`. The two report PDFs live in `public/document_pdfs/`. No link on the site opens a Drive folder as the main action.
 - `/nutrition-dashboard` renders `ExternalRedirect`, which sends the visitor to the dashboard site. Cloudflare Pages does the same for a direct visit, from `public/_redirects`.
@@ -52,3 +54,7 @@ Cloudflare Pages returns `index.html` for unknown paths, so a direct visit to a 
 | Cloudflare Pages | Hosting and previews | Project `nut-fellowship` |
 | Web3Forms | Contact form | `src/components/Thoughts.js` (public client key) |
 | IFPRI | D4N registration | `d4n.registerHref` in `src/data/site.js` |
+| OpenStreetMap | Map tiles from `tile.openstreetmap.org`, no key | `src/components/ChapterMap.js` |
+
+The OpenStreetMap tile policy applies: keep the credit on the map, send a `Referer` header and do not download tiles in bulk.
+A Content Security Policy must allow `img-src https://tile.openstreetmap.org` for the tiles.

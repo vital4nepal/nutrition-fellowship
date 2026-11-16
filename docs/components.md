@@ -33,8 +33,9 @@ All components are in `src/components/`. Each home page section is one file.
 | File | Page |
 | --- | --- |
 | `InitiativePage.js` | `/initiatives/:id` |
-| `ChapterPage.js` | `/chapters/:id`: a country map with numbered pins and a list of what each pin stands for |
-| `ChapterMaps.js` | `CountryMap`: an SVG map from `src/data/maps.js`. A pin is numbered like the list beside the map |
+| `ChapterPage.js` | `/chapters/:id`: the chapter name, "Coming soon." and the map. The map frame keeps its height while the map loads |
+| `ChapterMap.js` | A Leaflet street map of one country: OpenStreetMap tiles, the borders from `chapterBorders.json` and a pin on the capital. The mouse wheel zooms, and a drag on a phone moves the map, only after a click or a tap on the map |
+| `ChapterMap.css` | Leaflet controls in the site tokens, and the gray tone of the tiles |
 | `Pie.js` | A share drawn as a pie. The survey cards use it |
 | `ResourcesPage.js` | `/resources`: one card for each entry in `resources` |
 | `ResourcePage.js` | `/resources/:id`: passes one entry of `resources` to `ContentPage` |
