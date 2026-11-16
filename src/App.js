@@ -4,7 +4,6 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import SurveyDashboard from './components/SurveyDashboard';
 import D4N from './components/D4N';
-import CountryChapter from './components/CountryChapter';
 import Repository from './components/Repository';
 import Events from './components/Events';
 import NextEvent from './components/NextEvent';
@@ -59,7 +58,6 @@ function App() {
               <SurveyDashboard />
               <D4N />
               <Initiatives/>
-              <CountryChapter />
               <Repository/>
               <Events/>
               <Section
