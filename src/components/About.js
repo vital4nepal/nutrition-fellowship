@@ -1,12 +1,34 @@
 import React, { useState } from 'react';
+import { Globe, MessageSquareText, UserRound, Users } from 'lucide-react';
 import { SectionTitle } from './ui';
+
+const ICON_SIZE = 28;
+
+/** Three people, two of them filled: the "2 out of 3" figure drawn at its real share. */
+const TwoOfThree = () => (
+  <span className="flex gap-1.5">
+    {[true, true, false].map((filled, index) => (
+      <UserRound
+        key={index}
+        size={ICON_SIZE}
+        strokeWidth={1.75}
+        className={filled ? 'fill-green text-green' : 'text-line'}
+        aria-hidden="true"
+      />
+    ))}
+  </span>
+);
 
 // The figures come from the owner's website updates document.
 const facts = [
-  { value: '600+', label: 'national and global nutrition stakeholders' },
-  { value: '4+', label: 'countries' },
-  { value: '2 out of 3', label: 'members are students or emerging professionals' },
-  { value: '500+', label: 'students have shared their aspirations, challenges and needs through this platform' },
+  { value: '600+', label: 'national and global nutrition stakeholders', icon: <Users size={ICON_SIZE} strokeWidth={1.75} aria-hidden="true" /> },
+  { value: '4+', label: 'countries', icon: <Globe size={ICON_SIZE} strokeWidth={1.75} aria-hidden="true" /> },
+  { value: '2 out of 3', label: 'members are students or emerging professionals', icon: <TwoOfThree /> },
+  {
+    value: '500+',
+    label: 'students have shared their aspirations, challenges and needs through this platform',
+    icon: <MessageSquareText size={ICON_SIZE} strokeWidth={1.75} aria-hidden="true" />,
+  },
 ];
 
 const pillars = ['Celebrate', 'Convene', 'Coach', 'Collaborate', 'Connect'];
@@ -105,10 +127,13 @@ const About = () => {
           The Fellowship has expanded beyond Nepal, with growing engagement in Pakistan, Bangladesh and Sri Lanka.
         </p>
         <dl className="grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4">
-          {facts.map(({ value, label }) => (
+          {facts.map(({ value, label, icon }) => (
             <div key={label} className="flex flex-col-reverse justify-end bg-paper p-4">
               <dt className="mt-1 text-meta text-muted">{label}</dt>
-              <dd className="font-serif text-title-sm font-semibold tabular-nums text-green">{value}</dd>
+              <dd className="font-serif text-title-sm font-semibold tabular-nums text-green">
+                <span className="mb-3 flex h-7 items-center">{icon}</span>
+                {value}
+              </dd>
             </div>
           ))}
         </dl>
