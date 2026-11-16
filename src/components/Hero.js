@@ -30,7 +30,6 @@ const slides = [
   { name: 'strategy-meeting', caption: 'Strategy meeting with JPG-SPH, BRAC University', focus: '50% 25%', width: 1280 },
   { name: 'brac-bangladesh-camp', caption: 'WHA assessment camp in Bangladesh University of Health Sciences', clip: true },
   { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
-  { name: 'data-camp-cafodat', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
   { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
   { name: 'data-camp-mmihs', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },
 ];
