@@ -1,4 +1,5 @@
 import React from 'react';
+import { Clock, HeartPulse, Languages, Microscope, Wallet } from 'lucide-react';
 import { ALL, countFor, respondentsFor, skills, themes } from '../data/pulseSurvey';
 import { Section, SectionTitle, SubTitle } from './ui';
 
@@ -13,36 +14,50 @@ const topSkills = skills
   .sort((a, b) => b.count - a.count)
   .slice(0, TOP_ROWS);
 
-const card = 'flex flex-col border border-line bg-surface p-5';
+const card = 'flex flex-col border border-t-2 border-line bg-surface p-5';
 
-/** One finding: a large figure, then the sentence that says what it counts. */
-const Stat = ({ value, children }) => (
-  <p>
-    <span className="block font-serif text-display font-semibold tabular-nums text-green">{value}</span>
-    <span className="mt-1 block text-ui font-semibold text-ink">{children}</span>
-  </p>
-);
+// One hue for each card: greens for what students want and know, orange for what holds them back.
+const hues = {
+  skills: { rule: 'border-t-green', text: 'text-green', wedge: 'fill-green', rest: 'fill-meadow' },
+  challenges: { rule: 'border-t-accent', text: 'text-accent', tile: 'border-chart-neg bg-chart-neg/25' },
+  policy: { rule: 'border-t-deep', text: 'text-deep', wedge: 'fill-deep', rest: 'fill-chart-pos' },
+  career: { rule: 'border-t-accent', text: 'text-accent', wedge: 'fill-accent', rest: 'fill-chart-neg/50' },
+};
 
-const SkillBars = () => (
-  <>
-    <Stat value={`${topSkills[0].share}%`}>want training in {topSkills[0].label.toLowerCase()}</Stat>
-    <ul className="mt-5 space-y-3">
-      {topSkills.map(({ id, label, count, share }, index) => (
-        <li key={id} title={`${count} of ${total} students`}>
-          <div className="flex items-baseline justify-between gap-3 text-meta">
-            <span className={index === 0 ? 'font-semibold text-ink' : 'text-muted'}>{label}</span>
-            <span className="font-semibold tabular-nums text-ink">{share}%</span>
-          </div>
-          <div className="mt-1 h-1.5 bg-line/60">
-            <div
-              className={`h-full transition-[width] duration-500 ${index === 0 ? 'bg-green' : 'bg-chart-pos'}`}
-              style={{ width: `${share}%` }}
-            />
-          </div>
-        </li>
-      ))}
-    </ul>
-  </>
+const PIE_SIZE = 80;
+const PIE_RADIUS = PIE_SIZE / 2 - 1;
+
+/** The wedge of a pie from 12 o'clock, clockwise. `fraction` is between 0 and 1 and never reaches 1. */
+const wedgePath = (fraction) => {
+  const centre = PIE_SIZE / 2;
+  const angle = fraction * 2 * Math.PI;
+  const x = centre + PIE_RADIUS * Math.sin(angle);
+  const y = centre - PIE_RADIUS * Math.cos(angle);
+  return `M ${centre} ${centre} L ${centre} ${centre - PIE_RADIUS} A ${PIE_RADIUS} ${PIE_RADIUS} 0 ${fraction > 0.5 ? 1 : 0} 1 ${x} ${y} Z`;
+};
+
+/** A share as a slice of a pie. `share` is a percent, or `[filled, total]`. `hue` colours the slice and the rest of the disc. */
+const Pie = ({ share, hue }) => {
+  const fraction = typeof share === 'number' ? share / 100 : share[0] / share[1];
+  return (
+    <svg width={PIE_SIZE} height={PIE_SIZE} viewBox={`0 0 ${PIE_SIZE} ${PIE_SIZE}`} aria-hidden="true" className="shrink-0">
+      <circle cx={PIE_SIZE / 2} cy={PIE_SIZE / 2} r={PIE_RADIUS} className={hue.rest} />
+      <path d={wedgePath(fraction)} className={hue.wedge} />
+    </svg>
+  );
+};
+
+/** The four most wanted skills, each as a pie with its share of all students beneath. */
+const SkillPies = ({ hue }) => (
+  <ul className="grid grid-cols-2 gap-x-3 gap-y-5">
+    {topSkills.map(({ id, label, count, share }) => (
+      <li key={id} title={`${count} of ${total} students`} className="flex flex-col items-center text-center">
+        <Pie share={share} hue={hue} />
+        <span className={`mt-2 font-serif text-sub font-semibold tabular-nums ${hue.text}`}>{share}%</span>
+        <span className="text-meta font-semibold text-ink">{label}</span>
+      </li>
+    ))}
+  </ul>
 );
 
 /** Text with **bold** words: the odd parts of the split are the marked words. */
@@ -51,33 +66,50 @@ const Marked = ({ text }) =>
     index % 2 ? <strong key={part} className="font-semibold">{part}</strong> : part,
   );
 
-const ChallengeList = ({ items, note }) => (
+// One icon for each challenge, in the order of `items` in the data file.
+const challengeIcons = [Clock, Microscope, Languages, Wallet];
+
+const ChallengeList = ({ items, note, hue }) => (
   <>
-    <ul className="divide-y divide-line border-y border-line">
-      {items.map((item) => (
-        <li key={item} className="py-3 text-ui text-ink">
-          <Marked text={item} />
-        </li>
-      ))}
+    <ul className="space-y-3">
+      {items.map((item, index) => {
+        const Icon = challengeIcons[index];
+        return (
+          <li key={item} className="flex items-center gap-3 text-ui text-ink">
+            <span className={`flex h-10 w-10 shrink-0 items-center justify-center border ${hue.tile} ${hue.text}`}>
+              <Icon size={20} strokeWidth={1.75} aria-hidden="true" />
+            </span>
+            <span>
+              <Marked text={item} />
+            </span>
+          </li>
+        );
+      })}
     </ul>
-    <p className="mt-4 text-ui font-semibold text-ink">{note}</p>
+    <p className="mt-4 flex items-start gap-3 border-l-2 border-accent bg-paper px-3 py-3 text-ui font-semibold text-ink">
+      <HeartPulse size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+      {note}
+    </p>
   </>
 );
 
-const StatList = ({ stats }) => (
+const StatList = ({ stats, hue }) => (
   <ul className="space-y-5">
-    {stats.map(({ id, value, text }) => (
-      <li key={id}>
-        <Stat value={value}>{text}</Stat>
+    {stats.map(({ id, value, share, text }) => (
+      <li key={id} className="flex items-center gap-4">
+        <Pie share={share} hue={hue} />
+        <p className="text-ui text-ink">
+          <strong className={`font-semibold ${hue.text}`}>{value}</strong> {text}
+        </p>
       </li>
     ))}
   </ul>
 );
 
-const ThemeBody = ({ theme }) => {
-  if (theme.kind === 'bars') return <SkillBars />;
-  if (theme.kind === 'list') return <ChallengeList items={theme.items} note={theme.note} />;
-  return <StatList stats={theme.stats} />;
+const ThemeBody = ({ theme, hue }) => {
+  if (theme.kind === 'bars') return <SkillPies hue={hue} />;
+  if (theme.kind === 'list') return <ChallengeList items={theme.items} note={theme.note} hue={hue} />;
+  return <StatList stats={theme.stats} hue={hue} />;
 };
 
 const SurveyDashboard = () => (
@@ -88,12 +120,15 @@ const SurveyDashboard = () => (
       <strong className="font-semibold text-ink">{total} students answered.</strong>
     </p>
     <div className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      {themes.map((theme) => (
-        <article key={theme.id} className={card}>
-          <SubTitle as="h3" tone="text-green" className="mb-5 xl:min-h-[3.6rem]">{theme.title}</SubTitle>
-          <ThemeBody theme={theme} />
-        </article>
-      ))}
+      {themes.map((theme) => {
+        const hue = hues[theme.id];
+        return (
+          <article key={theme.id} className={`${card} ${hue.rule}`}>
+            <SubTitle as="h3" tone={hue.text} className="mb-5 xl:min-h-[3.6rem]">{theme.title}</SubTitle>
+            <ThemeBody theme={theme} hue={hue} />
+          </article>
+        );
+      })}
     </div>
     <p className="mt-4 text-meta text-muted">
       Students could pick more than one skill, so the shares in the skills card do not add up to 100%.
