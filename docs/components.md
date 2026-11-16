@@ -48,4 +48,5 @@ All components are in `src/components/`. Each home page section is one file.
 - The first slide loads first. The other slides wait until it loads.
 - Autoplay starts after every slide loads. It stops on hover, on Pause and on a Previous or Next click.
 - A collage tile stays hidden until its photo loads, then fades in.
+- A clip slide is a muted video with a poster. It plays from the start each time its slide shows. A visitor who asks for reduced motion sees the poster until they press Play.
 - A visitor who asks for reduced motion starts with the slideshow stopped.
