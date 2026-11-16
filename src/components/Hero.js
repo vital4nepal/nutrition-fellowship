@@ -8,6 +8,7 @@ import { SectionTitle, container } from './ui';
 const SLIDE_INTERVAL_MS = 6000;
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
+// A photo with a `width` has a large file of that width instead of 1600px.
 // A collage tile has a large file and a `-500` file, 1000px and 500px wide.
 // `focus` keeps the faces inside the crop.
 // Below 1024px the frame is the screen minus the 2rem page padding, split into thirds.
@@ -25,6 +26,7 @@ const slides = [
       { name: 'vita-6', focus: '45% 55%', area: '', sizes: SMALL_TILE },
     ],
   },
+  { name: 'strategy-meeting', caption: 'Strategy meeting with JPG-SPH, BRAC University', focus: '50% 25%', width: 1280 },
   { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
   { name: 'data-camp-cafodat', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
   { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
@@ -109,7 +111,7 @@ function Slideshow() {
       onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
       onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
     >
-      {slides.map(({ name, collage }, index) => {
+      {slides.map(({ name, collage, width = 1600 }, index) => {
         const first = index === 0;
         const wanted = first || settled.has(0);
         if (collage) {
@@ -126,7 +128,7 @@ function Slideshow() {
           <img
             key={name}
             src={wanted ? `/hero/${name}.jpg` : undefined}
-            srcSet={wanted ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg 1600w` : undefined}
+            srcSet={wanted ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg ${width}w` : undefined}
             sizes="(min-width: 1024px) 800px, 100vw"
             alt=""
             onLoad={() => settle(index)}
