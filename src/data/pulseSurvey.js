@@ -43,10 +43,11 @@ export const themes = [
     title: 'Policy and program awareness',
     kind: 'stats',
     stats: [
-      { id: 'who-targets', value: '51%', text: 'were aware of World Health Assembly nutrition targets' },
+      // `share` draws the figure: a percent fills a bar, `[filled, total]` fills that many people.
+      { id: 'who-targets', value: '51%', share: 51, text: 'were aware of World Health Assembly nutrition targets' },
       // The survey sheets agree: 116 of 376 students answered yes.
-      { id: 'sdg-track', value: '1 in 3', text: 'believed their country was on track to meet the nutrition SDGs' },
-      { id: 'programme', value: '1 in 4', text: 'students have had exposure to a government nutrition programme' },
+      { id: 'sdg-track', value: '1 in 3', share: [1, 3], text:'believed their country was on track to meet the nutrition SDGs' },
+      { id: 'programme', value: '1 in 4', share: [1, 4], text:'students have had exposure to a government nutrition programme' },
     ],
   },
   {
@@ -55,8 +56,8 @@ export const themes = [
     kind: 'stats',
     stats: [
       // 53% is the owner's figure. The survey sheets give 52% (197 of 376 confident or very confident).
-      { id: 'job-confidence', value: 'Only 53%', text: 'of students feel confident about securing a relevant nutrition job' },
-      { id: 'job-status', value: '4 out of 10', text: 'students are either working or looking for a job' },
+      { id: 'job-confidence', value: 'Only 53%', share: 53, text:'of students feel confident about securing a relevant nutrition job' },
+      { id: 'job-status', value: '4 out of 10', share: [4, 10], text:'students are either working or looking for a job' },
     ],
   },
 ];
