@@ -1,4 +1,5 @@
 import React from 'react';
+import { Clock, HeartPulse, Languages, Microscope, Wallet } from 'lucide-react';
 import { ALL, countFor, respondentsFor, skills, themes } from '../data/pulseSurvey';
 import { Section, SectionTitle, SubTitle } from './ui';
 
@@ -15,13 +16,33 @@ const topSkills = skills
 
 const card = 'flex flex-col border border-line bg-surface p-5';
 
-/** One finding: a large figure, then the sentence that says what it counts. */
-const Stat = ({ value, children }) => (
-  <p>
-    <span className="block font-serif text-display font-semibold tabular-nums text-green">{value}</span>
-    <span className="mt-1 block text-ui font-semibold text-ink">{children}</span>
-  </p>
+/** One finding: a large figure, an optional drawing of its share, then the sentence that says what it counts. */
+const Stat = ({ value, children, drawing }) => (
+  <div>
+    <p className="font-serif text-display font-semibold tabular-nums text-green">{value}</p>
+    {drawing}
+    <p className="mt-2 text-ui font-semibold text-ink">{children}</p>
+  </div>
 );
+
+/** A share as a bar (a number of percent) or as cells (`[filled, total]`). Hidden from screen readers: the figure is in the text. */
+const ShareDrawing = ({ share }) => {
+  if (typeof share === 'number') {
+    return (
+      <div aria-hidden="true" className="mt-3 h-2 bg-line/60">
+        <div className="h-full bg-green" style={{ width: `${share}%` }} />
+      </div>
+    );
+  }
+  const [filled, total] = share;
+  return (
+    <div aria-hidden="true" className="mt-3 flex gap-1">
+      {Array.from({ length: total }, (_, index) => (
+        <span key={index} className={`h-3 flex-1 ${index < filled ? 'bg-green' : 'bg-line/60'}`} />
+      ))}
+    </div>
+  );
+};
 
 const SkillBars = () => (
   <>
@@ -51,24 +72,35 @@ const Marked = ({ text }) =>
     index % 2 ? <strong key={part} className="font-semibold">{part}</strong> : part,
   );
 
+const challengeIcons = { academic: Clock, exposure: Microscope, language: Languages, financial: Wallet };
+
 const ChallengeList = ({ items, note }) => (
   <>
     <ul className="divide-y divide-line border-y border-line">
-      {items.map((item) => (
-        <li key={item} className="py-3 text-ui text-ink">
-          <Marked text={item} />
-        </li>
-      ))}
+      {items.map(({ id, text }) => {
+        const Icon = challengeIcons[id];
+        return (
+          <li key={id} className="flex items-start gap-3 py-3 text-ui text-ink">
+            <Icon size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-green" aria-hidden="true" />
+            <span>
+              <Marked text={text} />
+            </span>
+          </li>
+        );
+      })}
     </ul>
-    <p className="mt-4 text-ui font-semibold text-ink">{note}</p>
+    <p className="mt-4 flex items-start gap-3 border-l-2 border-accent bg-paper px-3 py-3 text-ui font-semibold text-ink">
+      <HeartPulse size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+      {note}
+    </p>
   </>
 );
 
 const StatList = ({ stats }) => (
-  <ul className="space-y-5">
-    {stats.map(({ id, value, text }) => (
+  <ul className="space-y-6">
+    {stats.map(({ id, value, share, text }) => (
       <li key={id}>
-        <Stat value={value}>{text}</Stat>
+        <Stat value={value} drawing={<ShareDrawing share={share} />}>{text}</Stat>
       </li>
     ))}
   </ul>
