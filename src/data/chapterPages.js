@@ -1,48 +1,7 @@
-import { d4n } from './site';
-
-// What each chapter page says. A pin sits on the capital and lists what the Fellowship did or plans in that city.
-// The place of an event is the capital of its country. Change `pins` when the owner gives a more exact place.
+// One entry for each chapter page. The map puts its pin on the capital, at [latitude, longitude].
 export const chapterPages = {
-  nepal: {
-    status: 'The first chapter of the Fellowship.',
-    pins: [
-      {
-        city: 'Kathmandu',
-        lines: ['Fellowship meets, Data Camps and Canva workshops for students.'],
-        link: { href: '/#events', label: 'See the events' },
-      },
-    ],
-  },
-  bangladesh: {
-    status: 'The chapter is coming soon.',
-    pins: [
-      {
-        city: 'Dhaka',
-        lines: [
-          'Strategy meeting with JPG-SPH, BRAC University.',
-          'WHA assessment camp in Bangladesh University of Health Sciences.',
-        ],
-        link: { href: '/', label: 'See the photo and the clip in the slideshow' },
-      },
-    ],
-  },
-  'sri-lanka': {
-    status: 'The chapter is coming soon.',
-    pins: [
-      {
-        city: 'Colombo',
-        lines: [`D4N 2026 Learning Lab, ${d4n.labDate}, ${d4n.venue}.`],
-        link: { href: '/#d4n', label: 'See the Learning Lab' },
-      },
-    ],
-  },
-  pakistan: {
-    status: 'The chapter is coming soon.',
-    pins: [
-      {
-        city: 'Islamabad',
-        lines: ['No Fellowship event here yet.'],
-      },
-    ],
-  },
+  nepal: { capital: 'Kathmandu', at: [27.7172, 85.324] },
+  bangladesh: { capital: 'Dhaka', at: [23.8103, 90.4125] },
+  'sri-lanka': { capital: 'Colombo', at: [6.9271, 79.8612] },
+  pakistan: { capital: 'Islamabad', at: [33.6844, 73.0479] },
 };

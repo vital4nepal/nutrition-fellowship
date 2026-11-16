@@ -1,58 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { chapterPages } from '../data/chapterPages';
 import { chapters } from '../data/site';
-import { CountryMap } from './ChapterMaps';
 import { SITE_TITLE } from './ComingSoon';
 import NotFound from './NotFound';
-import { SectionTitle, SiteLink, SubTitle, textLink } from './ui';
+import { SectionTitle } from './ui';
+
+// Leaflet and the border data load only on a chapter page, so the home page does not pay for them.
+const ChapterMap = lazy(() => import('./ChapterMap'));
 
 const names = Object.fromEntries(chapters.map(({ id, label }) => [id, label]));
 
-const panel = 'border border-line bg-surface p-5';
-const backLink = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
-
-/** /chapters/:id. A map of the country with numbered pins, and a list of what each pin stands for. */
+/** /chapters/:id. The chapter name, a coming soon line and a map of the country. */
 function ChapterPage({ id }) {
   const label = names[id];
-  const { status, pins } = chapterPages[id];
 
   return (
     <article>
-      <SiteLink href="/" className={backLink}>
-        <ArrowLeft size={18} aria-hidden="true" />
-        Home
-      </SiteLink>
-      <SectionTitle as="h1" className="mt-4">{label} Chapter</SectionTitle>
-      <p className="mt-3 max-w-[60ch] text-body">{status}</p>
-
-      <div className={`${panel} mt-8 grid gap-8 lg:grid-cols-2 lg:p-6`}>
-        <CountryMap id={id} label={label} />
-        <div>
-          <SubTitle as="h2" tone="text-green">Where the Fellowship works</SubTitle>
-          <ol className="mt-4 space-y-5">
-            {pins.map(({ city, lines, link }, index) => (
-              <li key={city} className="flex gap-4">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center bg-accent font-semibold text-paper" aria-hidden="true">
-                  {index + 1}
-                </span>
-                <div>
-                  <h3 className="text-sub text-ink">{city}</h3>
-                  {lines.map((line) => (
-                    <p key={line} className="mt-1 text-body">{line}</p>
-                  ))}
-                  {link && (
-                    <SiteLink href={link.href} className={`mt-2 inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`}>
-                      {link.label}
-                      <ArrowUpRight size={18} aria-hidden="true" />
-                    </SiteLink>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+      <SectionTitle as="h1">{label} Chapter</SectionTitle>
+      <p className="mt-4 text-sub text-ink">Coming soon.</p>
+      {/* The frame has the height of the map before the map loads, so nothing below it moves. */}
+      <div className="mt-8 h-[60svh] min-h-[22rem] border border-line bg-paper lg:h-[70vh]">
+        <Suspense fallback={null}>
+          <ChapterMap id={id} label={label} />
+        </Suspense>
       </div>
     </article>
   );

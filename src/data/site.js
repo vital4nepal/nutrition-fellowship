@@ -23,7 +23,7 @@ export const d4n = {
   venue: 'Shangri-La Hotel, Colombo, Sri Lanka',
 };
 
-// Each chapter has its own page at /chapters/<id>. The page text is in chapterPages.js.
+// Each chapter has its own page at /chapters/<id>. The capital for the map pin is in chapterPages.js.
 export const chapters = [
   { id: 'nepal', label: 'Nepal', href: '/chapters/nepal' },
   { id: 'bangladesh', label: 'Bangladesh', href: '/chapters/bangladesh' },
