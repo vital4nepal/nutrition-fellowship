@@ -116,7 +116,7 @@ const SurveyDashboard = () => (
   <Section name="dashboard" id="dashboard">
     <SectionTitle>What challenges students face</SectionTitle>
     <p className="mt-3 max-w-[60ch] text-body">
-      In the South Asia Pulse Survey, we asked nutrition students what they want to learn, what holds them back and how they see their future.{' '}
+      In the South Asia Pulse Survey, we asked nutrition students what they want to learn, what skills they want to build, what holds them back and how they see their future.{' '}
       <strong className="font-semibold text-ink">{total} students answered.</strong>
     </p>
     <div className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
