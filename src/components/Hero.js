@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { d4n } from '../data/site';
 import About from './About';
@@ -9,6 +9,7 @@ const SLIDE_INTERVAL_MS = 6000;
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
 // A photo with a `width` has a large file of that width instead of 1600px.
+// A `clip` slide is a muted 5 second video (`.webm` and `.mp4`) with a poster of the same name.
 // A collage tile has a large file and a `-500` file, 1000px and 500px wide.
 // `focus` keeps the faces inside the crop.
 // Below 1024px the frame is the screen minus the 2rem page padding, split into thirds.
@@ -27,6 +28,7 @@ const slides = [
     ],
   },
   { name: 'strategy-meeting', caption: 'Strategy meeting with JPG-SPH, BRAC University', focus: '50% 25%', width: 1280 },
+  { name: 'brac-bangladesh-camp', caption: 'WHA assessment camp in Bangladesh University of Health Sciences', clip: true },
   { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
   { name: 'data-camp-cafodat', caption: 'Data Camp at CAFODAT College, January 2025', focus: '55% 60%' },
   { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
@@ -80,6 +82,44 @@ function Collage({ tiles, showing, wanted, onSettle }) {
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/**
+ * A muted clip that plays from the start each time its slide shows. Until the clip loads, the poster shows.
+ * `playable` is false for a visitor who asked for reduced motion and has not pressed Play: they see the poster.
+ * The last source reports an error when the browser plays neither format, so the slideshow never waits for it.
+ */
+function Clip({ name, visible, wanted, playable, onSettle, className }) {
+  const video = useRef(null);
+  useEffect(() => {
+    const element = video.current;
+    if (visible && playable) {
+      element.currentTime = 0;
+      element.play().catch(() => {});
+    } else {
+      element.pause();
+    }
+  }, [visible, playable]);
+
+  return (
+    <video
+      ref={video}
+      muted
+      loop
+      playsInline
+      preload={wanted ? 'auto' : 'none'}
+      poster={wanted ? `/hero/${name}.jpg` : undefined}
+      onLoadedData={onSettle}
+      className={className}
+    >
+      {wanted && (
+        <>
+          <source src={`/hero/${name}.webm`} type="video/webm" />
+          <source src={`/hero/${name}.mp4`} type="video/mp4" onError={onSettle} />
+        </>
+      )}
+    </video>
+  );
+}
+
 const control =
   'flex h-11 w-10 items-center justify-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink';
 
@@ -87,7 +127,8 @@ function Slideshow() {
   const [current, setCurrent] = useState(0);
   const [hovered, setHovered] = useState(false);
   // A visitor who asks for reduced motion starts with the slideshow stopped. Play still works for them.
-  const [stopped, setStopped] = useState(prefersReducedMotion);
+  const [calm] = useState(prefersReducedMotion);
+  const [stopped, setStopped] = useState(calm);
   // The photos that loaded or failed, by index: a browser fires `load` again when it swaps to a larger file.
   // The later photos wait for the first one, and autoplay waits for all of them, so no fade lands on an empty frame.
   const [settled, setSettled] = useState(() => new Set());
@@ -111,9 +152,24 @@ function Slideshow() {
       onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
       onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
     >
-      {slides.map(({ name, collage, width = 1600 }, index) => {
+      {slides.map(({ name, collage, clip, width = 1600 }, index) => {
         const first = index === 0;
         const wanted = first || settled.has(0);
+        if (clip) {
+          return (
+            <Clip
+              key={name}
+              name={name}
+              visible={index === current}
+              wanted={wanted}
+              playable={!calm || !stopped}
+              onSettle={() => settle(index)}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+                index === current ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+          );
+        }
         if (collage) {
           return (
             <div
