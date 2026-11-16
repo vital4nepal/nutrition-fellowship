@@ -35,10 +35,10 @@ const tabs = [
     panel: (
       <div className="space-y-3 text-body text-ink">
         <p className="max-w-[65ch]">
-          The Network brings together stakeholders to strengthen the skills and competencies of students and young professionals so they can help address the region’s nutrition polycrisis. Students and young professionals work with mentors, learn directly from nutrition programmes, and build their skills in data analysis and interpreting findings.
+          The Network brings together stakeholders to strengthen the skills and competencies of students and young professionals so they can help address the unfinished issue of under-nutrition as well as emerging nutrition challenges the world is facing. Students and young professionals work with experts, mentors, learn directly from nutrition programs, and build their skills in data analysis, research and evidence generation.
         </p>
         <p className="max-w-[65ch]">
-          The Fellowship also gives them a platform to participate in policy discussions and use their collective voice to improve policies and programmes and advocate for accountability on nutrition commitments.
+          The Fellowship also gives them a platform to participate in policy discussions using the insights they generate and use their collective voice to improve policies, programs and advocate for actions and accountability on nutrition commitments.
         </p>
       </div>
     ),
