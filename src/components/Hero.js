@@ -16,7 +16,7 @@ const SMALL_TILE = '(min-width: 1024px) 270px, calc((100vw - 2rem) / 3)';
 const slides = [
   {
     name: 'vitamin-a',
-    caption: 'National Vitamin A Supplementation Program Monitoring by Students, November 2026',
+    caption: 'National Vitamin A Supplementation- Monitoring by Students in Nepal, November 2026',
     // One large tile on the left, three stacked on the right.
     collage: [
       { name: 'vita-2', focus: '55% 45%', area: 'col-span-2 row-span-3', sizes: BIG_TILE },
