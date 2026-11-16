@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { countryMaps, regionMap } from '../data/maps';
+import { countryMaps } from '../data/maps';
 
 const PIN_RADIUS = 14;
 // A tall map is drawn smaller on the page, so its pins grow to stay about the same size on screen.
@@ -32,41 +31,3 @@ export const CountryMap = ({ id, label }) => {
     </svg>
   );
 };
-
-/**
- * The four chapter countries on one map. The current one is dark green and the others are light.
- * Each country is a link to its page. `labels` is the text beside each pin, by country id.
- */
-export const RegionMap = ({ currentId, labels, names }) => (
-  <svg viewBox={regionMap.viewBox} role="group" aria-label="Map of the four chapter countries" className="mx-auto w-full">
-    {regionMap.neighbours.map((path) => (
-      <path key={path.slice(0, 40)} d={path} className="fill-line/40 stroke-line" strokeWidth="1" />
-    ))}
-    {Object.entries(regionMap.countries).map(([id, path]) => (
-      <Link key={id} to={`/chapters/${id}`} aria-label={`${names[id]} chapter`}>
-        <path
-          d={path}
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-          className={`stroke-green transition-colors hover:fill-chart-pos ${id === currentId ? 'fill-green' : 'fill-meadow'}`}
-        />
-      </Link>
-    ))}
-    {regionMap.pins.map((pin) => (
-      <g key={pin.id} pointerEvents="none">
-        <circle cx={pin.x} cy={pin.y} r="7" className="fill-accent stroke-paper" strokeWidth="2.5" />
-        <text
-          x={pin.x}
-          y={pin.y + 26}
-          textAnchor="middle"
-          fontSize="20"
-          className="fill-ink stroke-paper font-semibold"
-          strokeWidth="4"
-          paintOrder="stroke"
-        >
-          {labels[pin.id]}
-        </text>
-      </g>
-    ))}
-  </svg>
-);
