@@ -31,7 +31,7 @@ const tabs = [
   },
   {
     id: 'value',
-    label: 'Value Proposition / What We Do',
+    label: 'Value Proposition',
     panel: (
       <div className="space-y-3 text-body text-ink">
         <p className="max-w-[65ch]">
