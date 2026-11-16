@@ -23,9 +23,9 @@ export const d4n = {
   venue: 'Shangri-La Hotel, Colombo, Sri Lanka',
 };
 
-// Nepal is the only chapter with content. The other chapters have their own page that says "Coming soon".
+// Each chapter has its own page at /chapters/<id>. The page text is in chapterPages.js.
 export const chapters = [
-  { id: 'nepal', label: 'Nepal', href: '/#country-chapter' },
+  { id: 'nepal', label: 'Nepal', href: '/chapters/nepal' },
   { id: 'bangladesh', label: 'Bangladesh', href: '/chapters/bangladesh' },
   { id: 'sri-lanka', label: 'Sri Lanka', href: '/chapters/sri-lanka' },
   { id: 'pakistan', label: 'Pakistan', href: '/chapters/pakistan' },

@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { initiatives } from '../data/initiatives';
-import { chapters } from '../data/site';
 import ComingSoon, { SITE_TITLE } from './ComingSoon';
 import NotFound from './NotFound';
 import { SectionTitle, SubTitle, textLink } from './ui';
@@ -83,18 +82,5 @@ export function InitiativePage() {
         <ArrowUpRight size={18} aria-hidden="true" />
       </Link>
     </article>
-  );
-}
-
-/** /chapters/:id. Nepal's content lives on the home page, so /chapters/nepal goes there. The others say "Coming soon". */
-export function ChapterPage() {
-  const { id } = useParams();
-  const chapter = chapters.find((item) => item.id === id);
-  if (chapter && !chapter.href.startsWith('/chapters/')) return <Navigate to={chapter.href} replace />;
-  if (!chapter) return <NotFound />;
-  return (
-    <ComingSoon title={`${chapter.label} Chapter`}>
-      The {chapter.label} chapter is coming soon. Students in {chapter.label} already answered the Pulse Survey.
-    </ComingSoon>
   );
 }
