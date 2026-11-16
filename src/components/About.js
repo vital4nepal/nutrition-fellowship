@@ -40,7 +40,7 @@ const tabs = [
     panel: (
       <div className="space-y-3">
         <p className="max-w-[65ch] font-serif text-sub font-semibold text-green">
-          “No Nepali is deprived of right to be free from undernutrition and suffer from ills effect of overnutrition”
+          “No child and women is deprived of right to be free from undernutrition and suffer from ills effect of overnutrition”
         </p>
         <p className="max-w-[65ch] text-body text-muted">“Bound by Purpose, United for Nutrition.”</p>
         <ul className="flex flex-wrap gap-x-4 gap-y-1 text-ui font-semibold text-green">
