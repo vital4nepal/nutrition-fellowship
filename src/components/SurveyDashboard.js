@@ -16,41 +16,36 @@ const topSkills = skills
 
 const card = 'flex flex-col border border-line bg-surface p-5';
 
-const RING_SIZE = 76;
-const RING_STROKE = 7;
-const RING_RADIUS = (RING_SIZE - RING_STROKE) / 2;
-const RING_LENGTH = 2 * Math.PI * RING_RADIUS;
+const PIE_SIZE = 80;
+const PIE_RADIUS = PIE_SIZE / 2 - 1;
 
-/** A share as a percent of a ring. `share` is a percent, or `[filled, total]`. The label sits in the middle. */
-const Ring = ({ share, label }) => {
-  const percentOfRing = typeof share === 'number' ? share : (share[0] / share[1]) * 100;
+/** The wedge of a pie from 12 o'clock, clockwise. `fraction` is between 0 and 1 and never reaches 1. */
+const wedgePath = (fraction) => {
+  const centre = PIE_SIZE / 2;
+  const angle = fraction * 2 * Math.PI;
+  const x = centre + PIE_RADIUS * Math.sin(angle);
+  const y = centre - PIE_RADIUS * Math.cos(angle);
+  return `M ${centre} ${centre} L ${centre} ${centre - PIE_RADIUS} A ${PIE_RADIUS} ${PIE_RADIUS} 0 ${fraction > 0.5 ? 1 : 0} 1 ${x} ${y} Z`;
+};
+
+/** A share as a slice of a pie. `share` is a percent, or `[filled, total]`. */
+const Pie = ({ share }) => {
+  const fraction = typeof share === 'number' ? share / 100 : share[0] / share[1];
   return (
-    <div className="relative shrink-0" style={{ width: RING_SIZE, height: RING_SIZE }}>
-      <svg width={RING_SIZE} height={RING_SIZE} viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`} aria-hidden="true" className="-rotate-90">
-        <circle cx={RING_SIZE / 2} cy={RING_SIZE / 2} r={RING_RADIUS} fill="none" strokeWidth={RING_STROKE} className="stroke-line/60" />
-        <circle
-          cx={RING_SIZE / 2}
-          cy={RING_SIZE / 2}
-          r={RING_RADIUS}
-          fill="none"
-          strokeWidth={RING_STROKE}
-          strokeDasharray={`${(percentOfRing / 100) * RING_LENGTH} ${RING_LENGTH}`}
-          className="stroke-green"
-        />
-      </svg>
-      <span className="absolute inset-0 flex items-center justify-center font-serif text-ui font-semibold tabular-nums text-green">
-        {label}
-      </span>
-    </div>
+    <svg width={PIE_SIZE} height={PIE_SIZE} viewBox={`0 0 ${PIE_SIZE} ${PIE_SIZE}`} aria-hidden="true" className="shrink-0">
+      <circle cx={PIE_SIZE / 2} cy={PIE_SIZE / 2} r={PIE_RADIUS} className="fill-line/60" />
+      <path d={wedgePath(fraction)} className="fill-green" />
+    </svg>
   );
 };
 
-/** The four most wanted skills, each as a ring with its share of all students inside. */
-const SkillRings = () => (
+/** The four most wanted skills, each as a pie with its share of all students beneath. */
+const SkillPies = () => (
   <ul className="grid grid-cols-2 gap-x-3 gap-y-5">
     {topSkills.map(({ id, label, count, share }) => (
-      <li key={id} title={`${count} of ${total} students`} className="flex flex-col items-center gap-2 text-center">
-        <Ring share={share} label={`${share}%`} />
+      <li key={id} title={`${count} of ${total} students`} className="flex flex-col items-center text-center">
+        <Pie share={share} />
+        <span className="mt-2 font-serif text-sub font-semibold tabular-nums text-green">{share}%</span>
         <span className="text-meta font-semibold text-ink">{label}</span>
       </li>
     ))}
@@ -90,14 +85,11 @@ const ChallengeList = ({ items, note }) => (
   </>
 );
 
-// The figure sits in the ring, so a long figure gets a short form there. The full figure leads the sentence.
-const ringLabels = { 'job-confidence': '53%', 'job-status': '4/10' };
-
 const StatList = ({ stats }) => (
   <ul className="space-y-5">
     {stats.map(({ id, value, share, text }) => (
       <li key={id} className="flex items-center gap-4">
-        <Ring share={share} label={ringLabels[id] ?? value} />
+        <Pie share={share} />
         <p className="text-ui text-ink">
           <strong className="font-semibold">{value}</strong> {text}
         </p>
@@ -107,7 +99,7 @@ const StatList = ({ stats }) => (
 );
 
 const ThemeBody = ({ theme }) => {
-  if (theme.kind === 'bars') return <SkillRings />;
+  if (theme.kind === 'bars') return <SkillPies />;
   if (theme.kind === 'list') return <ChallengeList items={theme.items} note={theme.note} />;
   return <StatList stats={theme.stats} />;
 };
