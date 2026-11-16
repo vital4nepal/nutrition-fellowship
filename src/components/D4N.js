@@ -29,7 +29,7 @@ const parts = [
   },
   {
     lead: 'Part 2 | What can partners do together?',
-    text: 'Partners will discuss how to strengthen learning including use of technology and program exposure. The event will build commitment and roadmap to enhance capacity of students to address undernutrition now and emerging nutrition challenges.',
+    text: 'Partners will discuss how to strengthen learning including use of technology and through program exposure. The event will build commitment and roadmap to enhance capacity of students to address nutrition policy crisis that region now faces now and beyond 2030.',
   },
 ];
 
