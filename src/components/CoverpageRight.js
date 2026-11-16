@@ -12,7 +12,7 @@ const highlights = [
 
 const CoverpageRight = () => (
   <>
-    <SectionTitle size="sidebar">Key Highlights</SectionTitle>
+    <SectionTitle size="sidebar">Key Highlights/Alerts</SectionTitle>
     <ul className="mt-4 border-t border-line">
       {highlights.map((highlight) => (
         <li key={highlight.topic}>
