@@ -114,7 +114,7 @@ const ThemeBody = ({ theme }) => {
 
 const SurveyDashboard = () => (
   <Section name="dashboard" id="dashboard">
-    <SectionTitle>What challenges students face</SectionTitle>
+    <SectionTitle>South Asian Student’s Aspirations and Challenges</SectionTitle>
     <p className="mt-3 max-w-[60ch] text-body">
       In the South Asia Pulse Survey, we asked nutrition students what they want to learn, what skills they want to build, what holds them back and how they see their future.{' '}
       <strong className="font-semibold text-ink">{total} students answered.</strong>
