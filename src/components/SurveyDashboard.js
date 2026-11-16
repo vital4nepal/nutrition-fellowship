@@ -1,4 +1,5 @@
 import React from 'react';
+import { Briefcase, HeartPulse, Landmark, Mountain, TrendingUp, UserRound } from 'lucide-react';
 import { ALL, countFor, respondentsFor, skills, themes } from '../data/pulseSurvey';
 import { Section, SectionTitle, SubTitle } from './ui';
 
@@ -15,13 +16,40 @@ const topSkills = skills
 
 const card = 'flex flex-col border border-line bg-surface p-5';
 
-/** One finding: a large figure, then the sentence that says what it counts. */
-const Stat = ({ value, children }) => (
-  <p>
-    <span className="block font-serif text-display font-semibold tabular-nums text-green">{value}</span>
-    <span className="mt-1 block text-ui font-semibold text-ink">{children}</span>
-  </p>
+const themeIcons = { skills: TrendingUp, challenges: Mountain, policy: Landmark, career: Briefcase };
+
+/** One finding: a large figure, an optional drawing of its share, then the sentence that says what it counts. */
+const Stat = ({ value, children, drawing }) => (
+  <div>
+    <p className="font-serif text-display font-semibold tabular-nums text-green">{value}</p>
+    {drawing}
+    <p className="mt-2 text-ui font-semibold text-ink">{children}</p>
+  </div>
 );
+
+/** A share as a bar (a number of percent) or as people (`[filled, total]`). Hidden from screen readers: the figure is in the text. */
+const ShareDrawing = ({ share }) => {
+  if (typeof share === 'number') {
+    return (
+      <div aria-hidden="true" className="mt-3 h-2 bg-line/60">
+        <div className="h-full bg-green" style={{ width: `${share}%` }} />
+      </div>
+    );
+  }
+  const [filled, total] = share;
+  return (
+    <div aria-hidden="true" className="mt-3 flex gap-1">
+      {Array.from({ length: total }, (_, index) => (
+        <UserRound
+          key={index}
+          size={total > 5 ? 17 : 24}
+          strokeWidth={1.75}
+          className={index < filled ? 'fill-green text-green' : 'text-line'}
+        />
+      ))}
+    </div>
+  );
+};
 
 const SkillBars = () => (
   <>
@@ -53,22 +81,25 @@ const Marked = ({ text }) =>
 
 const ChallengeList = ({ items, note }) => (
   <>
-    <ul className="divide-y divide-line border-y border-line">
+    <ul className="space-y-2">
       {items.map((item) => (
-        <li key={item} className="py-3 text-ui text-ink">
+        <li key={item} className="border-l-2 border-green bg-paper px-3 py-2.5 text-ui text-ink">
           <Marked text={item} />
         </li>
       ))}
     </ul>
-    <p className="mt-4 text-ui font-semibold text-ink">{note}</p>
+    <p className="mt-4 flex items-start gap-3 border-l-2 border-accent px-3 py-2.5 text-ui font-semibold text-ink">
+      <HeartPulse size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+      {note}
+    </p>
   </>
 );
 
 const StatList = ({ stats }) => (
-  <ul className="space-y-5">
-    {stats.map(({ id, value, text }) => (
+  <ul className="space-y-6">
+    {stats.map(({ id, value, share, text }) => (
       <li key={id}>
-        <Stat value={value}>{text}</Stat>
+        <Stat value={value} drawing={<ShareDrawing share={share} />}>{text}</Stat>
       </li>
     ))}
   </ul>
@@ -88,12 +119,20 @@ const SurveyDashboard = () => (
       <strong className="font-semibold text-ink">{total} students answered.</strong>
     </p>
     <div className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      {themes.map((theme) => (
-        <article key={theme.id} className={card}>
-          <SubTitle as="h3" tone="text-green" className="mb-5 xl:min-h-[3.6rem]">{theme.title}</SubTitle>
-          <ThemeBody theme={theme} />
-        </article>
-      ))}
+      {themes.map((theme) => {
+        const Icon = themeIcons[theme.id];
+        return (
+          <article key={theme.id} className={card}>
+            <div className="mb-5 flex items-start gap-3 xl:min-h-[3.6rem]">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-green text-paper">
+                <Icon size={22} strokeWidth={1.75} aria-hidden="true" />
+              </span>
+              <SubTitle as="h3" tone="text-green">{theme.title}</SubTitle>
+            </div>
+            <ThemeBody theme={theme} />
+          </article>
+        );
+      })}
     </div>
     <p className="mt-4 text-meta text-muted">
       Students could pick more than one skill, so the shares in the skills card do not add up to 100%.
