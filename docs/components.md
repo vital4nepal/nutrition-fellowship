@@ -22,7 +22,6 @@ All components are in `src/components/`. Each home page section is one file.
 | `SurveyDashboard.js` | The four survey themes as cards. Skills are computed from the counts, the other three are typed findings |
 | `D4N.js` | D4N 2026 Learning Lab: details, register link, session plan, organizers, flyer |
 | `Initiatives.js` | Links to each initiative page |
-| `CountryChapter.js` | The Nepal chapter, links to the four chapter pages and the steps to start a chapter |
 | `Repository.js` | Document list. A report title opens its page and the icon downloads the PDF |
 | `Events.js` | Recent events row. It scrolls sideways and each card links to `/events/:id` |
 | `NextEvent.js`, `Announcements.js` | Upcoming events and announcements, both through `EntryList.js` |
@@ -34,9 +33,9 @@ All components are in `src/components/`. Each home page section is one file.
 | File | Page |
 | --- | --- |
 | `InitiativePage.js` | `/initiatives/:id` |
-| `ChapterPage.js` | `/chapters/:id`: a country map with pins, the Pulse Survey figures of the country and a map of the four chapters |
-| `ChapterMaps.js` | `CountryMap` and `RegionMap`: SVG maps from `src/data/maps.js`. A pin is numbered like the list beside the map |
-| `Pie.js` | A share drawn as a pie. The survey cards and the chapter pages use it |
+| `ChapterPage.js` | `/chapters/:id`: a country map with numbered pins and a list of what each pin stands for |
+| `ChapterMaps.js` | `CountryMap`: an SVG map from `src/data/maps.js`. A pin is numbered like the list beside the map |
+| `Pie.js` | A share drawn as a pie. The survey cards use it |
 | `ResourcesPage.js` | `/resources`: one card for each entry in `resources` |
 | `ResourcePage.js` | `/resources/:id`: passes one entry of `resources` to `ContentPage` |
 | `EventPage.js` | `/events/:id`: passes one entry of `events` to `ContentPage` |

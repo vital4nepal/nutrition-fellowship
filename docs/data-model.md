@@ -29,11 +29,10 @@ Each `counts` array follows the order of `countries`. Percentages are computed, 
 
 ## `chapterPages.js`
 
-`chapterPages` is an object by chapter id (`nepal`, `bangladesh`, `sri-lanka`, `pakistan`). Each entry is `{ status, pins[] }`. A pin is `{ city, lines[], link? }` and sits on the capital of the country. The page also shows the Pulse Survey figures of the country, computed from `pulseSurvey.js`.
-
+`chapterPages` is an object by chapter id (`nepal`, `bangladesh`, `sri-lanka`, `pakistan`). Each entry is `{ status, pins[] }`. A pin is `{ city, lines[], link? }` and sits on the capital of the country.
 ## `maps.js`
 
-`countryMaps` has one map for each chapter and `regionMap` has one map of the four. A map is an SVG `viewBox` with path strings and the pin points of the capitals. The paths come from Natural Earth admin-0 countries (public domain), simplified.
+`countryMaps` has one map for each chapter. `regionMap` is no longer used and goes when the maps are replaced. A map is an SVG `viewBox` with path strings and the pin points of the capitals. The paths come from Natural Earth admin-0 countries (public domain), simplified.
 
 ## `initiatives.js`
 

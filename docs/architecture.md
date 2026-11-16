@@ -14,7 +14,7 @@ Browser -> Cloudflare (DNS, CDN) -> Cloudflare Pages (build/ from main)
 
 `src/App.js` defines the routes with React Router `BrowserRouter`.
 
-- `/` renders the home page sections in order: Hero, SurveyDashboard, D4N, Initiatives, CountryChapter,
+- `/` renders the home page sections in order: Hero, SurveyDashboard, D4N, Initiatives,
   Repository, Events, the updates block and Thoughts.
 - `/initiatives/:id` and `/chapters/:id` render `InitiativePage` and `ChapterPage` from `InitiativePage.js`.
 - `/resources` renders `ResourcesPage`. `/resources/:id` renders `ResourcePage` and `/events/:id` renders `EventPage`. Both use `ContentPage`.
