@@ -27,6 +27,26 @@ The counts come from the Student Pulse Survey analysis sheets. Only totals are s
 
 Each `counts` array follows the order of `countries`. Percentages are computed, never stored.
 
+## `chapterPages.js`
+
+`chapterPages` is an object by chapter id (`nepal`, `bangladesh`, `sri-lanka`, `pakistan`). Each entry is `{ capital, at }`: the name of the capital and its `[latitude, longitude]`. The map puts the pin there.
+
+## `chapterBorders.json`
+
+One entry for each chapter id. Every point is `[latitude, longitude]` with three decimals.
+
+| Key | Content |
+| --- | --- |
+| `bounds` | The box of the country. The first view fits it |
+| `limit` | The box a visitor can pan in. The neighbour lines end at this box |
+| `land` | The country outline, one ring for the mainland and one for each island |
+| `inner` | The internal borders, as lines |
+| `neighbours` | The borders and coasts of the neighbour countries, as lines |
+
+The lines come from Natural Earth 10m admin-1 states and provinces (public domain), simplified. A shared border is in the file once.
+Sri Lanka shows the nine provinces, joined from the districts of the source. Pakistan shows F.A.T.A. as part of Khyber Pakhtunkhwa.
+The source is old for two countries: Nepal shows the 14 zones from before 2015, and Bangladesh has no Mymensingh division.
+
 ## `initiatives.js`
 
 `initiatives` is a list of `{ id, title, img, width, height, page? }`.

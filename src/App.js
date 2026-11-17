@@ -4,7 +4,6 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import SurveyDashboard from './components/SurveyDashboard';
 import D4N from './components/D4N';
-import CountryChapter from './components/CountryChapter';
 import Repository from './components/Repository';
 import Events from './components/Events';
 import NextEvent from './components/NextEvent';
@@ -15,7 +14,8 @@ import Footer from './components/Footer';
 import ScrollToHash from './components/ScrollToHash';
 import { Section, container } from './components/ui';
 import ComingSoon from './components/ComingSoon';
-import { ChapterPage, InitiativePage } from './components/InitiativePage';
+import ChapterPage from './components/ChapterPage';
+import { InitiativePage } from './components/InitiativePage';
 import NotFound from './components/NotFound';
 import ResourcesPage from './components/ResourcesPage';
 import ResourcePage from './components/ResourcePage';
@@ -58,7 +58,6 @@ function App() {
               <SurveyDashboard />
               <D4N />
               <Initiatives/>
-              <CountryChapter />
               <Repository/>
               <Events/>
               <Section

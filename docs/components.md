@@ -22,7 +22,6 @@ All components are in `src/components/`. Each home page section is one file.
 | `SurveyDashboard.js` | The four survey themes as cards. Skills are computed from the counts, the other three are typed findings |
 | `D4N.js` | D4N 2026 Learning Lab: details, register link, session plan, organizers, flyer |
 | `Initiatives.js` | Links to each initiative page |
-| `CountryChapter.js` | The Nepal chapter and the steps to start a chapter |
 | `Repository.js` | Document list. A report title opens its page and the icon downloads the PDF |
 | `Events.js` | Recent events row. It scrolls sideways and each card links to `/events/:id` |
 | `NextEvent.js`, `Announcements.js` | Upcoming events and announcements, both through `EntryList.js` |
@@ -33,7 +32,11 @@ All components are in `src/components/`. Each home page section is one file.
 
 | File | Page |
 | --- | --- |
-| `InitiativePage.js` | `InitiativePage` for `/initiatives/:id` and `ChapterPage` for `/chapters/:id` |
+| `InitiativePage.js` | `/initiatives/:id` |
+| `ChapterPage.js` | `/chapters/:id`: the chapter name, "Coming soon." and the map. The map frame keeps its height while the map loads |
+| `ChapterMap.js` | A Leaflet street map of one country: OpenStreetMap tiles, the borders from `chapterBorders.json` and a pin on the capital. The mouse wheel zooms, and a drag on a phone moves the map, only after a click or a tap on the map |
+| `ChapterMap.css` | Leaflet controls in the site tokens, and the gray tone of the tiles |
+| `Pie.js` | A share drawn as a pie. The survey cards use it |
 | `ResourcesPage.js` | `/resources`: one card for each entry in `resources` |
 | `ResourcePage.js` | `/resources/:id`: passes one entry of `resources` to `ContentPage` |
 | `EventPage.js` | `/events/:id`: passes one entry of `events` to `ContentPage` |
