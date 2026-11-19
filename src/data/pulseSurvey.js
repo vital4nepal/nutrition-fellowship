@@ -44,11 +44,11 @@ export const themes = [
     title: 'Policy and program awareness',
     kind: 'stats',
     stats: [
-      // `share` draws the figure: a percent fills a bar, `[filled, total]` fills that many people.
-      { id: 'who-targets', value: '51%', share: 51, text: 'were aware of World Health Assembly nutrition targets' },
+      // `share` as `[filled, total]` draws a pie. A percent shows as the number only.
+      { id: 'who-targets', value: 'Only 51%', share: 51, text: 'were aware of World Health Assembly nutrition targets' },
       // The survey sheets agree: 116 of 376 students answered yes.
       { id: 'sdg-track', value: '1 in 3', share: [1, 3], text:'believed their country was on track to meet the nutrition SDGs' },
-      { id: 'programme', value: '1 in 4', share: [1, 4], text:'students have had exposure to a government nutrition programme' },
+      { id: 'programme', value: 'Only 1 in 4', share: [1, 4], text:'students have had exposure to a government nutrition program' },
     ],
   },
   {
