@@ -47,7 +47,7 @@ export function InitiativePage() {
   const resource = resources.find((item) => item.id === resourceId);
   return (
     <article className="text-ui">
-      <SectionTitle as="h1" className="max-w-[20ch] !leading-[1.1] lg:text-[3rem]">{initiative.title}</SectionTitle>
+      <SectionTitle as="h1" className="max-w-[20ch] !leading-[1.1] lg:!text-[3rem]">{initiative.title}</SectionTitle>
       <p className="mt-3 max-w-[60ch] text-body font-medium text-muted">{subtitle}</p>
       <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-ink">{intro}</p>
 
