@@ -17,8 +17,9 @@ const Pie = ({ share, hue }) => {
   const fraction = typeof share === 'number' ? share / 100 : share[0] / share[1];
   return (
     <svg width={PIE_SIZE} height={PIE_SIZE} viewBox={`0 0 ${PIE_SIZE} ${PIE_SIZE}`} aria-hidden="true" className="shrink-0">
-      <circle cx={PIE_SIZE / 2} cy={PIE_SIZE / 2} r={PIE_RADIUS} className="fill-white stroke-line" />
+      <circle cx={PIE_SIZE / 2} cy={PIE_SIZE / 2} r={PIE_RADIUS} fill="#FFFFFF" />
       <path d={wedgePath(fraction)} className={hue.wedge} />
+      <circle cx={PIE_SIZE / 2} cy={PIE_SIZE / 2} r={PIE_RADIUS} fill="none" stroke="#8A877E" strokeWidth="1.5" />
     </svg>
   );
 };
