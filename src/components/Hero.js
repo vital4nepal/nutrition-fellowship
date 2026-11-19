@@ -5,9 +5,9 @@ import About from './About';
 import CoverpageRight from './CoverpageRight';
 import { SectionTitle, container } from './ui';
 
-const PHOTO_INTERVAL_MS = 2000;
-const CLIP_INTERVAL_MS = 6000;
-const FADE_MS = 500;
+// Every slide, photo or clip, shows for the same time. The time counts from the start of its fade in.
+const SLIDE_MS = 3000;
+const FADE_MS = 900;
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
 // A photo with a `width` has a large file of that width instead of 1600px.
@@ -117,23 +117,24 @@ const control =
 function Slideshow() {
   const [current, setCurrent] = useState(0);
   const lastAdvance = useRef(-Infinity);
-  const [hovered, setHovered] = useState(false);
   // A visitor who asks for reduced motion starts with the slideshow stopped. Play still works for them.
   const [calm] = useState(prefersReducedMotion);
   const [stopped, setStopped] = useState(calm);
   // The photos that loaded or failed, by index: a browser fires `load` again when it swaps to a larger file.
-  // The later photos wait for the first one, and autoplay waits for all of them, so no fade lands on an empty frame.
+  // The later photos wait for the first one, so it loads first. They then load in the background while it shows.
   const [settled, setSettled] = useState(() => new Set());
   const settle = (index) => setSettled((done) => (done.has(index) ? done : new Set(done).add(index)));
-  const autoplaying = settled.size === slides.length && !hovered && !stopped;
+  // The clock starts once the first slide is on screen and then never waits on a load or a video event,
+  // so every slide gets the same time. A slide that is still loading shows its poster or the dark frame.
+  const autoplaying = settled.has(0) && !stopped;
 
+  // One timer, set again only when the slide changes or the slideshow starts or stops.
   useEffect(() => {
     if (!autoplaying) return undefined;
-    const delay = slides[current].clip ? CLIP_INTERVAL_MS : PHOTO_INTERVAL_MS;
     const timer = setTimeout(() => {
       lastAdvance.current = performance.now();
       setCurrent((index) => (index + 1) % slides.length);
-    }, delay);
+    }, SLIDE_MS);
     return () => clearTimeout(timer);
   }, [autoplaying, current]);
 
@@ -146,19 +147,16 @@ function Slideshow() {
   };
 
   return (
-    <figure
-      className="relative aspect-[4/3] overflow-hidden border border-line bg-ink sm:aspect-[16/9]"
-      onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
-      onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
-    >
+    <figure className="relative aspect-[4/3] overflow-hidden border border-line bg-ink sm:aspect-[16/9]">
       {slides.map(({ name, collage, clip, portrait, width = 1600 }, index) => {
         const first = index === 0;
         const wanted = first || settled.has(0);
-        // Keep the outgoing slide opaque underneath the incoming slide until the fade ends.
+        // A crossfade: the incoming slide fades in on top while the outgoing one stays whole underneath,
+        // then the outgoing one hides once it is covered. The frame never shows through halfway.
         const transition = index === current
-          ? 'z-10 opacity-100 duration-500 ease-in-out'
-          : 'opacity-0 duration-0 delay-500 motion-reduce:delay-0';
-        const layer = `absolute inset-0 transition-opacity motion-reduce:transition-none ${transition}`;
+          ? 'z-10 opacity-100 duration-[900ms] ease-in-out'
+          : 'opacity-0 duration-0 delay-[900ms] motion-reduce:delay-0';
+        const layer = `absolute inset-0 transition-opacity will-change-[opacity] motion-reduce:transition-none ${transition}`;
         if (clip) {
           return (
             <Clip
