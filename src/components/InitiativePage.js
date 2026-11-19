@@ -5,7 +5,7 @@ import { initiatives } from '../data/initiatives';
 import ComingSoon, { SITE_TITLE } from './ComingSoon';
 import { resources } from '../data/resources';
 import { DocumentList } from './ContentPage';
-import PhotoCarousel from './PhotoCarousel';
+import { PhotoSlideshow } from './Slideshow';
 import NotFound from './NotFound';
 import { SectionTitle } from './ui';
 
@@ -13,12 +13,13 @@ import { SectionTitle } from './ui';
 const goalIcons = [Database, Gauge, Flag, Target, PenLine];
 const stepIcons = [MapIcon, Table2, BookOpen, Presentation];
 
-// The square tinted tile of the survey Challenges card: orange for what students learn, green for the steps.
-const tile = 'flex h-10 w-10 shrink-0 items-center justify-center border';
-const learnTile = `${tile} border-chart-neg bg-chart-neg/25 text-accent`;
-const stepTile = `${tile} border-chart-pos bg-chart-pos/20 text-green`;
+// The two lists are one pair: the same bare green icons, the same rules and the same row rhythm.
+// The icon sits level with the first line of its text.
+const tile = 'mt-px shrink-0 text-green';
+const list = 'mt-5 border-t border-line';
+const row = 'flex items-start gap-4 border-b border-line py-4';
 
-const Icon = ({ icon: Glyph }) => (Glyph ? <Glyph size={20} strokeWidth={1.75} aria-hidden="true" /> : null);
+const Icon = ({ icon: Glyph }) => (Glyph ? <Glyph size={22} strokeWidth={1.75} aria-hidden="true" /> : null);
 
 /** A section title on this page, one size down from the page title, the same as the Documents title. */
 const PartTitle = ({ id, children }) => (
@@ -69,28 +70,30 @@ export function InitiativePage() {
       <div className="mt-14 grid gap-12 lg:grid-cols-12">
         <section className="lg:col-span-5">
           <PartTitle>What students learn</PartTitle>
-          <ul className="mt-5 space-y-3">
+          <ul className={list}>
             {goals.map((goal, index) => (
-              <li key={goal} className="flex items-center gap-3 text-ink">
-                <span className={learnTile}>
+              <li key={goal} className={row}>
+                <span className={tile}>
                   <Icon icon={goalIcons[index]} />
                 </span>
-                {goal}
+                <span className="text-ink">{goal}</span>
               </li>
             ))}
           </ul>
         </section>
         <section className="lg:col-span-7">
           <PartTitle>How a Data Camp runs</PartTitle>
-          <ol className="mt-5 border-t border-line">
+          <ol className={list}>
             {steps.map(({ title, text }, index) => (
-              <li key={title} className="flex gap-4 border-b border-line py-4">
-                <span className={stepTile}>
+              <li key={title} className={row}>
+                <span className={tile}>
                   <Icon icon={stepIcons[index]} />
                 </span>
                 <div>
-                  <p className="text-meta font-semibold tabular-nums text-green">Step {index + 1}</p>
-                  <p className="font-semibold text-ink">{title}</p>
+                  <p className="font-semibold leading-6 text-ink">
+                    <span className="mr-1.5 tabular-nums text-green">{index + 1}.</span>
+                    {title}
+                  </p>
                   <p className="mt-1 text-muted">{text}</p>
                 </div>
               </li>
@@ -105,7 +108,7 @@ export function InitiativePage() {
           <section className="min-w-0 lg:col-span-8" aria-labelledby="data-camp-photos">
             <PartTitle id="data-camp-photos">Data Camp photos</PartTitle>
             <div className="mt-4">
-              <PhotoCarousel label="Data Camp photos" photos={resource.photos} />
+              <PhotoSlideshow label="Data Camp photos" photos={resource.photos} />
             </div>
           </section>
           <div className="min-w-0 lg:col-span-4">

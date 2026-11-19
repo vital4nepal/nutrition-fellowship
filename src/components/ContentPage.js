@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight, Download } from 'lucide-react';
 import { SITE_TITLE } from './ComingSoon';
 import PhotoCarousel from './PhotoCarousel';
+import { PhotoSlideshow } from './Slideshow';
 import { SectionTitle, SiteLink, SubTitle, groupTitleLink, textLink } from './ui';
 
 const link = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
@@ -45,6 +46,7 @@ export function DocumentList({ documents, beside = false }) {
 
 /**
  * The page of one resource folder or one event: images in a carousel, a summary beside it, then the documents as cards.
+ * With `slideshow`, the images show in the home page slideshow instead; every image then needs a caption.
  * `links` end the page. An address that starts with "/" is a site page, any other is an outside link.
  */
 function ContentPage({
@@ -57,6 +59,7 @@ function ContentPage({
   points = [],
   images,
   imageKind = 'photo',
+  slideshow = false,
   documents = [],
   links = [],
 }) {
@@ -79,7 +82,11 @@ function ContentPage({
       <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-12">
         {/* min-w-0: a grid item grows to its content, and the thumbnail strip is wider than the screen. */}
         <div className="min-w-0 animate-rise [animation-delay:120ms] lg:col-span-8">
-          <PhotoCarousel label={`${title}, ${imageKind}s`} photos={images} />
+          {slideshow ? (
+            <PhotoSlideshow label={`${title}, ${imageKind}s`} photos={images} />
+          ) : (
+            <PhotoCarousel label={`${title}, ${imageKind}s`} photos={images} />
+          )}
         </div>
         <div className="min-w-0 animate-rise [animation-delay:200ms] lg:col-span-4">
           <p className="text-body text-ink">{summary ?? 'More photos and documents are coming soon.'}</p>

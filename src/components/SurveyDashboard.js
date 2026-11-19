@@ -20,8 +20,8 @@ const card = 'flex flex-col border border-t-2 border-line bg-surface p-5';
 
 // One hue for each card: greens for what students want and know, orange for what holds them back.
 const hues = {
-  skills: { rule: 'border-t-green', text: 'text-green', tile: 'border-chart-pos bg-chart-pos/20' },
-  challenges: { rule: 'border-t-accent', text: 'text-accent', tile: 'border-chart-neg bg-chart-neg/25' },
+  skills: { rule: 'border-t-green', text: 'text-green' },
+  challenges: { rule: 'border-t-accent', text: 'text-accent' },
   policy: { rule: 'border-t-deep', text: 'text-deep', wedge: 'fill-deep' },
   career: { rule: 'border-t-accent', text: 'text-accent', wedge: 'fill-accent', row: 'xl:flex-col xl:items-start xl:gap-3' },
 };
@@ -31,16 +31,16 @@ const hues = {
 // The skill shares below come from the pulse survey alone, so they are shares of its respondents.
 const VOICES = 500;
 
-// One icon for each skill that can make the top four, by its id in the data file. A skill without one shows no tile.
+// One icon for each skill that can make the top four, by its id in the data file. A skill without one shows no icon.
 const skillIcons = { research: Search, 'data-analysis': BarChart3, 'public-speaking': Presentation, leadership: Users };
 
-/** The tinted square tile of the Challenges card, in the skills card green. */
+/** A bare line icon in the card colour, like the Challenges card icons. */
 const SkillIcon = ({ id, hue }) => {
   const Icon = skillIcons[id];
   if (!Icon) return null;
   return (
-    <span className={`flex h-9 w-9 shrink-0 items-center justify-center border ${hue.tile} ${hue.text}`}>
-      <Icon size={18} strokeWidth={1.75} />
+    <span className={`shrink-0 ${hue.text}`}>
+      <Icon size={24} strokeWidth={1.75} />
     </span>
   );
 };
@@ -94,9 +94,9 @@ const ChallengeList = ({ items, note, hue }) => (
       {items.map((item, index) => {
         const Icon = challengeIcons[index];
         return (
-          <li key={item} className="flex items-center gap-3 text-ui text-ink">
-            <span className={`flex h-10 w-10 shrink-0 items-center justify-center border ${hue.tile} ${hue.text}`}>
-              <Icon size={20} strokeWidth={1.75} aria-hidden="true" />
+          <li key={item} className="flex items-start gap-3 text-ui text-ink">
+            <span className={`shrink-0 ${hue.text}`}>
+              <Icon size={22} strokeWidth={1.75} aria-hidden="true" />
             </span>
             <span>
               <Marked text={item} />
@@ -137,7 +137,7 @@ const SurveyDashboard = () => (
     <p className="mt-3 max-w-[60ch] text-body">
       In the South Asia Pulse Survey, we asked nutrition students what they want to learn, what skills they want to build, what holds them back and how they see their future.
     </p>
-    <div className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-[1.05fr_1.35fr_0.95fr_0.85fr]">
+    <div className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-[1.05fr_1.2fr_1fr_0.9fr]">
       {themes.map((theme) => {
         const hue = hues[theme.id];
         return (
