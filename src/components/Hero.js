@@ -5,7 +5,8 @@ import About from './About';
 import CoverpageRight from './CoverpageRight';
 import { SectionTitle, container } from './ui';
 
-const SLIDE_INTERVAL_MS = 6000;
+const PHOTO_INTERVAL_MS = 2000;
+const CLIP_INTERVAL_MS = 6000;
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
 // A photo with a `width` has a large file of that width instead of 1600px.
@@ -31,7 +32,12 @@ const slides = [
   { name: 'brac-bangladesh-camp', caption: 'WHA assessment camp in Bangladesh University of Health Sciences', clip: true },
   { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
   { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
-  { name: 'data-camp-mmihs', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },
+  {
+    name: 'primeasia-bia-training',
+    caption: 'Students were trained on Bioelectrical Impedance Analysis (BIA) device to assess overall body composition in Primeasia University',
+    clip: true,
+    portrait: true,
+  },
 ];
 
 /**
@@ -136,9 +142,10 @@ function Slideshow() {
 
   useEffect(() => {
     if (!autoplaying) return undefined;
-    const timer = setInterval(() => setCurrent((index) => (index + 1) % slides.length), SLIDE_INTERVAL_MS);
-    return () => clearInterval(timer);
-  }, [autoplaying]);
+    const delay = slides[current].clip ? CLIP_INTERVAL_MS : PHOTO_INTERVAL_MS;
+    const timer = setTimeout(() => setCurrent((index) => (index + 1) % slides.length), delay);
+    return () => clearTimeout(timer);
+  }, [autoplaying, current]);
 
   const step = (offset) => {
     setCurrent((index) => (index + offset + slides.length) % slides.length);
@@ -151,7 +158,7 @@ function Slideshow() {
       onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
       onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
     >
-      {slides.map(({ name, collage, clip, width = 1600 }, index) => {
+      {slides.map(({ name, collage, clip, portrait, width = 1600 }, index) => {
         const first = index === 0;
         const wanted = first || settled.has(0);
         if (clip) {
@@ -163,7 +170,7 @@ function Slideshow() {
               wanted={wanted}
               playable={!calm || !stopped}
               onSettle={() => settle(index)}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ${portrait ? 'bg-ink object-contain' : 'object-cover'} ${
                 index === current ? 'opacity-100' : 'opacity-0'
               }`}
             />
