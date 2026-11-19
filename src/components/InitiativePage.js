@@ -31,12 +31,12 @@ export function InitiativePage() {
         <ArrowLeft size={18} aria-hidden="true" />
         Projects and Initiatives
       </Link>
-      <SectionTitle as="h1" className="mt-4 animate-rise">{initiative.title}</SectionTitle>
-      <p className="mt-4 max-w-[60ch] animate-rise text-sub text-ink [animation-delay:100ms]">{intro}</p>
+      <SectionTitle as="h1" className="mt-4">{initiative.title}</SectionTitle>
+      <p className="mt-4 max-w-[60ch] text-sub text-ink">{intro}</p>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
-        {photos.map(({ src, caption }, index) => (
-          <figure key={src} className="animate-rise" style={{ animationDelay: `${200 + index * 120}ms` }}>
+        {photos.map(({ src, caption }) => (
+          <figure key={src}>
             <img
               src={src}
               srcSet={`${src.replace('.jpg', '-800.jpg')} 800w, ${src} 1600w`}

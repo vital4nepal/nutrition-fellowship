@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useLocation, useNavigationType } from 'react-router-dom';
 
 /**
@@ -40,7 +40,7 @@ export default function ScrollToHash() {
     };
   }, [pathname]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let cancelled = false;
     let frame;
     const afterLayout = (action) => {
@@ -54,7 +54,7 @@ export default function ScrollToHash() {
     } else if (hash) {
       afterLayout(() => document.getElementById(hash.slice(1))?.scrollIntoView());
     } else if (navigationType !== 'POP') {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
     return () => {
       cancelled = true;
