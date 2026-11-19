@@ -7,11 +7,15 @@ import { SectionTitle, SiteLink, SubTitle, groupTitleLink, textLink } from './ui
 
 const link = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
 
-export function DocumentList({ documents }) {
+/**
+ * The documents as cards. On its own the list is a section with a rule above it and up to three cards a row.
+ * `beside` is for a list in a side column next to photos: no rule, and one card a row on a wide screen.
+ */
+export function DocumentList({ documents, beside = false }) {
   return (
-    <section className="mt-16 border-t border-line pt-10" aria-label="Documents">
+    <section className={beside ? undefined : 'mt-16 border-t border-line pt-10'} aria-label="Documents">
       <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">Documents</SectionTitle>
-      <ul className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className={`nf-stagger grid gap-4 sm:grid-cols-2 ${beside ? 'mt-4 lg:grid-cols-1' : 'mt-6 lg:grid-cols-3'}`}>
         {documents.map(({ title: name, description, file, kind, size }) => (
           <li key={file}>
             <a

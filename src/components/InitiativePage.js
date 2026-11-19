@@ -1,15 +1,31 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import { BookOpen, Database, Flag, Gauge, Map as MapIcon, PenLine, Presentation, Table2, Target } from 'lucide-react';
 import { initiatives } from '../data/initiatives';
 import ComingSoon, { SITE_TITLE } from './ComingSoon';
 import { resources } from '../data/resources';
 import { DocumentList } from './ContentPage';
 import PhotoCarousel from './PhotoCarousel';
 import NotFound from './NotFound';
-import { SectionTitle, textLink } from './ui';
+import { SectionTitle } from './ui';
 
-const backLink = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
+// One icon for each goal and each step, in the order of `goals` and `steps` in the data file.
+const goalIcons = [Database, Gauge, Flag, Target, PenLine];
+const stepIcons = [MapIcon, Table2, BookOpen, Presentation];
+
+// The square tinted tile of the survey Challenges card: orange for what students learn, green for the steps.
+const tile = 'flex h-10 w-10 shrink-0 items-center justify-center border';
+const learnTile = `${tile} border-chart-neg bg-chart-neg/25 text-accent`;
+const stepTile = `${tile} border-chart-pos bg-chart-pos/20 text-green`;
+
+const Icon = ({ icon: Glyph }) => (Glyph ? <Glyph size={20} strokeWidth={1.75} aria-hidden="true" /> : null);
+
+/** A section title on this page, one size down from the page title, the same as the Documents title. */
+const PartTitle = ({ id, children }) => (
+  <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">
+    <span id={id}>{children}</span>
+  </SectionTitle>
+);
 
 /** /initiatives/:id. An initiative with no `page` yet shows "Coming soon". An unknown id shows the 404 page. */
 export function InitiativePage() {
@@ -31,13 +47,9 @@ export function InitiativePage() {
   const resource = resources.find((item) => item.id === resourceId);
   return (
     <article className="text-ui">
-      <Link to="/#initiatives" className={backLink}>
-        <ArrowLeft size={18} aria-hidden="true" />
-        Projects and Initiatives
-      </Link>
-      <SectionTitle as="h1" size="sidebar" className="mt-4 lg:text-title-sm">{initiative.title}</SectionTitle>
-      <p className="mt-2 max-w-[65ch] font-semibold text-green">{subtitle}</p>
-      <p className="mt-3 max-w-[65ch] text-ink">{intro}</p>
+      <SectionTitle as="h1" className="max-w-[20ch] !leading-[1.1] lg:text-[3rem]">{initiative.title}</SectionTitle>
+      <p className="mt-3 max-w-[60ch] text-body font-medium text-muted">{subtitle}</p>
+      <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-ink">{intro}</p>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         {photos.map(({ src, caption }) => (
@@ -54,25 +66,30 @@ export function InitiativePage() {
         ))}
       </div>
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:gap-12">
+      <div className="mt-14 grid gap-12 lg:grid-cols-12">
         <section className="lg:col-span-5">
-          <h2 className="text-lg">What students learn</h2>
-          <ul className="mt-3 space-y-2">
-            {goals.map((goal) => (
-              <li key={goal} className="flex gap-3">
-                <span aria-hidden="true" className="mt-[0.6em] h-1.5 w-1.5 shrink-0 bg-accent" />
+          <PartTitle>What students learn</PartTitle>
+          <ul className="mt-5 space-y-3">
+            {goals.map((goal, index) => (
+              <li key={goal} className="flex items-center gap-3 text-ink">
+                <span className={learnTile}>
+                  <Icon icon={goalIcons[index]} />
+                </span>
                 {goal}
               </li>
             ))}
           </ul>
         </section>
         <section className="lg:col-span-7">
-          <h2 className="text-lg">How a Data Camp runs</h2>
-          <ol className="mt-3 border-t border-line">
+          <PartTitle>How a Data Camp runs</PartTitle>
+          <ol className="mt-5 border-t border-line">
             {steps.map(({ title, text }, index) => (
-              <li key={title} className="grid grid-cols-[1.5rem_1fr] gap-x-3 border-b border-line py-3">
-                <span className="font-serif text-lg font-semibold tabular-nums text-green">{index + 1}</span>
+              <li key={title} className="flex gap-4 border-b border-line py-4">
+                <span className={stepTile}>
+                  <Icon icon={stepIcons[index]} />
+                </span>
                 <div>
+                  <p className="text-meta font-semibold tabular-nums text-green">Step {index + 1}</p>
                   <p className="font-semibold text-ink">{title}</p>
                   <p className="mt-1 text-muted">{text}</p>
                 </div>
@@ -83,15 +100,18 @@ export function InitiativePage() {
       </div>
 
       {resource && (
-        <>
-          <section className="mt-10 border-t border-line pt-6" aria-labelledby="data-camp-photos">
-            <h2 id="data-camp-photos" className="mb-4 text-lg">Data Camp photos</h2>
-            <div className="max-w-3xl">
+        // On a wide screen the documents sit beside the photos. On a narrow one they follow them.
+        <div className="mt-14 grid gap-12 border-t border-line pt-10 lg:grid-cols-12">
+          <section className="min-w-0 lg:col-span-8" aria-labelledby="data-camp-photos">
+            <PartTitle id="data-camp-photos">Data Camp photos</PartTitle>
+            <div className="mt-4">
               <PhotoCarousel label="Data Camp photos" photos={resource.photos} />
             </div>
           </section>
-          <DocumentList documents={resource.documents} />
-        </>
+          <div className="min-w-0 lg:col-span-4">
+            <DocumentList documents={resource.documents} beside />
+          </div>
+        </div>
       )}
     </article>
   );

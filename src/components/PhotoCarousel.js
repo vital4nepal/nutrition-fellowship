@@ -12,12 +12,15 @@ const control =
  * One large photo, a strip of small ones under it. Arrow keys, the buttons, the strip and a swipe change the photo.
  * Only the photo on show and its two neighbours are in the page, so the next one is ready before it is wanted.
  * A photo shows whole on a dark mat, so a collage or a flyer is never cropped.
+ * A photo with a `caption` shows it under the large photo. The caption line is kept when one photo has none,
+ * so the strip does not jump.
  */
 function PhotoCarousel({ label, photos }) {
   const [current, setCurrent] = useState(0);
   const strip = useRef(null);
   const swipeStart = useRef(null);
   const total = photos.length;
+  const hasCaptions = photos.some((photo) => photo.caption);
 
   const go = (index) => {
     if (total < 2) return;
@@ -92,6 +95,12 @@ function PhotoCarousel({ label, photos }) {
           </>
         )}
       </div>
+
+      {hasCaptions && (
+        <p aria-live="polite" className="mt-2 min-h-[2.625rem] text-meta text-muted sm:min-h-[1.3125rem]">
+          {photos[current].caption}
+        </p>
+      )}
 
       {total > 1 && (
         <ul ref={strip} className="relative mt-3 flex gap-2 overflow-x-auto p-1">
