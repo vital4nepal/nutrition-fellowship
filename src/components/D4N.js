@@ -11,14 +11,14 @@ const schedule = [
   { minutes: 5, title: 'South Asia Call to Action', fill: 'bg-accent' },
 ];
 
-// The organizers named on the flyer, in its order.
+// The organizers named on the flyer, in its order, with their logos as the flyer shows them.
 const partners = [
-  'Ministry of Health and Food Safety, Nepal',
-  'Bhutan Health Trust Fund',
-  'International Food Policy Research Institute (IFPRI)',
-  'IIHS Multiversity',
-  'BRAC James P Grant School of Public Health',
-  'Nutrition Fellowship',
+  { name: 'Ministry of Health and Food Safety, Nepal', src: '/partners/mohfs-nepal.png' },
+  { name: 'Bhutan Health Trust Fund', src: '/partners/bhutan-health-trust-fund.png' },
+  { name: 'International Food Policy Research Institute (IFPRI)', src: '/partners/ifpri.png' },
+  { name: 'IIHS Multiversity', src: '/partners/iihs.png' },
+  { name: 'BRAC James P Grant School of Public Health', src: '/partners/brac-jpgsph.png' },
+  { name: 'Nutrition Fellowship', src: '/partners/nutrition-fellowship.png' },
 ];
 
 // The two parts of the Learning Lab, in the owner's words.
@@ -97,10 +97,11 @@ const D4N = () => (
         </ol>
 
         <SubTitle className="mt-12">Organized with</SubTitle>
-        <ul className="mt-3 flex flex-wrap gap-2 text-meta">
-          {partners.map((partner) => (
-            <li key={partner} className="border border-line px-3 py-1.5 text-ink">
-              {partner}
+        {/* One height for every logo, a thin rule between them as on the flyer. */}
+        <ul className="mt-4 flex flex-wrap items-center gap-y-5">
+          {partners.map(({ name, src }) => (
+            <li key={name} className="border-r border-line px-3.5 first:pl-0 last:border-r-0 last:pr-0">
+              <img src={src} alt={name} loading="lazy" className="h-11 w-auto object-contain sm:h-14" />
             </li>
           ))}
         </ul>
