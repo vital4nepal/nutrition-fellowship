@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, GraduationCap, Languages, Microscope, Wallet } from 'lucide-react';
+import { BarChart3, Clock, GraduationCap, Languages, Microscope, Presentation, Search, Users, Wallet } from 'lucide-react';
 import { ALL, countFor, respondentsFor, skills, themes } from '../data/pulseSurvey';
 import Pie from './Pie';
 import { tickTo, useTicker } from './Ticker';
@@ -20,16 +20,30 @@ const card = 'flex flex-col border border-t-2 border-line bg-surface p-5';
 
 // One hue for each card: greens for what students want and know, orange for what holds them back.
 const hues = {
-  skills: { rule: 'border-t-green', text: 'text-green' },
+  skills: { rule: 'border-t-green', text: 'text-green', tile: 'border-chart-pos bg-chart-pos/20' },
   challenges: { rule: 'border-t-accent', text: 'text-accent', tile: 'border-chart-neg bg-chart-neg/25' },
   policy: { rule: 'border-t-deep', text: 'text-deep', wedge: 'fill-deep' },
-  career: { rule: 'border-t-accent', text: 'text-accent', wedge: 'fill-accent' },
+  career: { rule: 'border-t-accent', text: 'text-accent', wedge: 'fill-accent', row: 'xl:flex-col xl:items-start xl:gap-3' },
 };
 
 
 // The owner's figure for every student the platform has heard from, the same "500+" as Our Reach on the About page.
 // The skill shares below come from the pulse survey alone, so they are shares of its respondents.
 const VOICES = 500;
+
+// One icon for each skill that can make the top four, by its id in the data file. A skill without one shows no tile.
+const skillIcons = { research: Search, 'data-analysis': BarChart3, 'public-speaking': Presentation, leadership: Users };
+
+/** The tinted square tile of the Challenges card, in the skills card green. */
+const SkillIcon = ({ id, hue }) => {
+  const Icon = skillIcons[id];
+  if (!Icon) return null;
+  return (
+    <span className={`flex h-9 w-9 shrink-0 items-center justify-center border ${hue.tile} ${hue.text}`}>
+      <Icon size={18} strokeWidth={1.75} />
+    </span>
+  );
+};
 
 /**
  * The students heard, then the four most wanted skills and their shares of the survey respondents.
@@ -47,16 +61,16 @@ const SkillStats = ({ hue }) => {
         <span className="text-meta text-ink">students have shared their aspirations, challenges and needs</span>
       </p>
       <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4">
-        {topSkills.map(({ id, label, count, share }) => (
+        {topSkills.map(({ id, label, share }) => (
           <li key={id} className="flex flex-col">
-            <span className={`font-serif text-[1.75rem] font-semibold leading-none tabular-nums ${hue.text}`} aria-hidden="true">
-              {tickTo(share, progress)}%
+            <span className="flex items-center gap-2.5" aria-hidden="true">
+              <SkillIcon id={id} hue={hue} />
+              <span className={`font-serif text-[1.75rem] font-semibold leading-none tabular-nums ${hue.text}`}>
+                {tickTo(share, progress)}%
+              </span>
             </span>
-            <span className="sr-only">{share}% want {label}, {count} of {total} survey respondents</span>
+            <span className="sr-only">{share}% want {label}</span>
             <span className="mt-1 text-ui font-semibold text-ink" aria-hidden="true">{label}</span>
-            <span className="text-meta tabular-nums text-muted" aria-hidden="true">
-              {tickTo(count, progress)} of {total}
-            </span>
           </li>
         ))}
       </ul>
@@ -95,10 +109,11 @@ const ChallengeList = ({ items, note, hue }) => (
   </>
 );
 
+// A card with a `row` puts its pies above the text on a wide screen, where its column is too narrow for both side by side.
 const StatList = ({ stats, hue }) => (
   <ul className="space-y-5">
     {stats.map(({ id, value, share, text }) => (
-      <li key={id} className="flex items-center gap-4">
+      <li key={id} className={`flex items-center gap-4 ${hue.row ?? ''}`}>
         {Array.isArray(share) && <Pie share={share} hue={hue} />}
         <p className="text-ui text-ink">
           <strong className={`font-semibold ${hue.text}`}>{value}</strong> {text}
@@ -122,7 +137,7 @@ const SurveyDashboard = () => (
     <p className="mt-3 max-w-[60ch] text-body">
       In the South Asia Pulse Survey, we asked nutrition students what they want to learn, what skills they want to build, what holds them back and how they see their future.
     </p>
-    <div className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-[1fr_1.25fr_0.9fr_0.85fr]">
+    <div className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-[1.05fr_1.35fr_0.95fr_0.85fr]">
       {themes.map((theme) => {
         const hue = hues[theme.id];
         return (
