@@ -28,14 +28,17 @@ const hues = {
 
 /** The four most wanted skills and their shares of all students. */
 const SkillStats = ({ hue }) => (
-  <ul className="grid grid-cols-2 gap-x-3 gap-y-5">
-    {topSkills.map(({ id, label, count, share }) => (
-      <li key={id} title={`${count} of ${total} students`} className="flex flex-col items-center text-center">
-        <span className={`font-serif text-sub font-semibold tabular-nums ${hue.text}`}>{share}%</span>
-        <span className="text-meta font-semibold text-ink">{label}</span>
-      </li>
-    ))}
-  </ul>
+  <>
+    <ul className="grid flex-1 grid-cols-2 content-evenly gap-x-3 gap-y-8">
+      {topSkills.map(({ id, label, count, share }) => (
+        <li key={id} title={`${count} of ${total} students`} className="flex flex-col items-center text-center">
+          <span className={`font-serif text-[2.5rem] font-semibold leading-none tabular-nums ${hue.text}`}>{share}%</span>
+          <span className="mt-2 text-ui font-semibold text-ink">{label}</span>
+        </li>
+      ))}
+    </ul>
+    <p className="mt-6 text-meta text-muted">Share of all {total} students</p>
+  </>
 );
 
 /** Text with **bold** words: the odd parts of the split are the marked words. */
