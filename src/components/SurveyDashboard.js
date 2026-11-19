@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Languages, Microscope, Wallet } from 'lucide-react';
+import { Clock, GraduationCap, Languages, Microscope, Wallet } from 'lucide-react';
 import { ALL, countFor, respondentsFor, skills, themes } from '../data/pulseSurvey';
 import Pie from './Pie';
 import { Section, SectionTitle, SubTitle } from './ui';
@@ -45,7 +45,7 @@ const Marked = ({ text }) =>
   );
 
 // One icon for each challenge, in the order of `items` in the data file.
-const challengeIcons = [Clock, Microscope, Languages, Wallet];
+const challengeIcons = [GraduationCap, Clock, Microscope, Languages, Wallet];
 
 const ChallengeList = ({ items, note, hue }) => (
   <>

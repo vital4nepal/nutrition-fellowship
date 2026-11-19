@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { initiatives } from '../data/initiatives';
 import ComingSoon, { SITE_TITLE } from './ComingSoon';
+import { resources } from '../data/resources';
+import { DocumentList } from './ContentPage';
+import PhotoCarousel from './PhotoCarousel';
 import NotFound from './NotFound';
-import { SectionTitle, SubTitle, textLink } from './ui';
+import { SectionTitle, textLink } from './ui';
 
 const backLink = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
 
@@ -24,15 +27,17 @@ export function InitiativePage() {
   if (!initiative) return <NotFound />;
   if (!initiative.page) return <ComingSoon title={initiative.title} />;
 
-  const { intro, photos, goals, steps, link } = initiative.page;
+  const { subtitle, intro, photos, goals, steps, resourceId } = initiative.page;
+  const resource = resources.find((item) => item.id === resourceId);
   return (
-    <article>
+    <article className="text-ui">
       <Link to="/#initiatives" className={backLink}>
         <ArrowLeft size={18} aria-hidden="true" />
         Projects and Initiatives
       </Link>
-      <SectionTitle as="h1" className="mt-4">{initiative.title}</SectionTitle>
-      <p className="mt-4 max-w-[60ch] text-sub text-ink">{intro}</p>
+      <SectionTitle as="h1" size="sidebar" className="mt-4 lg:text-title-sm">{initiative.title}</SectionTitle>
+      <p className="mt-2 max-w-[65ch] font-semibold text-green">{subtitle}</p>
+      <p className="mt-3 max-w-[65ch] text-ink">{intro}</p>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         {photos.map(({ src, caption }) => (
@@ -49,10 +54,10 @@ export function InitiativePage() {
         ))}
       </div>
 
-      <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:gap-12">
         <section className="lg:col-span-5">
-          <SubTitle as="h2">What students learn</SubTitle>
-          <ul className="nf-stagger mt-4 space-y-3 text-body">
+          <h2 className="text-lg">What students learn</h2>
+          <ul className="mt-3 space-y-2">
             {goals.map((goal) => (
               <li key={goal} className="flex gap-3">
                 <span aria-hidden="true" className="mt-[0.6em] h-1.5 w-1.5 shrink-0 bg-accent" />
@@ -62,14 +67,14 @@ export function InitiativePage() {
           </ul>
         </section>
         <section className="lg:col-span-7">
-          <SubTitle as="h2">How a Data Camp runs</SubTitle>
-          <ol className="nf-stagger mt-4 border-t border-line">
+          <h2 className="text-lg">How a Data Camp runs</h2>
+          <ol className="mt-3 border-t border-line">
             {steps.map(({ title, text }, index) => (
-              <li key={title} className="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-line py-5">
-                <span className="font-serif text-title-sm font-semibold tabular-nums text-green">{index + 1}</span>
+              <li key={title} className="grid grid-cols-[1.5rem_1fr] gap-x-3 border-b border-line py-3">
+                <span className="font-serif text-lg font-semibold tabular-nums text-green">{index + 1}</span>
                 <div>
                   <p className="font-semibold text-ink">{title}</p>
-                  <p className="mt-1 text-body text-muted">{text}</p>
+                  <p className="mt-1 text-muted">{text}</p>
                 </div>
               </li>
             ))}
@@ -77,10 +82,17 @@ export function InitiativePage() {
         </section>
       </div>
 
-      <Link to={link.href} className={`mt-12 ${backLink}`}>
-        {link.label}
-        <ArrowUpRight size={18} aria-hidden="true" />
-      </Link>
+      {resource && (
+        <>
+          <section className="mt-10 border-t border-line pt-6" aria-labelledby="data-camp-photos">
+            <h2 id="data-camp-photos" className="mb-4 text-lg">Data Camp photos</h2>
+            <div className="max-w-3xl">
+              <PhotoCarousel label="Data Camp photos" photos={resource.photos} />
+            </div>
+          </section>
+          <DocumentList documents={resource.documents} />
+        </>
+      )}
     </article>
   );
 }

@@ -31,12 +31,13 @@ export const themes = [
     kind: 'list',
     // Words between ** ** show in bold.
     items: [
+      '**Institutional gaps** for learning',
       '**Academic pressure** and time management',
       'Limited **program exposure** and **research experience**',
       '**Language** and communication barriers',
       '**Financial** and resource constraints',
     ],
-    note: 'Many students have also raised the issue of mental health.',
+    note: 'Many students have also raised concerns about stress and mental health.',
   },
   {
     id: 'policy',
@@ -57,7 +58,7 @@ export const themes = [
     stats: [
       // 53% is the owner's figure. The survey sheets give 52% (197 of 376 confident or very confident).
       { id: 'job-confidence', value: 'Only 53%', share: 53, text:'of students feel confident about securing a relevant nutrition job' },
-      { id: 'job-status', value: '4 out of 10', share: [4, 10], text:'students are either working or looking for a job' },
+      { id: 'job-status', value: '4 out of 10', share: [4, 10], text:'students are either working or looking for a job. Learning and earning is becoming the norm.' },
     ],
   },
 ];

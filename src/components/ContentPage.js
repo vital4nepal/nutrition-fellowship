@@ -7,6 +7,38 @@ import { SectionTitle, SiteLink, SubTitle, groupTitleLink, textLink } from './ui
 
 const link = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
 
+export function DocumentList({ documents }) {
+  return (
+    <section className="mt-16 border-t border-line pt-10" aria-label="Documents">
+      <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">Documents</SectionTitle>
+      <ul className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {documents.map(({ title: name, description, file, kind, size }) => (
+          <li key={file}>
+            <a
+              href={file}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex h-full flex-col border border-line bg-surface p-5 transition-colors hover:border-green"
+            >
+              <span className={`text-base font-semibold text-ink lg:text-body ${groupTitleLink}`}>{name}</span>
+              <span className="mt-2 text-meta text-muted">{description}</span>
+              <span className="mt-auto flex items-center justify-between gap-3 pt-5 text-meta tabular-nums text-muted">
+                {kind}, {size}
+                {/* A browser shows a PDF in the tab and saves any other file. */}
+                {kind === 'PDF' ? (
+                  <ArrowUpRight size={20} aria-hidden="true" className="text-green" />
+                ) : (
+                  <Download size={20} aria-hidden="true" className="text-green" />
+                )}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 /**
  * The page of one resource folder or one event: images in a carousel, a summary beside it, then the documents as cards.
  * `links` end the page. An address that starts with "/" is a site page, any other is an outside link.
@@ -63,35 +95,7 @@ function ContentPage({
         </div>
       </div>
 
-      {documents.length > 0 && (
-        <section className="mt-16 border-t border-line pt-10" aria-label="Documents">
-          <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">Documents</SectionTitle>
-          <ul className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {documents.map(({ title: name, description, file, kind, size }) => (
-              <li key={file}>
-                <a
-                  href={file}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex h-full flex-col border border-line bg-surface p-5 transition-colors hover:border-green"
-                >
-                  <span className={`text-base font-semibold text-ink lg:text-body ${groupTitleLink}`}>{name}</span>
-                  <span className="mt-2 text-meta text-muted">{description}</span>
-                  <span className="mt-auto flex items-center justify-between gap-3 pt-5 text-meta tabular-nums text-muted">
-                    {kind}, {size}
-                    {/* A browser shows a PDF in the tab and saves any other file. */}
-                    {kind === 'PDF' ? (
-                      <ArrowUpRight size={20} aria-hidden="true" className="text-green" />
-                    ) : (
-                      <Download size={20} aria-hidden="true" className="text-green" />
-                    )}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      {documents.length > 0 && <DocumentList documents={documents} />}
 
       {links.length > 0 && (
         <ul className="mt-10 flex flex-col gap-1">

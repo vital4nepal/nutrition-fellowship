@@ -50,7 +50,6 @@ export const resources = [
       'Learn how to analyse a target and come up with recommendations.',
     ],
     cover: photo('data-camp', 'cafodat1'),
-    driveHref: 'https://drive.google.com/drive/folders/1_PZuUUcI1jwHlIVtsgN01VcXAdH8B8PO?usp=drive_link',
     documents: [
       { title: 'Data Camp agenda', description: 'The sessions of the day, who leads each one and the materials.', file: '/resources/data-camp/docs/data-camp-agenda.pdf', kind: 'PDF', size: '0.1 MB' },
       { title: 'Data Camp presentation', description: 'The slides of the Data Camp.', file: '/resources/data-camp/docs/data-camp-presentation.pptx', kind: 'PPTX', size: '5.9 MB' },

@@ -7,6 +7,7 @@ import { SectionTitle, container } from './ui';
 
 const PHOTO_INTERVAL_MS = 2000;
 const CLIP_INTERVAL_MS = 6000;
+const FADE_MS = 500;
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
 // A photo with a `width` has a large file of that width instead of 1600px.
@@ -115,6 +116,7 @@ const control =
 
 function Slideshow() {
   const [current, setCurrent] = useState(0);
+  const lastAdvance = useRef(-Infinity);
   const [hovered, setHovered] = useState(false);
   // A visitor who asks for reduced motion starts with the slideshow stopped. Play still works for them.
   const [calm] = useState(prefersReducedMotion);
@@ -128,11 +130,17 @@ function Slideshow() {
   useEffect(() => {
     if (!autoplaying) return undefined;
     const delay = slides[current].clip ? CLIP_INTERVAL_MS : PHOTO_INTERVAL_MS;
-    const timer = setTimeout(() => setCurrent((index) => (index + 1) % slides.length), delay);
+    const timer = setTimeout(() => {
+      lastAdvance.current = performance.now();
+      setCurrent((index) => (index + 1) % slides.length);
+    }, delay);
     return () => clearTimeout(timer);
   }, [autoplaying, current]);
 
   const step = (offset) => {
+    const now = performance.now();
+    if (!calm && now - lastAdvance.current < FADE_MS) return;
+    lastAdvance.current = now;
     setCurrent((index) => (index + offset + slides.length) % slides.length);
     setStopped(true);
   };

@@ -8,6 +8,7 @@ export const initiatives = [
     width: 141,
     height: 128,
     page: {
+      subtitle: 'Nutrition Generation Research and Data, Innovation, and Evaluation Skills',
       intro:
         'Gen-N puts nutrition students to work on real national data. The first program is the Data Camp, a one-day session where students check how far Nepal is from its nutrition targets.',
       photos: [
@@ -27,10 +28,7 @@ export const initiatives = [
         { title: 'Learn the method', text: 'A short session on outcomes, indicators, SMART targets and the results-based management framework.' },
         { title: 'Recommend', text: 'The teams present. The group discusses what is required to reach the targets that are still pending.' },
       ],
-      link: {
-        href: '/resources/data-camp',
-        label: 'Data Camp agenda, photos and slides',
-      },
+      resourceId: 'data-camp',
     },
   },
   { id: 'advocacy', title: 'Advocacy and Campaigns', img: '/Initiatives/thumbs/Advocacy.png', width: 163, height: 128 },
