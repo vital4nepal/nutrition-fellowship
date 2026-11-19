@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, HeartPulse, Languages, Microscope, Wallet } from 'lucide-react';
+import { Clock, Languages, Microscope, Wallet } from 'lucide-react';
 import { ALL, countFor, respondentsFor, skills, themes } from '../data/pulseSurvey';
 import Pie from './Pie';
 import { Section, SectionTitle, SubTitle } from './ui';
@@ -9,7 +9,7 @@ const total = respondentsFor(ALL);
 
 const percent = (count, totalCount) => Math.round((count / totalCount) * 100);
 
-/** The most frequent skills. Every bar is a share of all students, and equal counts keep the order of the data file. */
+/** The most frequent skills. Equal counts keep the order of the data file. */
 const topSkills = skills
   .map((row) => ({ ...row, count: countFor(row, ALL), share: percent(countFor(row, ALL), total) }))
   .sort((a, b) => b.count - a.count)
@@ -19,20 +19,19 @@ const card = 'flex flex-col border border-t-2 border-line bg-surface p-5';
 
 // One hue for each card: greens for what students want and know, orange for what holds them back.
 const hues = {
-  skills: { rule: 'border-t-green', text: 'text-green', wedge: 'fill-green', rest: 'fill-meadow' },
+  skills: { rule: 'border-t-green', text: 'text-green' },
   challenges: { rule: 'border-t-accent', text: 'text-accent', tile: 'border-chart-neg bg-chart-neg/25' },
-  policy: { rule: 'border-t-deep', text: 'text-deep', wedge: 'fill-deep', rest: 'fill-chart-pos' },
-  career: { rule: 'border-t-accent', text: 'text-accent', wedge: 'fill-accent', rest: 'fill-chart-neg/50' },
+  policy: { rule: 'border-t-deep', text: 'text-deep', wedge: 'fill-deep' },
+  career: { rule: 'border-t-accent', text: 'text-accent', wedge: 'fill-accent' },
 };
 
 
-/** The four most wanted skills, each as a pie with its share of all students beneath. */
-const SkillPies = ({ hue }) => (
+/** The four most wanted skills and their shares of all students. */
+const SkillStats = ({ hue }) => (
   <ul className="grid grid-cols-2 gap-x-3 gap-y-5">
     {topSkills.map(({ id, label, count, share }) => (
       <li key={id} title={`${count} of ${total} students`} className="flex flex-col items-center text-center">
-        <Pie share={share} hue={hue} />
-        <span className={`mt-2 font-serif text-sub font-semibold tabular-nums ${hue.text}`}>{share}%</span>
+        <span className={`font-serif text-sub font-semibold tabular-nums ${hue.text}`}>{share}%</span>
         <span className="text-meta font-semibold text-ink">{label}</span>
       </li>
     ))}
@@ -65,10 +64,7 @@ const ChallengeList = ({ items, note, hue }) => (
         );
       })}
     </ul>
-    <p className="mt-4 flex items-start gap-3 border-l-2 border-accent bg-paper px-3 py-3 text-ui font-semibold text-ink">
-      <HeartPulse size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
-      {note}
-    </p>
+    <p className="mt-4 text-ui text-ink">{note}</p>
   </>
 );
 
@@ -76,7 +72,7 @@ const StatList = ({ stats, hue }) => (
   <ul className="space-y-5">
     {stats.map(({ id, value, share, text }) => (
       <li key={id} className="flex items-center gap-4">
-        <Pie share={share} hue={hue} />
+        {Array.isArray(share) && <Pie share={share} hue={hue} />}
         <p className="text-ui text-ink">
           <strong className={`font-semibold ${hue.text}`}>{value}</strong> {text}
         </p>
@@ -86,7 +82,7 @@ const StatList = ({ stats, hue }) => (
 );
 
 const ThemeBody = ({ theme, hue }) => {
-  if (theme.kind === 'bars') return <SkillPies hue={hue} />;
+  if (theme.kind === 'bars') return <SkillStats hue={hue} />;
   if (theme.kind === 'list') return <ChallengeList items={theme.items} note={theme.note} hue={hue} />;
   return <StatList stats={theme.stats} hue={hue} />;
 };
@@ -109,9 +105,6 @@ const SurveyDashboard = () => (
         );
       })}
     </div>
-    <p className="mt-4 text-meta text-muted">
-      Students could pick more than one skill, so the shares in the skills card do not add up to 100%.
-    </p>
   </Section>
 );
 
