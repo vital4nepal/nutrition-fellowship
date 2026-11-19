@@ -2,6 +2,7 @@ import React from 'react';
 import { Clock, GraduationCap, Languages, Microscope, Wallet } from 'lucide-react';
 import { ALL, countFor, respondentsFor, skills, themes } from '../data/pulseSurvey';
 import Pie from './Pie';
+import { tickTo, useTicker } from './Ticker';
 import { Section, SectionTitle, SubTitle } from './ui';
 
 const TOP_ROWS = 4;
@@ -19,27 +20,53 @@ const card = 'flex flex-col border border-t-2 border-line bg-surface p-5';
 
 // One hue for each card: greens for what students want and know, orange for what holds them back.
 const hues = {
-  skills: { rule: 'border-t-green', text: 'text-green' },
+  skills: { rule: 'border-t-green', text: 'text-green', bar: 'bg-green' },
   challenges: { rule: 'border-t-accent', text: 'text-accent', tile: 'border-chart-neg bg-chart-neg/25' },
   policy: { rule: 'border-t-deep', text: 'text-deep', wedge: 'fill-deep' },
   career: { rule: 'border-t-accent', text: 'text-accent', wedge: 'fill-accent' },
 };
 
 
-/** The four most wanted skills and their shares of all students. */
-const SkillStats = ({ hue }) => (
-  <>
-    <ul className="grid flex-1 grid-cols-2 content-evenly gap-x-3 gap-y-8">
-      {topSkills.map(({ id, label, count, share }) => (
-        <li key={id} title={`${count} of ${total} students`} className="flex flex-col items-center text-center">
-          <span className={`font-serif text-[2.5rem] font-semibold leading-none tabular-nums ${hue.text}`}>{share}%</span>
-          <span className="mt-2 text-ui font-semibold text-ink">{label}</span>
-        </li>
-      ))}
-    </ul>
-    <p className="mt-6 text-meta text-muted">Share of all {total} students</p>
-  </>
-);
+// The owner's figure for every student the platform has heard from, the same "500+" as Our Reach on the About page.
+// The skill shares below come from the pulse survey alone, so they are shares of its respondents.
+const VOICES = 500;
+
+/**
+ * The students heard, then the four most wanted skills and their shares of the survey respondents.
+ * Every figure and bar counts up together the first time the card is on screen. A screen reader reads the final figures only.
+ */
+const SkillStats = ({ hue }) => {
+  const [ref, progress] = useTicker();
+  return (
+    <div ref={ref} className="flex flex-1 flex-col">
+      <p className="border-b border-line pb-5">
+        <span className={`block font-serif text-[3.5rem] font-semibold leading-none tabular-nums ${hue.text}`} aria-hidden="true">
+          {tickTo(VOICES, progress)}+
+        </span>
+        <span className="sr-only">{VOICES}+</span>
+        <span className="mt-2 block text-ui text-ink">students have shared their aspirations, challenges and needs</span>
+      </p>
+      <ul className="mt-5 grid flex-1 grid-cols-2 content-evenly gap-x-4 gap-y-5">
+        {topSkills.map(({ id, label, count, share }) => (
+          <li key={id} className="flex flex-col">
+            <span className={`font-serif text-[2rem] font-semibold leading-none tabular-nums ${hue.text}`} aria-hidden="true">
+              {tickTo(share, progress)}%
+            </span>
+            <span className="sr-only">{share}% want {label}, {count} of {total} survey respondents</span>
+            <span className="mt-1.5 text-ui font-semibold text-ink" aria-hidden="true">{label}</span>
+            <span className="mt-2 h-1.5 bg-line" aria-hidden="true">
+              <span className={`block h-full ${hue.bar}`} style={{ width: `${share * progress}%` }} />
+            </span>
+            <span className="mt-1.5 text-meta tabular-nums text-muted" aria-hidden="true">
+              {tickTo(count, progress)} of {total}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-5 text-meta text-muted">Shares of the {total} survey respondents. Each could pick more than one skill.</p>
+    </div>
+  );
+};
 
 /** Text with **bold** words: the odd parts of the split are the marked words. */
 const Marked = ({ text }) =>
