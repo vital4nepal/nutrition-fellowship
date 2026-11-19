@@ -35,29 +35,14 @@ const slides = [
   {
     name: 'primeasia-bia-training',
     caption: 'Students were trained on Bioelectrical Impedance Analysis (BIA) device to assess overall body composition in Primeasia University',
-    clip: true,
     portrait: true,
   },
 ];
 
-/**
- * The four campaign photos of one slide. Each time the slide shows, the tiles settle in one after another.
- * `round` changes only when the slide comes back, so the tiles replay on entry and stay put while it fades out.
- * A tile stays hidden until its photo loads, so the entrance never plays over an empty frame.
- */
-function Collage({ tiles, showing, wanted, onSettle }) {
+// Stagger the four campaign photos when they first load. Keep them ready for later fades.
+function Collage({ tiles, wanted, onSettle }) {
   const [loaded, setLoaded] = useState(() => new Set());
   const markLoaded = (index) => setLoaded((done) => (done.has(index) ? done : new Set(done).add(index)));
-  const [round, setRound] = useState(0);
-  const [wasShowing, setWasShowing] = useState(showing);
-  // Adjusted during render, so the new tiles mount in the same commit as the slide change.
-  if (showing !== wasShowing) {
-    setWasShowing(showing);
-    if (showing) {
-      setRound(round + 1);
-      setLoaded(new Set());
-    }
-  }
 
   return (
     <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1 bg-ink">
@@ -68,7 +53,7 @@ function Collage({ tiles, showing, wanted, onSettle }) {
         };
         return (
           <img
-            key={`${name}-${round}`}
+            key={name}
             src={wanted ? `/hero/${name}.jpg` : undefined}
             srcSet={wanted ? `/hero/${name}-500.jpg 500w, /hero/${name}.jpg 1000w` : undefined}
             sizes={sizes}
@@ -161,6 +146,11 @@ function Slideshow() {
       {slides.map(({ name, collage, clip, portrait, width = 1600 }, index) => {
         const first = index === 0;
         const wanted = first || settled.has(0);
+        // Keep the outgoing slide opaque underneath the incoming slide until the fade ends.
+        const transition = index === current
+          ? 'z-10 opacity-100 duration-500 ease-in-out'
+          : 'opacity-0 duration-0 delay-500 motion-reduce:delay-0';
+        const layer = `absolute inset-0 transition-opacity motion-reduce:transition-none ${transition}`;
         if (clip) {
           return (
             <Clip
@@ -170,9 +160,7 @@ function Slideshow() {
               wanted={wanted}
               playable={!calm || !stopped}
               onSettle={() => settle(index)}
-              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ${portrait ? 'bg-ink object-contain' : 'object-cover'} ${
-                index === current ? 'opacity-100' : 'opacity-0'
-              }`}
+              className={`${layer} h-full w-full object-cover`}
             />
           );
         }
@@ -180,9 +168,9 @@ function Slideshow() {
           return (
             <div
               key={name}
-              className={`transition-opacity duration-700 ${index === current ? 'opacity-100' : 'opacity-0'}`}
+              className={layer}
             >
-              <Collage tiles={collage} showing={index === current} wanted={wanted} onSettle={() => settle(index)} />
+              <Collage tiles={collage} wanted={wanted} onSettle={() => settle(index)} />
             </div>
           );
         }
@@ -190,21 +178,19 @@ function Slideshow() {
           <img
             key={name}
             src={wanted ? `/hero/${name}.jpg` : undefined}
-            srcSet={wanted ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg ${width}w` : undefined}
+            srcSet={wanted && !portrait ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg ${width}w` : undefined}
             sizes="(min-width: 1024px) 800px, 100vw"
             alt=""
             onLoad={() => settle(index)}
             onError={() => settle(index)}
             style={{ objectPosition: slides[index].focus }}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-              index === current ? 'opacity-100' : 'opacity-0'
-            }`}
+            className={`${layer} h-full w-full ${portrait ? 'bg-ink object-contain' : 'object-cover'}`}
           />
         );
       })}
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-ink/90 via-ink/60 to-transparent sm:h-1/2 sm:via-transparent" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-3/4 bg-gradient-to-t from-ink/90 via-ink/60 to-transparent sm:h-1/2 sm:via-transparent" />
       {/* On a phone the buttons take their own row, so a long caption keeps the full width. */}
-      <figcaption className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-4 sm:flex-row sm:items-end sm:justify-between sm:gap-4 sm:p-6">
+      <figcaption className="absolute inset-x-0 bottom-0 z-20 flex flex-col gap-2 p-4 sm:flex-row sm:items-end sm:justify-between sm:gap-4 sm:p-6">
         {/* The caption is announced only after the visitor takes control, never on each autoplay turn. */}
         <p
           aria-live={stopped ? 'polite' : 'off'}
