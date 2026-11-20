@@ -21,9 +21,6 @@ The counts come from the Student Pulse Survey analysis sheets. Only totals are s
 | `countries` | `{ id, label, respondents }[]` in the order Nepal, Bangladesh, Sri Lanka, Pakistan |
 | `skills` | `{ id, label, counts[4] }[]`. Students picked more than one, so the counts do not add up |
 | `themes` | The four dashboard cards in order. Only `skills` is computed from the counts. The others are findings typed from the owner's website updates document |
-| `ALL` | The id for all countries |
-| `countFor(row, countryId)` | The count of one answer for one country or for `ALL` |
-| `respondentsFor(countryId)` | The number of students for one country or for `ALL` |
 
 Each `counts` array follows the order of `countries`. Percentages are computed, never stored.
 
