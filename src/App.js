@@ -503,7 +503,13 @@ function App() {
             >
                 <div className={`${container} flex h-full items-center gap-4`}>
                     <a href="/" className="flex min-h-11 min-w-11 shrink-0 items-center gap-3">
-                        <img src="/nf-logo.png" alt="" className="h-11 lg:h-12 w-auto" />
+                        <img
+                            src="/nf-logo-128.png"
+                            width="128"
+                            height="128"
+                            alt=""
+                            className="h-11 lg:h-12 w-auto"
+                        />
                         <span
                             className={
                                 'hidden font-serif text-base font-semibold text-green sm:block'
@@ -1268,7 +1274,9 @@ function App() {
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-12 lg:gap-y-10">
                         <div className="md:col-span-2 lg:col-span-5">
                             <img
-                                src="/nf-logo.png"
+                                src="/nf-logo-128.png"
+                                width="128"
+                                height="128"
                                 alt="Nutrition Fellowship"
                                 className="h-16 w-auto"
                             />
