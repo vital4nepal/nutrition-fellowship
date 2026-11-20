@@ -3,53 +3,76 @@ import { Link } from 'react-router-dom';
 
 export const SITE_TITLE = 'Nutrition Fellowship';
 
-export const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+export const prefersReducedMotion = () =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/** The tab title is "page | site" while the page shows, and the site name after. An empty `page` leaves it alone. */
+/**
+ * The tab title is "page | site" while the page shows, and the site name after.
+ * An empty `page` leaves it alone.
+ */
 export function useDocumentTitle(page) {
-  useEffect(() => {
-    if (!page) {
-      return undefined;
-    }
-    document.title = `${page} | ${SITE_TITLE}`;
-    return () => {
-      document.title = SITE_TITLE;
-    };
-  }, [page]);
+    useEffect(() => {
+        if (!page) {
+            return undefined;
+        }
+        document.title = `${page} | ${SITE_TITLE}`;
+        return () => {
+            document.title = SITE_TITLE;
+        };
+    }, [page]);
 }
 
 export const container = 'mx-auto max-w-content px-4 lg:px-6';
 export const underlineLink = 'underline-offset-4 transition-colors hover:underline';
 export const textLink = `${underlineLink} hover:text-green`;
 // For a title inside a link row: the row carries `group`, so the whole row is the hover target.
-export const groupTitleLink = 'underline-offset-4 transition-colors group-hover:text-green group-hover:underline';
+export const groupTitleLink =
+    'underline-offset-4 transition-colors group-hover:text-green group-hover:underline';
 const titleSizes = {
-  section: 'text-title-sm lg:text-display',
-  sidebar: 'text-sub',
+    section: 'text-title-sm lg:text-display',
+    sidebar: 'text-sub',
 };
 
 /** A site route opens without a reload. Any other address is an outside link. */
 export function SiteLink({ href, children, ...props }) {
-  return href.startsWith('/') ? (
-    <Link to={href} {...props}>{children}</Link>
-  ) : (
-    <a href={href} {...props}>{children}</a>
-  );
+    return href.startsWith('/') ? (
+        <Link to={href} {...props}>
+            {children}
+        </Link>
+    ) : (
+        <a href={href} {...props}>
+            {children}
+        </a>
+    );
 }
 
-/** A home page band: optional hairline on top, the page container inside, and the data-section name the screenshots key on. */
-export function Section({ name, id, bordered = true, padding = 'py-12 lg:py-16', className = '', children }) {
-  return (
-    <section data-section={name} id={id} className={bordered ? 'border-t border-line' : undefined}>
-      <div className={`${container} ${padding} ${className}`}>{children}</div>
-    </section>
-  );
+/**
+ * A home page band: optional hairline on top, the page container inside,
+ * and the data-section name the screenshots key on.
+ */
+export function Section({
+    name,
+    id,
+    bordered = true,
+    padding = 'py-12 lg:py-16',
+    className = '',
+    children,
+}) {
+    return (
+        <section
+            data-section={name}
+            id={id}
+            className={bordered ? 'border-t border-line' : undefined}
+        >
+            <div className={`${container} ${padding} ${className}`}>{children}</div>
+        </section>
+    );
 }
 
 export function SectionTitle({ as: Tag = 'h2', size = 'section', children, className = '' }) {
-  return <Tag className={`${titleSizes[size]} text-green ${className}`}>{children}</Tag>;
+    return <Tag className={`${titleSizes[size]} text-green ${className}`}>{children}</Tag>;
 }
 
 export function SubTitle({ as: Tag = 'h3', tone = 'text-ink', children, className = '' }) {
-  return <Tag className={`text-xl lg:text-sub ${tone} ${className}`}>{children}</Tag>;
+    return <Tag className={`text-xl lg:text-sub ${tone} ${className}`}>{children}</Tag>;
 }
