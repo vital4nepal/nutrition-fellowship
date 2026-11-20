@@ -1,11 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
-
-const SWIPE_PX = 50;
-// The same pace and fade as the home page slideshow.
-const SLIDE_MS = 3000;
-
-const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+import { SLIDE_MS, arrowKeys, useSwipe } from './Slideshow';
+import { prefersReducedMotion } from './ui';
 
 const button =
   'absolute z-20 flex h-11 w-11 items-center justify-center border border-paper/40 bg-ink/50 text-paper transition-colors hover:bg-paper hover:text-ink';
@@ -25,12 +21,13 @@ function PhotoCarousel({ label, photos }) {
   const [previous, setPrevious] = useState(0);
   const [stopped, setStopped] = useState(prefersReducedMotion);
   const strip = useRef(null);
-  const swipeStart = useRef(null);
   const total = photos.length;
   const hasCaptions = photos.some((photo) => photo.caption);
 
   const show = (index) => {
-    if (total < 2) return;
+    if (total < 2) {
+      return;
+    }
     const next = (index + total) % total;
     setPrevious(current);
     setCurrent(next);
@@ -50,41 +47,24 @@ function PhotoCarousel({ label, photos }) {
 
   // One timer, set again only when the photo changes or the slideshow starts or stops.
   useEffect(() => {
-    if (stopped || total < 2) return undefined;
+    if (stopped || total < 2) {
+      return undefined;
+    }
     const timer = setTimeout(() => show(current + 1), SLIDE_MS);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, stopped, total]);
 
-  const onKeyDown = (event) => {
-    // Alt or Cmd plus an arrow is the browser's Back and Forward.
-    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-    if (event.key === 'ArrowLeft') go(current - 1);
-    else if (event.key === 'ArrowRight') go(current + 1);
-    else return;
-    event.preventDefault();
-  };
-
-  const onPointerUp = (event) => {
-    if (swipeStart.current === null) return;
-    const distance = event.clientX - swipeStart.current;
-    swipeStart.current = null;
-    if (Math.abs(distance) >= SWIPE_PX) go(current + (distance < 0 ? 1 : -1));
-  };
+  const move = (direction) => go(current + direction);
+  const swipe = useSwipe(move);
 
   const near = [previous, current - 1, current, current + 1].map((index) => (index + total) % total);
 
   return (
     // The arrow keys work while focus is on a button or a thumbnail. The photo itself is not a tab stop.
-    <div role="group" aria-roledescription="carousel" aria-label={label} onKeyDown={onKeyDown}>
+    <div role="group" aria-roledescription="carousel" aria-label={label} onKeyDown={arrowKeys(move)}>
       <div
-        onPointerDown={(event) => {
-          if (event.pointerType !== 'mouse') swipeStart.current = event.clientX;
-        }}
-        onPointerUp={onPointerUp}
-        onPointerCancel={() => {
-          swipeStart.current = null;
-        }}
+        {...swipe}
         className="relative aspect-[3/2] touch-pan-y touch-pinch-zoom select-none overflow-hidden border border-line bg-ink"
       >
         {[...new Set(near)].map((index) => (
@@ -105,10 +85,10 @@ function PhotoCarousel({ label, photos }) {
         ))}
         {total > 1 && (
           <>
-            <button type="button" aria-label="Previous image" onClick={() => go(current - 1)} className={`${control} left-3`}>
+            <button type="button" aria-label="Previous image" onClick={() => move(-1)} className={`${control} left-3`}>
               <ChevronLeft size={22} aria-hidden="true" />
             </button>
-            <button type="button" aria-label="Next image" onClick={() => go(current + 1)} className={`${control} right-3`}>
+            <button type="button" aria-label="Next image" onClick={() => move(1)} className={`${control} right-3`}>
               <ChevronRight size={22} aria-hidden="true" />
             </button>
             <button

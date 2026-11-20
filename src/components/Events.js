@@ -2,12 +2,10 @@ import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { events, longDate } from '../data/events';
-import { Section, SectionTitle, SubTitle, groupTitleLink } from './ui';
+import { Section, SectionTitle, SubTitle, groupTitleLink, prefersReducedMotion } from './ui';
 
 const arrowButton =
   'flex h-11 w-11 items-center justify-center border border-line-strong text-ink transition-colors hover:border-green hover:text-green aria-disabled:cursor-default aria-disabled:opacity-40 aria-disabled:hover:border-line-strong aria-disabled:hover:text-ink';
-
-const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /** The row of event cards. It scrolls sideways and each card snaps to the left edge. Every card is a link to its page. */
 function Events() {
@@ -16,7 +14,9 @@ function Events() {
 
   // The arrows use aria-disabled, not disabled: a disabled button drops the keyboard focus.
   const step = (direction) => {
-    if (direction < 0 ? edge.start : edge.end) return;
+    if (direction < 0 ? edge.start : edge.end) {
+      return;
+    }
     const card = track.current.firstElementChild;
     track.current.scrollBy({
       left: direction * card.getBoundingClientRect().width,

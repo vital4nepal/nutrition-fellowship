@@ -1,15 +1,50 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { prefersReducedMotion } from './ui';
 
 // Every slide shows for the same time, counted from the start of its fade in.
-const SLIDE_MS = 3000;
+export const SLIDE_MS = 3000;
 const FADE_MS = 900;
 const SWIPE_PX = 50;
 
-const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 const control =
   'flex h-11 w-10 items-center justify-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink';
+
+/** The handler of a carousel: an arrow key calls `step(-1)` or `step(1)`. */
+export const arrowKeys = (step) => (event) => {
+  const direction = { ArrowLeft: -1, ArrowRight: 1 }[event.key];
+  // Alt or Cmd plus an arrow is the browser's Back and Forward.
+  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || !direction) {
+    return;
+  }
+  step(direction);
+  event.preventDefault();
+};
+
+/** The pointer handlers of a carousel: a touch or pen swipe calls `step(1)` or `step(-1)`. A mouse drag does not. */
+export function useSwipe(step) {
+  const swipeStart = useRef(null);
+  return {
+    onPointerDown: (event) => {
+      if (event.pointerType !== 'mouse') {
+        swipeStart.current = event.clientX;
+      }
+    },
+    onPointerUp: (event) => {
+      if (swipeStart.current === null) {
+        return;
+      }
+      const distance = event.clientX - swipeStart.current;
+      swipeStart.current = null;
+      if (Math.abs(distance) >= SWIPE_PX) {
+        step(distance < 0 ? 1 : -1);
+      }
+    },
+    onPointerCancel: () => {
+      swipeStart.current = null;
+    },
+  };
+}
 
 /**
  * The slideshow of the home page: one frame, a caption over a dark gradient at the bottom, the count, Pause,
@@ -22,7 +57,6 @@ const control =
 function Slideshow({ label, slides, renderSlide, gestures = false }) {
   const [current, setCurrent] = useState(0);
   const lastAdvance = useRef(-Infinity);
-  const swipeStart = useRef(null);
   // A visitor who asks for reduced motion starts with the slideshow stopped. Play still works for them.
   const [calm] = useState(prefersReducedMotion);
   const [stopped, setStopped] = useState(calm);
@@ -31,11 +65,13 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
   const [settled, setSettled] = useState(() => new Set());
   // The clock starts once the first slide is on screen and then never waits on a load or a video event,
   // so every slide gets the same time. A slide that is still loading shows its poster or the dark frame.
-  const autoplaying = settled.has(0) && !stopped && slides.length > 1;
+  const autoplaying = settled.has(0) && !stopped;
 
   // One timer, set again only when the slide changes or the slideshow starts or stops.
   useEffect(() => {
-    if (!autoplaying) return undefined;
+    if (!autoplaying) {
+      return undefined;
+    }
     const timer = setTimeout(() => {
       lastAdvance.current = performance.now();
       setCurrent((index) => (index + 1) % slides.length);
@@ -46,41 +82,23 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
   // A visitor's own step stops the slideshow. A step during a fade waits, so the fades never pile up.
   const step = (offset) => {
     const now = performance.now();
-    if (!calm && now - lastAdvance.current < FADE_MS) return;
+    if (!calm && now - lastAdvance.current < FADE_MS) {
+      return;
+    }
     lastAdvance.current = now;
     setCurrent((index) => (index + offset + slides.length) % slides.length);
     setStopped(true);
   };
 
-  const onKeyDown = (event) => {
-    // Alt or Cmd plus an arrow is the browser's Back and Forward.
-    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-    if (event.key === 'ArrowLeft') step(-1);
-    else if (event.key === 'ArrowRight') step(1);
-    else return;
-    event.preventDefault();
-  };
-
-  const onPointerUp = (event) => {
-    if (swipeStart.current === null) return;
-    const distance = event.clientX - swipeStart.current;
-    swipeStart.current = null;
-    if (Math.abs(distance) >= SWIPE_PX) step(distance < 0 ? 1 : -1);
-  };
+  const swipe = useSwipe(step);
 
   const gestureProps = gestures
     ? {
         role: 'group',
         'aria-roledescription': 'carousel',
         'aria-label': label,
-        onKeyDown,
-        onPointerDown: (event) => {
-          if (event.pointerType !== 'mouse') swipeStart.current = event.clientX;
-        },
-        onPointerUp,
-        onPointerCancel: () => {
-          swipeStart.current = null;
-        },
+        onKeyDown: arrowKeys(step),
+        ...swipe,
       }
     : {};
 
@@ -114,27 +132,25 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
         >
           {slides[current].caption}
         </p>
-        {slides.length > 1 && (
-          <div className="flex shrink-0 items-center gap-1.5 self-end">
-            <span className="mr-1 hidden text-meta tabular-nums text-paper/80 sm:block">
-              {current + 1} / {slides.length}
-            </span>
-            <button
-              type="button"
-              aria-label={stopped ? 'Play slideshow' : 'Pause slideshow'}
-              onClick={() => setStopped(!stopped)}
-              className={control}
-            >
-              {stopped ? <Play size={18} aria-hidden="true" /> : <Pause size={18} aria-hidden="true" />}
-            </button>
-            <button type="button" aria-label="Previous photo" onClick={() => step(-1)} className={control}>
-              <ChevronLeft size={20} aria-hidden="true" />
-            </button>
-            <button type="button" aria-label="Next photo" onClick={() => step(1)} className={control}>
-              <ChevronRight size={20} aria-hidden="true" />
-            </button>
-          </div>
-        )}
+        <div className="flex shrink-0 items-center gap-1.5 self-end">
+          <span className="mr-1 hidden text-meta tabular-nums text-paper/80 sm:block">
+            {current + 1} / {slides.length}
+          </span>
+          <button
+            type="button"
+            aria-label={stopped ? 'Play slideshow' : 'Pause slideshow'}
+            onClick={() => setStopped(!stopped)}
+            className={control}
+          >
+            {stopped ? <Play size={18} aria-hidden="true" /> : <Pause size={18} aria-hidden="true" />}
+          </button>
+          <button type="button" aria-label="Previous photo" onClick={() => step(-1)} className={control}>
+            <ChevronLeft size={20} aria-hidden="true" />
+          </button>
+          <button type="button" aria-label="Next photo" onClick={() => step(1)} className={control}>
+            <ChevronRight size={20} aria-hidden="true" />
+          </button>
+        </div>
       </figcaption>
     </figure>
   );
