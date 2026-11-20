@@ -52,7 +52,7 @@ const innerPages = [
     { path: '/profile', title: 'Nutrition Profile' },
     { path: '/policy2025', title: 'Policy 2025' },
     { path: '/aiinnutrition', title: 'Research on AI in nutrition' },
-    { path: '/nfn2ndmeetblog', title: 'Nutrition Fellowship for Nepal: 2nd meet blog' },
+    { path: '/nfn2ndmeetblog', title: '2nd Nutrition Fellowship for Nepal Meet blog' },
     { path: '/nrcinternblog', title: 'Nutrition Rehabilitation Center: Internship blog' },
 ];
 
@@ -75,7 +75,7 @@ const upcomingEvents = [
 
 const announcements = [
     {
-        title: 'Nutrition Fellowship for Nepal: Second Meet',
+        title: '2nd Nutrition Fellowship for Nepal Meet',
         date: '01/17/2025',
         description:
             'We are excited for the gathering of hearts and minds ' +
@@ -122,7 +122,11 @@ const slides = [
         caption: 'WHA assessment camp in Bangladesh University of Health Sciences',
         clip: true,
     },
-    { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
+    {
+        name: 'second-meet',
+        caption: '2nd Nutrition Fellowship for Nepal Meet, January 2025',
+        focus: '50% 40%',
+    },
     { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
     {
         name: 'primeasia-bia-training',
@@ -430,7 +434,7 @@ const documents = [
     {
         category: 'Blogs',
         links: [
-            { title: 'Nutrition Fellowship for Nepal : 2nd Meet', path: '/nfn2ndmeetblog' },
+            { title: '2nd Nutrition Fellowship for Nepal Meet', path: '/nfn2ndmeetblog' },
             { title: 'Internship at Nutrition Rehabilitation Center', path: '/nrcinternblog' },
         ],
     },
