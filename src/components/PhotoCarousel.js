@@ -92,6 +92,9 @@ function PhotoCarousel({ label, photos }) {
                             'calc(100vw - 32px)'
                         }
                         alt={index === current ? `${label}, ${index + 1} of ${total}` : ''}
+                        // The first photo is the largest paint of a folder page,
+                        // so it loads ahead of the strip.
+                        fetchpriority={index === 0 ? 'high' : undefined}
                         draggable={false}
                         // The crossfade of the home page: the new photo fades in on top,
                         // the old one hides once it is covered.
