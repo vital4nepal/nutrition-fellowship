@@ -4,13 +4,14 @@ import { resources } from '../data/resources';
 import { SectionTitle, groupTitleLink, textLink, useDocumentTitle } from './ui';
 
 const TITLE = 'Resources';
+const DESCRIPTION = 'Documents and photos from our meetings and programs.';
 
 /**
  * /resources. One card for each folder in data/resources.js.
  * A card opens the page of its folder.
  */
 function ResourcesPage() {
-    useDocumentTitle(TITLE);
+    useDocumentTitle(TITLE, DESCRIPTION);
 
     return (
         <>
@@ -31,7 +32,7 @@ function ResourcesPage() {
                     'mt-4 max-w-[60ch] animate-rise text-sub text-ink [animation-delay:100ms]'
                 }
             >
-                Documents and photos from our meetings and programs.
+                {DESCRIPTION}
             </p>
 
             <ul className="nf-stagger mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

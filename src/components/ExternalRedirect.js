@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { SITE_TITLE, SectionTitle, textLink } from './ui';
+import { SITE_TITLE, SectionTitle, textLink, useDocumentTitle } from './ui';
 
 /**
  * A site address that sends the visitor to another site.
@@ -8,10 +8,10 @@ import { SITE_TITLE, SectionTitle, textLink } from './ui';
  * the server redirects it, see public/_redirects.
  */
 function ExternalRedirect({ title, href }) {
+    useDocumentTitle(title, `Opens the ${title} of the ${SITE_TITLE} on another site.`);
     useEffect(() => {
-        document.title = `${title} | ${SITE_TITLE}`;
         window.location.replace(href);
-    }, [title, href]);
+    }, [href]);
 
     return (
         <>
