@@ -14,7 +14,7 @@ const control =
 /**
  * The slideshow of the home page: one frame, a caption over a dark gradient at the bottom, the count, Pause,
  * Previous and Next. Every slide shows for 3 seconds and crossfades into the next.
- * `renderSlide(slide, index, state)` draws one slide. `state` has `layer`, the classes that place and fade it,
+ * `renderSlide(slide, state)` draws one slide. `state` has `layer`, the classes that place and fade it,
  * `visible`, `wanted` (false until the first slide is on screen, so the first one loads first), `playable`
  * (false for a visitor who asked for reduced motion and has not pressed Play) and `settle`, to call once it
  * loaded or failed. Each slide needs a `caption`. `gestures` adds the arrow keys and a swipe.
@@ -29,7 +29,6 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
   // The slides that loaded or failed, by index: a browser fires `load` again when it swaps to a larger file.
   // The later slides wait for the first one, so it loads first. They then load in the background while it shows.
   const [settled, setSettled] = useState(() => new Set());
-  const settle = (index) => setSettled((done) => (done.has(index) ? done : new Set(done).add(index)));
   // The clock starts once the first slide is on screen and then never waits on a load or a video event,
   // so every slide gets the same time. A slide that is still loading shows its poster or the dark frame.
   const autoplaying = settled.has(0) && !stopped && slides.length > 1;
@@ -97,12 +96,12 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
         const transition = visible
           ? 'z-10 opacity-100 duration-[900ms] ease-in-out'
           : 'opacity-0 duration-0 delay-[900ms] motion-reduce:delay-0';
-        return renderSlide(slide, index, {
+        return renderSlide(slide, {
           layer: `absolute inset-0 transition-opacity will-change-[opacity] motion-reduce:transition-none ${transition}`,
           visible,
           wanted: index === 0 || settled.has(0),
           playable: !calm || !stopped,
-          settle: () => settle(index),
+          settle: () => setSettled((done) => (done.has(index) ? done : new Set(done).add(index))),
         });
       })}
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-3/4 bg-gradient-to-t from-ink/90 via-ink/60 to-transparent sm:h-1/2 sm:via-transparent" />
@@ -151,7 +150,7 @@ export function PhotoSlideshow({ label, photos }) {
       label={label}
       slides={photos}
       gestures
-      renderSlide={({ src, thumb, focus }, index, { layer, wanted, settle }) => (
+      renderSlide={({ src, thumb, focus }, { layer, wanted, settle }) => (
         <img
           key={src}
           src={wanted ? encodeURI(src) : undefined}

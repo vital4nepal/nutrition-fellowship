@@ -32,32 +32,6 @@ const rowClass = 'flex min-h-[56px] items-center justify-between border-b border
 const titleClass = 'block flex-1 py-3 pr-4 font-medium';
 const slotClass = 'flex h-11 w-11 shrink-0 items-center justify-center';
 
-// Every row ends in the same 44px slot. A PDF row has two links (title opens its page, icon downloads); a page row is one link.
-function Resource({ title, path, pdfUrl }) {
-  if (!pdfUrl) {
-    return (
-      <li>
-        <Link to={path} className={`group ${rowClass}`}>
-          <span className={`${titleClass} ${groupTitleLink}`}>{title}</span>
-          <span aria-hidden="true" className={`${slotClass} text-muted transition-colors group-hover:text-green`}>
-            <ArrowRight size={20} />
-          </span>
-        </Link>
-      </li>
-    );
-  }
-  return (
-    <li className={rowClass}>
-      <Link to={path} className={`${titleClass} ${textLink}`}>
-        {title}
-      </Link>
-      <a href={pdfUrl} download aria-label={`Download ${title}`} className={`${slotClass} text-green`}>
-        <Download size={20} aria-hidden="true" />
-      </a>
-    </li>
-  );
-}
-
 function Repository() {
   return (
     <Section name="resources" id="documents">
@@ -67,9 +41,28 @@ function Repository() {
           <div key={category} className="border-t border-ink pt-4">
             <SubTitle>{category}</SubTitle>
             <ul className="mt-2">
-              {links.map((link) => (
-                <Resource key={link.title} {...link} />
-              ))}
+              {/* Every row ends in the same 44px slot. A PDF row has two links (title opens its page, icon downloads); a page row is one link. */}
+              {links.map(({ title, path, pdfUrl }) =>
+                pdfUrl ? (
+                  <li key={title} className={rowClass}>
+                    <Link to={path} className={`${titleClass} ${textLink}`}>
+                      {title}
+                    </Link>
+                    <a href={pdfUrl} download aria-label={`Download ${title}`} className={`${slotClass} text-green`}>
+                      <Download size={20} aria-hidden="true" />
+                    </a>
+                  </li>
+                ) : (
+                  <li key={title}>
+                    <Link to={path} className={`group ${rowClass}`}>
+                      <span className={`${titleClass} ${groupTitleLink}`}>{title}</span>
+                      <span aria-hidden="true" className={`${slotClass} text-muted transition-colors group-hover:text-green`}>
+                        <ArrowRight size={20} />
+                      </span>
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
         ))}

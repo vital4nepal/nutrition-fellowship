@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { d4n } from '../data/site';
 import About from './About';
-import CoverpageRight from './CoverpageRight';
 import Slideshow from './Slideshow';
-import { SectionTitle, container } from './ui';
+import { SectionTitle, SiteLink, container, groupTitleLink } from './ui';
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
 // A photo with a `width` has a large file of that width instead of 1600px.
@@ -40,14 +39,15 @@ const slides = [
 // Stagger the four campaign photos when they first load. Keep them ready for later fades.
 function Collage({ tiles, wanted, onSettle }) {
   const [loaded, setLoaded] = useState(() => new Set());
-  const markLoaded = (index) => setLoaded((done) => (done.has(index) ? done : new Set(done).add(index)));
 
   return (
     <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1 bg-ink">
       {tiles.map(({ name, focus, area, sizes }, index) => {
         const done = () => {
-          markLoaded(index);
-          if (index === 0) onSettle();
+          setLoaded((set) => (set.has(index) ? set : new Set(set).add(index)));
+          if (index === 0) {
+            onSettle();
+          }
         };
         return (
           <img
@@ -106,42 +106,14 @@ function Clip({ name, visible, wanted, playable, onSettle, className }) {
   );
 }
 
-/** One hero slide: a collage, a clip or a photo. */
-const renderHeroSlide = ({ name, collage, clip, portrait, focus, width = 1600 }, index, { layer, visible, wanted, playable, settle }) => {
-  if (clip) {
-    return (
-      <Clip
-        key={name}
-        name={name}
-        visible={visible}
-        wanted={wanted}
-        playable={playable}
-        onSettle={settle}
-        className={`${layer} h-full w-full object-cover`}
-      />
-    );
-  }
-  if (collage) {
-    return (
-      <div key={name} className={layer}>
-        <Collage tiles={collage} wanted={wanted} onSettle={settle} />
-      </div>
-    );
-  }
-  return (
-    <img
-      key={name}
-      src={wanted ? `/hero/${name}.jpg` : undefined}
-      srcSet={wanted && !portrait ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg ${width}w` : undefined}
-      sizes="(min-width: 1024px) 800px, 100vw"
-      alt=""
-      onLoad={settle}
-      onError={settle}
-      style={{ objectPosition: focus }}
-      className={`${layer} h-full w-full ${portrait ? 'bg-ink object-contain' : 'object-cover'}`}
-    />
-  );
-};
+const highlights = [
+  {
+    image: '/KeyHighlights/thumbs/Dr. RP Bichha.jpg',
+    topic: 'Dr. RP Bichha Speech',
+    description: 'Honorable Member of the National Planning Commission',
+    link: 'https://youtu.be/YxI-8DVWIQQ?si=tb7y2lsEyLm8_31v',
+  },
+];
 
 const cardLink =
   'inline-flex min-h-11 items-center gap-2 font-semibold underline-offset-4 transition-colors hover:underline';
@@ -152,7 +124,46 @@ const Hero = () => (
       <div className="lg:col-span-8">
         <SectionTitle as="h1" className="mb-6 animate-rise lg:mb-8">Nutrition Fellowship</SectionTitle>
         <div className="animate-rise [animation-delay:120ms]">
-          <Slideshow label="Fellowship highlights" slides={slides} renderSlide={renderHeroSlide} />
+          <Slideshow
+            label="Fellowship highlights"
+            slides={slides}
+            // One hero slide: a collage, a clip or a photo.
+            renderSlide={({ name, collage, clip, portrait, focus, width = 1600 }, { layer, visible, wanted, playable, settle }) => {
+              if (clip) {
+                return (
+                  <Clip
+                    key={name}
+                    name={name}
+                    visible={visible}
+                    wanted={wanted}
+                    playable={playable}
+                    onSettle={settle}
+                    className={`${layer} h-full w-full object-cover`}
+                  />
+                );
+              }
+              if (collage) {
+                return (
+                  <div key={name} className={layer}>
+                    <Collage tiles={collage} wanted={wanted} onSettle={settle} />
+                  </div>
+                );
+              }
+              return (
+                <img
+                  key={name}
+                  src={wanted ? `/hero/${name}.jpg` : undefined}
+                  srcSet={wanted && !portrait ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg ${width}w` : undefined}
+                  sizes="(min-width: 1024px) 800px, 100vw"
+                  alt=""
+                  onLoad={settle}
+                  onError={settle}
+                  style={{ objectPosition: focus }}
+                  className={`${layer} h-full w-full ${portrait ? 'bg-ink object-contain' : 'object-cover'}`}
+                />
+              );
+            }}
+          />
         </div>
         <About />
       </div>
@@ -189,7 +200,32 @@ const Hero = () => (
           </div>
         </article>
         <div id="highlights" className="mt-4 sm:col-span-2 lg:col-span-1">
-          <CoverpageRight />
+          <SectionTitle size="sidebar">Key Highlights/Alerts</SectionTitle>
+          <ul className="mt-4 border-t border-line">
+            {highlights.map((highlight) => (
+              <li key={highlight.topic}>
+                <SiteLink
+                  href={highlight.link}
+                  className="group flex min-h-[80px] gap-4 border-b border-line py-3"
+                >
+                  <img
+                    loading="lazy"
+                    src={highlight.image}
+                    alt=""
+                    width={56}
+                    height={56}
+                    className="h-12 w-12 shrink-0 object-cover lg:h-14 lg:w-14"
+                  />
+                  <span className="min-w-0">
+                    <span className={`block text-base font-semibold text-ink ${groupTitleLink}`}>
+                      {highlight.topic}
+                    </span>
+                    <span className="line-clamp-2 text-meta text-muted lg:line-clamp-3">{highlight.description}</span>
+                  </span>
+                </SiteLink>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
