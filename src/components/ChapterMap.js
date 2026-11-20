@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './ChapterMap.css';
@@ -10,18 +10,6 @@ const TILES = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 const PIN_SIZE = 40;
-// The Lucide MapPin shape, filled. Its tip is at 12, 22 in a 24 unit box, and the marker anchors there.
-const pinIcon = (city) =>
-  L.divIcon({
-    className: '',
-    iconSize: [PIN_SIZE, PIN_SIZE],
-    iconAnchor: [PIN_SIZE / 2, (PIN_SIZE * 22) / 24],
-    html: `<svg viewBox="0 0 24 24" width="${PIN_SIZE}" height="${PIN_SIZE}" class="overflow-visible" aria-hidden="true">
-      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" class="fill-accent stroke-paper" stroke-width="1.5" />
-      <circle cx="12" cy="10" r="3" class="fill-paper" />
-      <text x="23" y="10" dominant-baseline="central" font-size="10" paint-order="stroke" stroke-width="4" stroke-linejoin="round" class="fill-ink stroke-paper font-semibold">${city}</text>
-    </svg>`,
-  });
 
 const line = { interactive: false, fill: false };
 
@@ -48,7 +36,18 @@ export default function ChapterMap({ id, label }) {
     // Each ring is its own polygon. As rings of one polygon, the islands would be cut out as holes.
     L.polygon(land.map((ring) => [ring]), { interactive: false, weight: 2.5, fillOpacity: 1, className: 'fill-meadow/30 stroke-green' }).addTo(map);
     L.polyline(inner, { ...line, weight: 1, className: 'stroke-green' }).addTo(map);
-    L.marker(at, { icon: pinIcon(capital), interactive: false, keyboard: false }).addTo(map);
+    // The Lucide MapPin shape, filled. Its tip is at 12, 22 in a 24 unit box, and the marker anchors there.
+    const icon = L.divIcon({
+      className: '',
+      iconSize: [PIN_SIZE, PIN_SIZE],
+      iconAnchor: [PIN_SIZE / 2, (PIN_SIZE * 22) / 24],
+      html: `<svg viewBox="0 0 24 24" width="${PIN_SIZE}" height="${PIN_SIZE}" class="overflow-visible" aria-hidden="true">
+      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" class="fill-accent stroke-paper" stroke-width="1.5" />
+      <circle cx="12" cy="10" r="3" class="fill-paper" />
+      <text x="23" y="10" dominant-baseline="central" font-size="10" paint-order="stroke" stroke-width="4" stroke-linejoin="round" class="fill-ink stroke-paper font-semibold">${capital}</text>
+    </svg>`,
+    });
+    L.marker(at, { icon, interactive: false, keyboard: false }).addTo(map);
 
     map.fitBounds(bounds, { padding: [16, 16] });
     map.setMinZoom(map.getZoom());

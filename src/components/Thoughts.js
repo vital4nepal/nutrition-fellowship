@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { email, emailHref } from '../data/site';
 import { Section, SectionTitle, textLink } from './ui';
 
@@ -10,22 +10,6 @@ const fields = [
 
 const inputClass =
   'w-full appearance-none rounded-none border border-line-strong bg-surface px-3 text-body focus:border-green';
-
-function Field({ name, label, type, autoComplete }) {
-  const id = `thoughts-${name}`;
-  return (
-    <div>
-      <label htmlFor={id} className="mb-2 block text-ui font-semibold text-ink">
-        {label}
-      </label>
-      {type === 'textarea' ? (
-        <textarea id={id} name={name} required className={`${inputClass} min-h-[160px] resize-y py-3`} />
-      ) : (
-        <input id={id} name={name} type={type} autoComplete={autoComplete} required className={`${inputClass} h-12`} />
-      )}
-    </div>
-  );
-}
 
 const messages = {
   sent: 'Thank you! Message sent successfully!',
@@ -61,7 +45,9 @@ function Thoughts() {
         signal: controller.signal,
       });
       const result = res.ok ? await res.json() : null;
-      if (!result?.success) throw new Error('web3forms rejected the message');
+      if (!result?.success) {
+        throw new Error('web3forms rejected the message');
+      }
       setStatus('sent');
       form.reset();
     } catch {
@@ -82,9 +68,21 @@ function Thoughts() {
         onInput={() => status !== 'sending' && setStatus('idle')}
         className="flex flex-col gap-5 md:max-w-form lg:col-span-6 lg:col-start-7 lg:max-w-none"
       >
-        {fields.map((field) => (
-          <Field key={field.name} {...field} />
-        ))}
+        {fields.map(({ name, label, type, autoComplete }) => {
+          const id = `thoughts-${name}`;
+          return (
+            <div key={name}>
+              <label htmlFor={id} className="mb-2 block text-ui font-semibold text-ink">
+                {label}
+              </label>
+              {type === 'textarea' ? (
+                <textarea id={id} name={name} required className={`${inputClass} min-h-[160px] resize-y py-3`} />
+              ) : (
+                <input id={id} name={name} type={type} autoComplete={autoComplete} required className={`${inputClass} h-12`} />
+              )}
+            </div>
+          );
+        })}
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-5">
           <button
             type="submit"

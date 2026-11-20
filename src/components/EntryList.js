@@ -1,4 +1,3 @@
-import React from 'react';
 import { SubTitle } from './ui';
 
 /** One column of the updates band: a heading over ruled entries, shared by Upcoming Events and Announcements. */
