@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     ArrowDown,
     ArrowRight,
@@ -1325,10 +1324,14 @@ function App() {
                                             'hover:border-paper'
                                         }
                                     >
-                                        <FontAwesomeIcon
-                                            icon={social.icon}
-                                            className="text-[18px]"
-                                        />
+                                        <svg
+                                            viewBox={social.viewBox}
+                                            fill="currentColor"
+                                            aria-hidden="true"
+                                            className="h-[18px] overflow-visible"
+                                        >
+                                            <path d={social.path} />
+                                        </svg>
                                     </a>
                                 ))}
                             </div>
