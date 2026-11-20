@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight, Download } from 'lucide-react';
-import { SITE_TITLE } from './ComingSoon';
+import { events, longDate } from '../data/events';
+import { resources } from '../data/resources';
+import NotFound from './NotFound';
 import PhotoCarousel from './PhotoCarousel';
 import { PhotoSlideshow } from './Slideshow';
-import { SectionTitle, SiteLink, SubTitle, groupTitleLink, textLink } from './ui';
+import { SectionTitle, SiteLink, SubTitle, groupTitleLink, textLink, useDocumentTitle } from './ui';
 
 const link = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
 
@@ -63,12 +64,7 @@ function ContentPage({
   documents = [],
   links = [],
 }) {
-  useEffect(() => {
-    document.title = `${title} | ${section} | ${SITE_TITLE}`;
-    return () => {
-      document.title = SITE_TITLE;
-    };
-  }, [title, section]);
+  useDocumentTitle(`${title} | ${section}`);
 
   return (
     <article>
@@ -128,4 +124,57 @@ function ContentPage({
   );
 }
 
-export default ContentPage;
+/** /resources/:id. An unknown id shows the 404 page. */
+export function ResourcePage() {
+  const { id } = useParams();
+  const resource = resources.find((item) => item.id === id);
+  if (!resource) {
+    return <NotFound />;
+  }
+
+  const { title, date, summary, pointsTitle, points, photos, imageKind, documents, driveHref, slideshow } = resource;
+  return (
+    <ContentPage
+      key={id}
+      section="Resources"
+      backTo={{ to: '/resources', label: 'All resources' }}
+      title={title}
+      date={date}
+      summary={summary}
+      pointsTitle={pointsTitle}
+      points={points}
+      images={photos}
+      imageKind={imageKind}
+      slideshow={slideshow}
+      documents={documents}
+      links={driveHref ? [{ href: driveHref, label: 'More files in Google Drive' }] : []}
+    />
+  );
+}
+
+/** /events/:id. An unknown id shows the 404 page. */
+export function EventPage() {
+  const { id } = useParams();
+  const event = events.find((item) => item.id === id);
+  if (!event) {
+    return <NotFound />;
+  }
+
+  const { title, date, summary, pointsTitle, points, img, photos, documents, links } = event;
+  return (
+    <ContentPage
+      key={id}
+      section="Events"
+      backTo={{ to: '/#events', label: 'Events and Updates' }}
+      title={title}
+      date={longDate(date)}
+      summary={summary}
+      pointsTitle={pointsTitle}
+      points={points}
+      // The card photo is 960px wide, enough for the page.
+      images={photos ?? [{ src: img, thumb: img }]}
+      documents={documents}
+      links={links}
+    />
+  );
+}

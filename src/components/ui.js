@@ -1,5 +1,22 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+export const SITE_TITLE = 'Nutrition Fellowship';
+
+export const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** The tab title is "page | site" while the page shows, and the site name after. An empty `page` leaves it alone. */
+export function useDocumentTitle(page) {
+  useEffect(() => {
+    if (!page) {
+      return undefined;
+    }
+    document.title = `${page} | ${SITE_TITLE}`;
+    return () => {
+      document.title = SITE_TITLE;
+    };
+  }, [page]);
+}
 
 export const container = 'mx-auto max-w-content px-4 lg:px-6';
 export const underlineLink = 'underline-offset-4 transition-colors hover:underline';

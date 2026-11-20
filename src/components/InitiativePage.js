@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { BookOpen, Database, Flag, Gauge, Map as MapIcon, PenLine, Presentation, Table2, Target } from 'lucide-react';
 import { initiatives } from '../data/initiatives';
-import ComingSoon, { SITE_TITLE } from './ComingSoon';
+import ComingSoon from './ComingSoon';
 import { resources } from '../data/resources';
 import { DocumentList } from './ContentPage';
 import { PhotoSlideshow } from './Slideshow';
 import NotFound from './NotFound';
-import { SectionTitle } from './ui';
+import { SectionTitle, useDocumentTitle } from './ui';
 
 // One icon for each goal and each step, in the order of `goals` and `steps` in the data file.
 const goalIcons = [Database, Gauge, Flag, Target, PenLine];
@@ -19,7 +18,7 @@ const tile = 'mt-px shrink-0 text-green';
 const list = 'mt-5 border-t border-line';
 const row = 'flex items-start gap-4 border-b border-line py-4';
 
-const Icon = ({ icon: Glyph }) => (Glyph ? <Glyph size={22} strokeWidth={1.75} aria-hidden="true" /> : null);
+const Icon = ({ icon: Glyph }) => <Glyph size={22} strokeWidth={1.75} aria-hidden="true" />;
 
 /** A section title on this page, one size down from the page title, the same as the Documents title. */
 const PartTitle = ({ id, children }) => (
@@ -33,16 +32,14 @@ export function InitiativePage() {
   const { id } = useParams();
   const initiative = initiatives.find((item) => item.id === id);
 
-  useEffect(() => {
-    if (!initiative?.page) return undefined;
-    document.title = `${initiative.title} | ${SITE_TITLE}`;
-    return () => {
-      document.title = SITE_TITLE;
-    };
-  }, [initiative]);
+  useDocumentTitle(initiative?.page && initiative.title);
 
-  if (!initiative) return <NotFound />;
-  if (!initiative.page) return <ComingSoon title={initiative.title} />;
+  if (!initiative) {
+    return <NotFound />;
+  }
+  if (!initiative.page) {
+    return <ComingSoon title={initiative.title} />;
+  }
 
   const { subtitle, intro, photos, goals, steps, resourceId } = initiative.page;
   const resource = resources.find((item) => item.id === resourceId);
@@ -102,20 +99,18 @@ export function InitiativePage() {
         </section>
       </div>
 
-      {resource && (
-        // On a wide screen the documents sit beside the photos. On a narrow one they follow them.
-        <div className="mt-14 grid gap-12 border-t border-line pt-10 lg:grid-cols-12">
-          <section className="min-w-0 lg:col-span-8" aria-labelledby="data-camp-photos">
-            <PartTitle id="data-camp-photos">Data Camp photos</PartTitle>
-            <div className="mt-4">
-              <PhotoSlideshow label="Data Camp photos" photos={resource.photos} />
-            </div>
-          </section>
-          <div className="min-w-0 lg:col-span-4">
-            <DocumentList documents={resource.documents} beside />
+      {/* On a wide screen the documents sit beside the photos. On a narrow one they follow them. */}
+      <div className="mt-14 grid gap-12 border-t border-line pt-10 lg:grid-cols-12">
+        <section className="min-w-0 lg:col-span-8" aria-labelledby="data-camp-photos">
+          <PartTitle id="data-camp-photos">Data Camp photos</PartTitle>
+          <div className="mt-4">
+            <PhotoSlideshow label="Data Camp photos" photos={resource.photos} />
           </div>
+        </section>
+        <div className="min-w-0 lg:col-span-4">
+          <DocumentList documents={resource.documents} beside />
         </div>
-      )}
+      </div>
     </article>
   );
 }

@@ -63,6 +63,3 @@ export const longDate = (date) => {
     timeZone: 'UTC',
   });
 };
-
-/** The photos an event page shows: its own, or the card photo. The card photo is 960px wide, enough for the page. */
-export const eventImages = ({ photos, img }) => photos ?? [{ src: img, thumb: img }];

@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { SITE_TITLE } from './ComingSoon';
-import { SectionTitle, textLink } from './ui';
+import { SITE_TITLE, SectionTitle, textLink } from './ui';
 
 /**
  * A site address that sends the visitor to another site.

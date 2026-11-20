@@ -1,20 +1,13 @@
-import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { contentsLabel, resources } from '../data/resources';
-import { SITE_TITLE } from './ComingSoon';
-import { SectionTitle, groupTitleLink, textLink } from './ui';
+import { SectionTitle, groupTitleLink, textLink, useDocumentTitle } from './ui';
 
 const TITLE = 'Resources';
 
 /** /resources. One card for each folder in data/resources.js. A card opens the page of its folder. */
 function ResourcesPage() {
-  useEffect(() => {
-    document.title = `${TITLE} | ${SITE_TITLE}`;
-    return () => {
-      document.title = SITE_TITLE;
-    };
-  }, []);
+  useDocumentTitle(TITLE);
 
   return (
     <>

@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { SITE_TITLE } from './ComingSoon';
-import { SectionTitle, textLink } from './ui';
+import { SectionTitle, textLink, useDocumentTitle } from './ui';
 
 // The places most visitors look for. Hash links use <a>, so ScrollToHash lands them on the section.
 const suggestions = [
@@ -14,12 +12,7 @@ const suggestions = [
 
 /** Any address the router does not know. */
 const NotFound = () => {
-  useEffect(() => {
-    document.title = `Page not found | ${SITE_TITLE}`;
-    return () => {
-      document.title = SITE_TITLE;
-    };
-  }, []);
+  useDocumentTitle('Page not found');
 
   return (
     <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">

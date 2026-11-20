@@ -1,20 +1,25 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy } from 'react';
 import { useParams } from 'react-router-dom';
 import { chapterPages } from '../data/chapterPages';
 import { chapters } from '../data/site';
-import { SITE_TITLE } from './ComingSoon';
 import NotFound from './NotFound';
-import { SectionTitle } from './ui';
+import { SectionTitle, useDocumentTitle } from './ui';
 
 // Leaflet and the border data load only on a chapter page, so the home page does not pay for them.
 const ChapterMap = lazy(() => import('./ChapterMap'));
 
 const names = Object.fromEntries(chapters.map(({ id, label }) => [id, label]));
 
-/** /chapters/:id. The chapter name, a coming soon line and a map of the country. */
-function ChapterPage({ id }) {
+/** /chapters/:id. The chapter name, a coming soon line and a map of the country. An unknown id shows the 404 page. */
+export default function ChapterPage() {
+  const { id } = useParams();
+  const known = id in chapterPages;
   const label = names[id];
+  useDocumentTitle(known && `${label} Chapter`);
 
+  if (!known) {
+    return <NotFound />;
+  }
   return (
     <article>
       <SectionTitle as="h1">{label} Chapter</SectionTitle>
@@ -27,19 +32,4 @@ function ChapterPage({ id }) {
       </div>
     </article>
   );
-}
-
-/** The route element: it checks the id, sets the page title and shows the chapter. */
-export default function ChapterRoute() {
-  const { id } = useParams();
-  const known = id in chapterPages;
-  useEffect(() => {
-    if (!known) return undefined;
-    document.title = `${names[id]} Chapter | ${SITE_TITLE}`;
-    return () => {
-      document.title = SITE_TITLE;
-    };
-  }, [id, known]);
-
-  return known ? <ChapterPage id={id} /> : <NotFound />;
 }
