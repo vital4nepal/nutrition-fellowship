@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { SectionTitle, textLink, useDocumentTitle } from './ui';
+import { SectionTitle, primaryButton, textLink, useDocumentTitle } from './ui';
 
 // The places most visitors look for.
 // Hash links use <a>, so ScrollToHash lands them on the section.
@@ -21,8 +21,8 @@ const NotFound = () => {
                 <p
                     aria-hidden="true"
                     className={
-                        'animate-rise font-serif text-[6rem] font-semibold ' +
-                        'leading-none text-line lg:text-[9rem]'
+                        'animate-rise font-serif text-numeral font-semibold ' +
+                        'leading-none text-line lg:text-numeral-lg'
                     }
                 >
                     404
@@ -40,11 +40,7 @@ const NotFound = () => {
                 </p>
                 <Link
                     to="/"
-                    className={
-                        'mt-8 inline-flex min-h-11 animate-rise items-center gap-2 bg-green ' +
-                        'px-6 font-semibold text-paper transition-colors hover:bg-deep ' +
-                        '[animation-delay:240ms]'
-                    }
+                    className={`mt-8 animate-rise [animation-delay:240ms] ${primaryButton}`}
                 >
                     <ArrowLeft size={18} aria-hidden="true" />
                     Back to home

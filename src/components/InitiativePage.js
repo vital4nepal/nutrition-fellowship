@@ -35,7 +35,7 @@ const Icon = ({ icon: Glyph }) => <Glyph size={22} strokeWidth={1.75} aria-hidde
  * the same as the Documents title.
  */
 const PartTitle = ({ id, children }) => (
-    <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">
+    <SectionTitle as="h2" size="sidebar">
         <span id={id}>{children}</span>
     </SectionTitle>
 );
@@ -65,7 +65,7 @@ export function InitiativePage() {
                 {initiative.title}
             </SectionTitle>
             <p className="mt-3 max-w-[60ch] text-body font-medium text-muted">{subtitle}</p>
-            <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-ink">{intro}</p>
+            <p className="mt-5 max-w-[60ch] text-body leading-relaxed text-ink">{intro}</p>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
                 {photos.map(({ src, caption }) => (

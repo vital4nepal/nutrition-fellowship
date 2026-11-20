@@ -153,7 +153,7 @@ export const resources = [
             'In the latest figures, 25% of children are still stunted.',
         ],
         cover: photo('reports', 'nutrition-profiles'),
-        coverFocus: '50% 12%',
+        coverFocus: '50% 0%',
         imageKind: 'preview',
         documents: [
             {

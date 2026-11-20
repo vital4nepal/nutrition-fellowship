@@ -118,46 +118,49 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
         <figure
             {...gestureProps}
             className={
-                'relative aspect-[4/3] overflow-hidden border border-line bg-ink ' +
-                `sm:aspect-[16/9] ${gestures ? 'touch-pan-y touch-pinch-zoom' : ''}`
+                'relative overflow-hidden border border-line bg-ink ' +
+                (gestures ? 'touch-pan-y touch-pinch-zoom' : '')
             }
         >
-            {slides.map((slide, index) => {
-                const visible = index === current;
-                // A crossfade: the incoming slide fades in on top
-                // while the outgoing one stays whole underneath,
-                // then the outgoing one hides once it is covered.
-                // The frame never shows through halfway.
-                const transition = visible
-                    ? 'z-10 opacity-100 duration-[900ms] ease-in-out'
-                    : 'opacity-0 duration-0 delay-[900ms] motion-reduce:delay-0';
-                return renderSlide(slide, {
-                    layer:
-                        'absolute inset-0 transition-opacity will-change-[opacity] ' +
-                        `motion-reduce:transition-none ${transition}`,
-                    visible,
-                    wanted: index === 0 || settled.has(0),
-                    playable: !calm || !stopped,
-                    settle: () =>
-                        setSettled((done) => (done.has(index) ? done : new Set(done).add(index))),
-                });
-            })}
-            <div
-                aria-hidden="true"
-                className={
-                    'pointer-events-none absolute inset-x-0 bottom-0 z-20 h-3/4 ' +
-                    'bg-gradient-to-t from-ink/90 via-ink/60 to-transparent sm:h-1/2 ' +
-                    'sm:via-transparent'
-                }
-            />
+            <div className="relative aspect-[4/3] sm:aspect-[16/9]">
+                {slides.map((slide, index) => {
+                    const visible = index === current;
+                    // A crossfade: the incoming slide fades in on top
+                    // while the outgoing one stays whole underneath,
+                    // then the outgoing one hides once it is covered.
+                    // The frame never shows through halfway.
+                    const transition = visible
+                        ? 'z-10 opacity-100 duration-[900ms] ease-in-out'
+                        : 'opacity-0 duration-0 delay-[900ms] motion-reduce:delay-0';
+                    return renderSlide(slide, {
+                        layer:
+                            'absolute inset-0 transition-opacity will-change-[opacity] ' +
+                            `motion-reduce:transition-none ${transition}`,
+                        visible,
+                        wanted: index === 0 || settled.has(0),
+                        playable: !calm || !stopped,
+                        settle: () =>
+                            setSettled((done) =>
+                                done.has(index) ? done : new Set(done).add(index)
+                            ),
+                    });
+                })}
+                <div
+                    aria-hidden="true"
+                    className={
+                        'pointer-events-none absolute inset-x-0 bottom-0 z-20 hidden h-1/2 ' +
+                        'bg-gradient-to-t from-ink/90 via-transparent to-transparent lg:block'
+                    }
+                />
+            </div>
             {/*
-             * On a phone the buttons take their own row,
-             * so a long caption keeps the full width.
+             * Below lg the caption and the buttons sit in a bar under the photos,
+             * so they never cover a tile. From lg they sit over the photo.
              */}
             <figcaption
                 className={
-                    'absolute inset-x-0 bottom-0 z-20 flex flex-col gap-2 p-4 ' +
-                    'sm:flex-row sm:items-end sm:justify-between sm:gap-4 sm:p-6'
+                    'flex flex-col gap-2 p-4 sm:flex-row sm:items-end sm:justify-between ' +
+                    'sm:gap-4 lg:absolute lg:inset-x-0 lg:bottom-0 lg:z-20 lg:p-6'
                 }
             >
                 {/*
@@ -168,7 +171,7 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
                     aria-live={stopped ? 'polite' : 'off'}
                     className={
                         'max-w-[46ch] font-serif text-meta font-semibold leading-snug ' +
-                        'text-paper sm:text-base lg:text-sub'
+                        'text-paper sm:text-body lg:text-sub'
                     }
                 >
                     {slides[current].caption}
