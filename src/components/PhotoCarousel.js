@@ -114,8 +114,8 @@ function PhotoCarousel({ label, photos }) {
                     key={current}
                     aria-live={stopped ? 'polite' : 'off'}
                     className={
-                        'mt-2 min-h-[2.625rem] animate-[nf-rise_900ms_ease-in-out_both] ' +
-                        'text-meta text-muted sm:min-h-[1.3125rem]'
+                        'mt-2 min-h-[2.8125rem] animate-[nf-rise_900ms_ease-in-out_both] ' +
+                        'text-meta text-muted sm:min-h-[1.40625rem]'
                     }
                 >
                     {photos[current].caption}
