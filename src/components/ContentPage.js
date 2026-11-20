@@ -247,7 +247,7 @@ export function EventPage() {
             pointsTitle={pointsTitle}
             points={points}
             // The card photo is 960px wide, enough for the page.
-            images={photos ?? [{ src: img, thumb: img }]}
+            images={photos ?? [{ src: img }]}
             documents={documents}
             links={links}
         />

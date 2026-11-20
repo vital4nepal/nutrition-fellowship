@@ -213,7 +213,7 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
 
 /**
  * Photos with captions in the home page slideshow.
- * A photo has `src` (1400px), `thumb` (480px), `caption`
+ * A photo has `src` (1400px), `srcSet` (480px, 800px and 1400px), `caption`
  * and an optional `focus` that keeps the faces inside the crop.
  */
 export function PhotoSlideshow({ label, photos }) {
@@ -222,13 +222,11 @@ export function PhotoSlideshow({ label, photos }) {
             label={label}
             slides={photos}
             gestures
-            renderSlide={({ src, thumb, focus }, { layer, wanted, settle }) => (
+            renderSlide={({ src, srcSet, focus }, { layer, wanted, settle }) => (
                 <img
                     key={src}
                     src={wanted ? encodeURI(src) : undefined}
-                    srcSet={
-                        wanted ? `${encodeURI(thumb)} 480w, ${encodeURI(src)} 1400w` : undefined
-                    }
+                    srcSet={wanted ? srcSet : undefined}
                     sizes="(min-width: 1024px) 800px, 100vw"
                     alt=""
                     draggable={false}
