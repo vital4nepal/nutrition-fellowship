@@ -15,11 +15,11 @@ Browser -> Cloudflare (DNS, CDN) -> Cloudflare Pages (build/ from main)
 
 `src/App.js` defines the routes with React Router `BrowserRouter`.
 
-- `/` renders the home page sections in order: Hero, SurveyDashboard, D4N, Initiatives,
-  Repository, Events, the updates block and Thoughts.
+- `/` renders the home page sections in order: the hero slideshow, About, the survey cards, D4N,
+  the initiatives, the document list, Events, the updates block and Thoughts. Most of them are in `App.js`.
 - `/initiatives/:id` renders `InitiativePage`. `/chapters/:id` renders `ChapterPage`.
 - `ChapterPage` loads `ChapterMap` with `React.lazy`. Leaflet and the border data are in that chunk, so the home page does not load them.
-- `/resources` renders `ResourcesPage`. `/resources/:id` renders `ResourcePage` and `/events/:id` renders `EventPage`. Both use `ContentPage`.
+- `/resources` renders `ResourcesPage`. `/resources/:id` renders `ResourcePage` and `/events/:id` renders `EventPage`. Both are in `ContentPage.js`.
 - The files from Google Drive live in `public/resources/`. The two report PDFs live in `public/document_pdfs/`. No link on the site opens a Drive folder as the main action.
 - `/nutrition-dashboard` renders `ExternalRedirect`, which sends the visitor to the dashboard site. Cloudflare Pages does the same for a direct visit, from `public/_redirects`.
 - Five old inner pages render `ComingSoon`. Every unknown address renders `NotFound`.
