@@ -324,7 +324,6 @@ const SkillStats = ({ hue }) => {
                     </li>
                 ))}
             </ul>
-            <p className="mt-4 text-meta text-muted">Students could pick more than one skill.</p>
         </div>
     );
 };
