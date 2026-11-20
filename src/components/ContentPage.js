@@ -28,9 +28,7 @@ export function DocumentList({ documents, beside = false }) {
             className={beside ? undefined : 'mt-16 border-t border-line pt-10'}
             aria-label="Documents"
         >
-            <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">
-                Documents
-            </SectionTitle>
+            <SectionTitle as="h2" size="sidebar">Documents</SectionTitle>
             <ul
                 className={
                     'nf-stagger grid gap-4 sm:grid-cols-2 ' +

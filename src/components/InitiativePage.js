@@ -35,7 +35,7 @@ const Icon = ({ icon: Glyph }) => <Glyph size={22} strokeWidth={1.75} aria-hidde
  * the same as the Documents title.
  */
 const PartTitle = ({ id, children }) => (
-    <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">
+    <SectionTitle as="h2" size="sidebar">
         <span id={id}>{children}</span>
     </SectionTitle>
 );
