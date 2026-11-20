@@ -10,7 +10,7 @@ Student Pulse Survey results, the D4N 2026 Learning Lab, the initiatives, the co
 - React 18 with Create React App (`react-scripts` 5)
 - React Router 7
 - Tailwind CSS 3
-- Lucide and Font Awesome icons
+- Lucide icons, and inline SVG for the social marks
 - Public Sans and Source Serif 4 through Fontsource
 - Cloudflare Pages for hosting
 

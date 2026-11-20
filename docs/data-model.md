@@ -7,7 +7,7 @@ The content data is in `src/data/`. Components read it. There is no API.
 | Export | Shape | Use |
 | --- | --- | --- |
 | `email`, `emailHref` | string | Contact address and its `mailto:` link |
-| `socials` | `{ name, href, icon }[]` | Footer social links |
+| `socials` | `{ name, href, viewBox, path }[]` | Footer social links. `viewBox` and `path` draw the mark |
 | `d4n` | `{ registerHref, theme, conferenceDates, labDate, labTime, venue }` | D4N card and section |
 | `chapters` | `{ id, label, href }[]` | Chapter dropdown and `/chapters/:id` |
 | `navLinks` | `{ href, label, children? }[]` | Nav. A link with `children` opens a menu |
@@ -55,7 +55,7 @@ The source is old for two countries: Nepal shows the 14 zones from before 2015, 
 
 - `resources` is a list of `{ id, title, date?, description, summary, pointsTitle, points[], cover, coverFocus?, imageKind?, driveHref?, documents[], photos[] }`. Each entry has a card on `/resources` and a page at `/resources/<id>`.
 - An entry from a Google Drive folder has `driveHref`, and its files are copied into `public/resources/<folder>/`.
-- A document is `{ title, description, file, kind, size }`. A photo is `{ src, thumb }`: a large file (1400px on the longest side) and a smaller copy in `thumbs/`.
+- A document is `{ title, description, file, kind, size }`. A photo is `{ src, thumb, strip, srcSet }`: a large file (1400px on the longest side), a 480px copy in `thumbs/`, a `-192` strip copy in `thumbs/` and a `srcSet` of the 480px, `-800` and 1400px files.
 - Spreadsheets with participant names or costs, videos and large decks stay in Drive only.
 - `dashboard` is `{ title, href }`. `/nutrition-dashboard` sends the visitor to `href`. Change `public/_redirects` too.
 
@@ -67,6 +67,9 @@ The source is old for two countries: Nepal shows the 14 zones from before 2015, 
 ## Add or change content
 
 - A new document or photo: copy the file into `public/resources/<folder>/` and add it to `resources`. Resize a photo first.
+- Make the two extra photo files with `sips`, from the 1400px file:
+  - `sips --resampleWidth 800 -s formatOptions 72 <name>.jpg --out <name>-800.jpg`
+  - `sips --resampleHeight 128 -s formatOptions 72 <name>.jpg --out thumbs/<name>-192.jpg`
 - Content for an event: add `summary`, `photos` or `documents` to its entry in `events`.
 - A new survey count: edit the `counts` array. Keep the country order.
 - A new initiative page: add a `page` object to its entry.
