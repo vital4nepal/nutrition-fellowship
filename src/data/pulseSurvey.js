@@ -31,23 +31,24 @@ export const themes = [
     kind: 'list',
     // Words between ** ** show in bold.
     items: [
+      '**Institutional gaps** for learning',
       '**Academic pressure** and time management',
       'Limited **program exposure** and **research experience**',
       '**Language** and communication barriers',
       '**Financial** and resource constraints',
     ],
-    note: 'Many students have also raised the issue of mental health.',
+    note: 'Many students have also raised concerns about stress and mental health.',
   },
   {
     id: 'policy',
     title: 'Policy and program awareness',
     kind: 'stats',
     stats: [
-      // `share` draws the figure: a percent fills a bar, `[filled, total]` fills that many people.
-      { id: 'who-targets', value: '51%', share: 51, text: 'were aware of World Health Assembly nutrition targets' },
+      // `share` as `[filled, total]` draws a pie beside the text. A percent shows as the number only.
+      { id: 'who-targets', value: 'Only 51%', share: 51, text: 'were aware of World Health Assembly nutrition targets' },
       // The survey sheets agree: 116 of 376 students answered yes.
-      { id: 'sdg-track', value: '1 in 3', share: [1, 3], text:'believed their country was on track to meet the nutrition SDGs' },
-      { id: 'programme', value: '1 in 4', share: [1, 4], text:'students have had exposure to a government nutrition programme' },
+      { id: 'sdg-track', value: '1 in 3', share: [1, 3], text: 'think their country is on track for the nutrition SDGs' },
+      { id: 'programme', value: 'Only 1 in 4', share: [1, 4], text: 'have exposure to a government nutrition program' },
     ],
   },
   {
@@ -56,8 +57,8 @@ export const themes = [
     kind: 'stats',
     stats: [
       // 53% is the owner's figure. The survey sheets give 52% (197 of 376 confident or very confident).
-      { id: 'job-confidence', value: 'Only 53%', share: 53, text:'of students feel confident about securing a relevant nutrition job' },
-      { id: 'job-status', value: '4 out of 10', share: [4, 10], text:'students are either working or looking for a job' },
+      { id: 'job-confidence', value: 'Only 53%', share: [53, 100], text: 'feel confident of landing a nutrition job' },
+      { id: 'job-status', value: '4 out of 10', share: [4, 10], text: 'are working or looking for work' },
     ],
   },
 ];

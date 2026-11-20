@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowDown, ArrowUpRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { d4n } from '../data/site';
 import About from './About';
 import CoverpageRight from './CoverpageRight';
+import Slideshow from './Slideshow';
 import { SectionTitle, container } from './ui';
-
-const SLIDE_INTERVAL_MS = 6000;
 
 // The newest event comes first. A photo has a 1600px file and an 800px file for phones.
 // A photo with a `width` has a large file of that width instead of 1600px.
@@ -31,27 +30,17 @@ const slides = [
   { name: 'brac-bangladesh-camp', caption: 'WHA assessment camp in Bangladesh University of Health Sciences', clip: true },
   { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
   { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
-  { name: 'data-camp-mmihs', caption: 'Data Camp at MMIHS, January 2025', focus: '50% 50%' },
+  {
+    name: 'primeasia-bia-training',
+    caption: 'Students were trained on Bioelectrical Impedance Analysis (BIA) device to assess overall body composition in Primeasia University',
+    portrait: true,
+  },
 ];
 
-/**
- * The four campaign photos of one slide. Each time the slide shows, the tiles settle in one after another.
- * `round` changes only when the slide comes back, so the tiles replay on entry and stay put while it fades out.
- * A tile stays hidden until its photo loads, so the entrance never plays over an empty frame.
- */
-function Collage({ tiles, showing, wanted, onSettle }) {
+// Stagger the four campaign photos when they first load. Keep them ready for later fades.
+function Collage({ tiles, wanted, onSettle }) {
   const [loaded, setLoaded] = useState(() => new Set());
   const markLoaded = (index) => setLoaded((done) => (done.has(index) ? done : new Set(done).add(index)));
-  const [round, setRound] = useState(0);
-  const [wasShowing, setWasShowing] = useState(showing);
-  // Adjusted during render, so the new tiles mount in the same commit as the slide change.
-  if (showing !== wasShowing) {
-    setWasShowing(showing);
-    if (showing) {
-      setRound(round + 1);
-      setLoaded(new Set());
-    }
-  }
 
   return (
     <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1 bg-ink">
@@ -62,7 +51,7 @@ function Collage({ tiles, showing, wanted, onSettle }) {
         };
         return (
           <img
-            key={`${name}-${round}`}
+            key={name}
             src={wanted ? `/hero/${name}.jpg` : undefined}
             srcSet={wanted ? `/hero/${name}-500.jpg 500w, /hero/${name}.jpg 1000w` : undefined}
             sizes={sizes}
@@ -78,8 +67,6 @@ function Collage({ tiles, showing, wanted, onSettle }) {
     </div>
   );
 }
-
-const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /**
  * A muted clip that plays from the start each time its slide shows. Until the clip loads, the poster shows.
@@ -119,115 +106,42 @@ function Clip({ name, visible, wanted, playable, onSettle, className }) {
   );
 }
 
-const control =
-  'flex h-11 w-10 items-center justify-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink';
-
-function Slideshow() {
-  const [current, setCurrent] = useState(0);
-  const [hovered, setHovered] = useState(false);
-  // A visitor who asks for reduced motion starts with the slideshow stopped. Play still works for them.
-  const [calm] = useState(prefersReducedMotion);
-  const [stopped, setStopped] = useState(calm);
-  // The photos that loaded or failed, by index: a browser fires `load` again when it swaps to a larger file.
-  // The later photos wait for the first one, and autoplay waits for all of them, so no fade lands on an empty frame.
-  const [settled, setSettled] = useState(() => new Set());
-  const settle = (index) => setSettled((done) => (done.has(index) ? done : new Set(done).add(index)));
-  const autoplaying = settled.size === slides.length && !hovered && !stopped;
-
-  useEffect(() => {
-    if (!autoplaying) return undefined;
-    const timer = setInterval(() => setCurrent((index) => (index + 1) % slides.length), SLIDE_INTERVAL_MS);
-    return () => clearInterval(timer);
-  }, [autoplaying]);
-
-  const step = (offset) => {
-    setCurrent((index) => (index + offset + slides.length) % slides.length);
-    setStopped(true);
-  };
-
+/** One hero slide: a collage, a clip or a photo. */
+const renderHeroSlide = ({ name, collage, clip, portrait, focus, width = 1600 }, index, { layer, visible, wanted, playable, settle }) => {
+  if (clip) {
+    return (
+      <Clip
+        key={name}
+        name={name}
+        visible={visible}
+        wanted={wanted}
+        playable={playable}
+        onSettle={settle}
+        className={`${layer} h-full w-full object-cover`}
+      />
+    );
+  }
+  if (collage) {
+    return (
+      <div key={name} className={layer}>
+        <Collage tiles={collage} wanted={wanted} onSettle={settle} />
+      </div>
+    );
+  }
   return (
-    <figure
-      className="relative aspect-[4/3] overflow-hidden border border-line bg-ink sm:aspect-[16/9]"
-      onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
-      onPointerLeave={(event) => event.pointerType === 'mouse' && setHovered(false)}
-    >
-      {slides.map(({ name, collage, clip, width = 1600 }, index) => {
-        const first = index === 0;
-        const wanted = first || settled.has(0);
-        if (clip) {
-          return (
-            <Clip
-              key={name}
-              name={name}
-              visible={index === current}
-              wanted={wanted}
-              playable={!calm || !stopped}
-              onSettle={() => settle(index)}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-                index === current ? 'opacity-100' : 'opacity-0'
-              }`}
-            />
-          );
-        }
-        if (collage) {
-          return (
-            <div
-              key={name}
-              className={`transition-opacity duration-700 ${index === current ? 'opacity-100' : 'opacity-0'}`}
-            >
-              <Collage tiles={collage} showing={index === current} wanted={wanted} onSettle={() => settle(index)} />
-            </div>
-          );
-        }
-        return (
-          <img
-            key={name}
-            src={wanted ? `/hero/${name}.jpg` : undefined}
-            srcSet={wanted ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg ${width}w` : undefined}
-            sizes="(min-width: 1024px) 800px, 100vw"
-            alt=""
-            onLoad={() => settle(index)}
-            onError={() => settle(index)}
-            style={{ objectPosition: slides[index].focus }}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-              index === current ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-        );
-      })}
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-ink/90 via-ink/60 to-transparent sm:h-1/2 sm:via-transparent" />
-      {/* On a phone the buttons take their own row, so a long caption keeps the full width. */}
-      <figcaption className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-4 sm:flex-row sm:items-end sm:justify-between sm:gap-4 sm:p-6">
-        {/* The caption is announced only after the visitor takes control, never on each autoplay turn. */}
-        <p
-          aria-live={stopped ? 'polite' : 'off'}
-          className="max-w-[46ch] font-serif text-meta font-semibold leading-snug text-paper sm:text-base lg:text-sub"
-        >
-          {slides[current].caption}
-        </p>
-        <div className="flex shrink-0 items-center gap-1.5 self-end">
-          <span className="mr-1 hidden text-meta tabular-nums text-paper/80 sm:block">
-            {current + 1} / {slides.length}
-          </span>
-          <button
-            type="button"
-            aria-label={stopped ? 'Play slideshow' : 'Pause slideshow'}
-            onClick={() => setStopped(!stopped)}
-            className={control}
-          >
-            {stopped ? <Play size={18} aria-hidden="true" /> : <Pause size={18} aria-hidden="true" />}
-          </button>
-          <button type="button" aria-label="Previous photo" onClick={() => step(-1)} className={control}>
-            <ChevronLeft size={20} aria-hidden="true" />
-          </button>
-          <button type="button" aria-label="Next photo" onClick={() => step(1)} className={control}>
-            <ChevronRight size={20} aria-hidden="true" />
-          </button>
-        </div>
-      </figcaption>
-    </figure>
+    <img
+      key={name}
+      src={wanted ? `/hero/${name}.jpg` : undefined}
+      srcSet={wanted && !portrait ? `/hero/${name}-800.jpg 800w, /hero/${name}.jpg ${width}w` : undefined}
+      sizes="(min-width: 1024px) 800px, 100vw"
+      alt=""
+      onLoad={settle}
+      onError={settle}
+      style={{ objectPosition: focus }}
+      className={`${layer} h-full w-full ${portrait ? 'bg-ink object-contain' : 'object-cover'}`}
+    />
   );
-}
+};
 
 const cardLink =
   'inline-flex min-h-11 items-center gap-2 font-semibold underline-offset-4 transition-colors hover:underline';
@@ -238,7 +152,7 @@ const Hero = () => (
       <div className="lg:col-span-8">
         <SectionTitle as="h1" className="mb-6 animate-rise lg:mb-8">Nutrition Fellowship</SectionTitle>
         <div className="animate-rise [animation-delay:120ms]">
-          <Slideshow />
+          <Slideshow label="Fellowship highlights" slides={slides} renderSlide={renderHeroSlide} />
         </div>
         <About />
       </div>

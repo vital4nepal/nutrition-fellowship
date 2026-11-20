@@ -12,13 +12,14 @@ const wedgePath = (fraction) => {
   return `M ${centre} ${centre} L ${centre} ${centre - PIE_RADIUS} A ${PIE_RADIUS} ${PIE_RADIUS} 0 ${fraction > 0.5 ? 1 : 0} 1 ${x} ${y} Z`;
 };
 
-/** A share as a slice of a pie. `share` is a percent, or `[filled, total]`. `hue` colours the slice and the rest of the disc. */
+/** A share as a slice of a pie. `share` is a percent, or `[filled, total]`. `hue` colours the filled slice. */
 const Pie = ({ share, hue }) => {
   const fraction = typeof share === 'number' ? share / 100 : share[0] / share[1];
   return (
     <svg width={PIE_SIZE} height={PIE_SIZE} viewBox={`0 0 ${PIE_SIZE} ${PIE_SIZE}`} aria-hidden="true" className="shrink-0">
-      <circle cx={PIE_SIZE / 2} cy={PIE_SIZE / 2} r={PIE_RADIUS} className={hue.rest} />
+      <circle cx={PIE_SIZE / 2} cy={PIE_SIZE / 2} r={PIE_RADIUS} fill="#FFFFFF" />
       <path d={wedgePath(fraction)} className={hue.wedge} />
+      <circle cx={PIE_SIZE / 2} cy={PIE_SIZE / 2} r={PIE_RADIUS} fill="none" stroke="#8A877E" strokeWidth="1.5" />
     </svg>
   );
 };

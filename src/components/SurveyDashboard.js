@@ -1,7 +1,8 @@
 import React from 'react';
-import { Clock, HeartPulse, Languages, Microscope, Wallet } from 'lucide-react';
+import { BarChart3, Clock, GraduationCap, Languages, Microscope, Presentation, Search, Users, Wallet } from 'lucide-react';
 import { ALL, countFor, respondentsFor, skills, themes } from '../data/pulseSurvey';
 import Pie from './Pie';
+import { tickTo, useTicker } from './Ticker';
 import { Section, SectionTitle, SubTitle } from './ui';
 
 const TOP_ROWS = 4;
@@ -9,7 +10,7 @@ const total = respondentsFor(ALL);
 
 const percent = (count, totalCount) => Math.round((count / totalCount) * 100);
 
-/** The most frequent skills. Every bar is a share of all students, and equal counts keep the order of the data file. */
+/** The most frequent skills. Equal counts keep the order of the data file. */
 const topSkills = skills
   .map((row) => ({ ...row, count: countFor(row, ALL), share: percent(countFor(row, ALL), total) }))
   .sort((a, b) => b.count - a.count)
@@ -19,25 +20,64 @@ const card = 'flex flex-col border border-t-2 border-line bg-surface p-5';
 
 // One hue for each card: greens for what students want and know, orange for what holds them back.
 const hues = {
-  skills: { rule: 'border-t-green', text: 'text-green', wedge: 'fill-green', rest: 'fill-meadow' },
-  challenges: { rule: 'border-t-accent', text: 'text-accent', tile: 'border-chart-neg bg-chart-neg/25' },
-  policy: { rule: 'border-t-deep', text: 'text-deep', wedge: 'fill-deep', rest: 'fill-chart-pos' },
-  career: { rule: 'border-t-accent', text: 'text-accent', wedge: 'fill-accent', rest: 'fill-chart-neg/50' },
+  skills: { rule: 'border-t-green', text: 'text-green' },
+  challenges: { rule: 'border-t-accent', text: 'text-accent' },
+  policy: { rule: 'border-t-deep', text: 'text-deep', wedge: 'fill-deep' },
+  career: { rule: 'border-t-accent', text: 'text-accent', wedge: 'fill-accent', row: 'xl:flex-col xl:items-start xl:gap-3' },
 };
 
 
-/** The four most wanted skills, each as a pie with its share of all students beneath. */
-const SkillPies = ({ hue }) => (
-  <ul className="grid grid-cols-2 gap-x-3 gap-y-5">
-    {topSkills.map(({ id, label, count, share }) => (
-      <li key={id} title={`${count} of ${total} students`} className="flex flex-col items-center text-center">
-        <Pie share={share} hue={hue} />
-        <span className={`mt-2 font-serif text-sub font-semibold tabular-nums ${hue.text}`}>{share}%</span>
-        <span className="text-meta font-semibold text-ink">{label}</span>
-      </li>
-    ))}
-  </ul>
-);
+// The owner's figure for every student the platform has heard from, the same "500+" as Our Reach on the About page.
+// The skill shares below come from the pulse survey alone, so they are shares of its respondents.
+const VOICES = 500;
+
+// One icon for each skill that can make the top four, by its id in the data file. A skill without one shows no icon.
+const skillIcons = { research: Search, 'data-analysis': BarChart3, 'public-speaking': Presentation, leadership: Users };
+
+/** A bare line icon in the card colour, like the Challenges card icons. */
+const SkillIcon = ({ id, hue }) => {
+  const Icon = skillIcons[id];
+  if (!Icon) return null;
+  return (
+    <span className={`shrink-0 ${hue.text}`}>
+      <Icon size={24} strokeWidth={1.75} />
+    </span>
+  );
+};
+
+/**
+ * The students heard, then the four most wanted skills and their shares of the survey respondents.
+ * Every figure counts up together the first time the card is on screen. A screen reader reads the final figures only.
+ */
+const SkillStats = ({ hue }) => {
+  const [ref, progress] = useTicker();
+  return (
+    <div ref={ref}>
+      <p className="flex items-center gap-3 border-b border-line pb-4">
+        <span className={`shrink-0 font-serif text-[2.5rem] font-semibold leading-none tabular-nums ${hue.text}`} aria-hidden="true">
+          {tickTo(VOICES, progress)}+
+        </span>
+        <span className="sr-only">{VOICES}+</span>
+        <span className="text-meta text-ink">students have shared their aspirations, challenges and needs</span>
+      </p>
+      <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4">
+        {topSkills.map(({ id, label, share }) => (
+          <li key={id} className="flex flex-col">
+            <span className="flex items-center gap-2.5" aria-hidden="true">
+              <SkillIcon id={id} hue={hue} />
+              <span className={`font-serif text-[1.75rem] font-semibold leading-none tabular-nums ${hue.text}`}>
+                {tickTo(share, progress)}%
+              </span>
+            </span>
+            <span className="sr-only">{share}% want {label}</span>
+            <span className="mt-1 text-ui font-semibold text-ink" aria-hidden="true">{label}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-4 text-meta text-muted">Students could pick more than one skill.</p>
+    </div>
+  );
+};
 
 /** Text with **bold** words: the odd parts of the split are the marked words. */
 const Marked = ({ text }) =>
@@ -46,7 +86,7 @@ const Marked = ({ text }) =>
   );
 
 // One icon for each challenge, in the order of `items` in the data file.
-const challengeIcons = [Clock, Microscope, Languages, Wallet];
+const challengeIcons = [GraduationCap, Clock, Microscope, Languages, Wallet];
 
 const ChallengeList = ({ items, note, hue }) => (
   <>
@@ -54,9 +94,9 @@ const ChallengeList = ({ items, note, hue }) => (
       {items.map((item, index) => {
         const Icon = challengeIcons[index];
         return (
-          <li key={item} className="flex items-center gap-3 text-ui text-ink">
-            <span className={`flex h-10 w-10 shrink-0 items-center justify-center border ${hue.tile} ${hue.text}`}>
-              <Icon size={20} strokeWidth={1.75} aria-hidden="true" />
+          <li key={item} className="flex items-start gap-3 text-ui text-ink">
+            <span className={`shrink-0 ${hue.text}`}>
+              <Icon size={22} strokeWidth={1.75} aria-hidden="true" />
             </span>
             <span>
               <Marked text={item} />
@@ -65,18 +105,16 @@ const ChallengeList = ({ items, note, hue }) => (
         );
       })}
     </ul>
-    <p className="mt-4 flex items-start gap-3 border-l-2 border-accent bg-paper px-3 py-3 text-ui font-semibold text-ink">
-      <HeartPulse size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
-      {note}
-    </p>
+    <p className="mt-4 text-ui text-ink">{note}</p>
   </>
 );
 
+// A card with a `row` puts its pies above the text on a wide screen, where its column is too narrow for both side by side.
 const StatList = ({ stats, hue }) => (
   <ul className="space-y-5">
     {stats.map(({ id, value, share, text }) => (
-      <li key={id} className="flex items-center gap-4">
-        <Pie share={share} hue={hue} />
+      <li key={id} className={`flex items-center gap-4 ${hue.row ?? ''}`}>
+        {Array.isArray(share) && <Pie share={share} hue={hue} />}
         <p className="text-ui text-ink">
           <strong className={`font-semibold ${hue.text}`}>{value}</strong> {text}
         </p>
@@ -86,19 +124,20 @@ const StatList = ({ stats, hue }) => (
 );
 
 const ThemeBody = ({ theme, hue }) => {
-  if (theme.kind === 'bars') return <SkillPies hue={hue} />;
+  if (theme.kind === 'bars') return <SkillStats hue={hue} />;
   if (theme.kind === 'list') return <ChallengeList items={theme.items} note={theme.note} hue={hue} />;
   return <StatList stats={theme.stats} hue={hue} />;
 };
 
+// On a wide screen the Challenges card, with the longest lines, gets more width and the Financial card less,
+// so the four cards end up close in height and none has an empty bottom.
 const SurveyDashboard = () => (
   <Section name="dashboard" id="dashboard">
     <SectionTitle>South Asian Student’s Aspirations and Challenges</SectionTitle>
     <p className="mt-3 max-w-[60ch] text-body">
-      In the South Asia Pulse Survey, we asked nutrition students what they want to learn, what skills they want to build, what holds them back and how they see their future.{' '}
-      <strong className="font-semibold text-ink">{total} students answered.</strong>
+      In the South Asia Pulse Survey, we asked nutrition students what they want to learn, what skills they want to build, what holds them back and how they see their future.
     </p>
-    <div className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-[1.05fr_1.2fr_1fr_0.9fr]">
       {themes.map((theme) => {
         const hue = hues[theme.id];
         return (
@@ -109,9 +148,6 @@ const SurveyDashboard = () => (
         );
       })}
     </div>
-    <p className="mt-4 text-meta text-muted">
-      Students could pick more than one skill, so the shares in the skills card do not add up to 100%.
-    </p>
   </Section>
 );
 

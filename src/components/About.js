@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Globe, MessageSquareText, UserRound, Users } from 'lucide-react';
+import { tickTo, useTicker } from './Ticker';
 import { SectionTitle } from './ui';
 
 const ICON_SIZE = 28;
@@ -30,6 +31,18 @@ const facts = [
     icon: <MessageSquareText size={ICON_SIZE} strokeWidth={1.75} aria-hidden="true" />,
   },
 ];
+
+/** A figure like "500+" counts up from 0 at `progress`. Any other figure, like "2 out of 3", shows as it is. */
+const Figure = ({ value, progress }) => {
+  const match = /^(\d+)(\+?)$/.exec(value);
+  if (!match) return value;
+  return (
+    <>
+      <span aria-hidden="true">{tickTo(Number(match[1]), progress)}{match[2]}</span>
+      <span className="sr-only">{value}</span>
+    </>
+  );
+};
 
 const pillars = ['Celebrate', 'Convene', 'Coach', 'Collaborate', 'Connect'];
 
@@ -70,6 +83,7 @@ const tabs = [
 /** The About Us tabs under the hero, then the reach. The arrow keys, Home and End move between the tabs. */
 const About = () => {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const [reachRef, progress] = useTicker();
 
   const onTabKeyDown = (event) => {
     const current = tabs.findIndex((tab) => tab.id === activeTab);
@@ -126,13 +140,13 @@ const About = () => {
         <p className="max-w-[65ch] text-body text-ink">
           The Fellowship has expanded beyond Nepal, with growing engagement in Pakistan, Bangladesh and Sri Lanka.
         </p>
-        <dl className="grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4">
+        <dl ref={reachRef} className="grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4">
           {facts.map(({ value, label, icon }) => (
             <div key={label} className="flex flex-col-reverse justify-end bg-paper p-4">
               <dt className="mt-1 text-meta text-muted">{label}</dt>
               <dd className="font-serif text-title-sm font-semibold tabular-nums text-green">
                 <span className="mb-3 flex h-7 items-center">{icon}</span>
-                {value}
+                <Figure value={value} progress={progress} />
               </dd>
             </div>
           ))}

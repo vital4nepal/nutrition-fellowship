@@ -10,7 +10,7 @@ function ResourcePage() {
   const resource = resources.find((item) => item.id === id);
   if (!resource) return <NotFound />;
 
-  const { title, date, summary, pointsTitle, points, photos, imageKind, documents, driveHref } = resource;
+  const { title, date, summary, pointsTitle, points, photos, imageKind, documents, driveHref, slideshow } = resource;
   return (
     <ContentPage
       key={id}
@@ -23,6 +23,7 @@ function ResourcePage() {
       points={points}
       images={photos}
       imageKind={imageKind}
+      slideshow={slideshow}
       documents={documents}
       links={driveHref ? [{ href: driveHref, label: 'More files in Google Drive' }] : []}
     />

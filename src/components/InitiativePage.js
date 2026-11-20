@@ -1,12 +1,32 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import { BookOpen, Database, Flag, Gauge, Map as MapIcon, PenLine, Presentation, Table2, Target } from 'lucide-react';
 import { initiatives } from '../data/initiatives';
 import ComingSoon, { SITE_TITLE } from './ComingSoon';
+import { resources } from '../data/resources';
+import { DocumentList } from './ContentPage';
+import { PhotoSlideshow } from './Slideshow';
 import NotFound from './NotFound';
-import { SectionTitle, SubTitle, textLink } from './ui';
+import { SectionTitle } from './ui';
 
-const backLink = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
+// One icon for each goal and each step, in the order of `goals` and `steps` in the data file.
+const goalIcons = [Database, Gauge, Flag, Target, PenLine];
+const stepIcons = [MapIcon, Table2, BookOpen, Presentation];
+
+// The two lists are one pair: the same bare green icons, the same rules and the same row rhythm.
+// The icon sits level with the first line of its text.
+const tile = 'mt-px shrink-0 text-green';
+const list = 'mt-5 border-t border-line';
+const row = 'flex items-start gap-4 border-b border-line py-4';
+
+const Icon = ({ icon: Glyph }) => (Glyph ? <Glyph size={22} strokeWidth={1.75} aria-hidden="true" /> : null);
+
+/** A section title on this page, one size down from the page title, the same as the Documents title. */
+const PartTitle = ({ id, children }) => (
+  <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">
+    <span id={id}>{children}</span>
+  </SectionTitle>
+);
 
 /** /initiatives/:id. An initiative with no `page` yet shows "Coming soon". An unknown id shows the 404 page. */
 export function InitiativePage() {
@@ -24,19 +44,17 @@ export function InitiativePage() {
   if (!initiative) return <NotFound />;
   if (!initiative.page) return <ComingSoon title={initiative.title} />;
 
-  const { intro, photos, goals, steps, link } = initiative.page;
+  const { subtitle, intro, photos, goals, steps, resourceId } = initiative.page;
+  const resource = resources.find((item) => item.id === resourceId);
   return (
-    <article>
-      <Link to="/#initiatives" className={backLink}>
-        <ArrowLeft size={18} aria-hidden="true" />
-        Projects and Initiatives
-      </Link>
-      <SectionTitle as="h1" className="mt-4 animate-rise">{initiative.title}</SectionTitle>
-      <p className="mt-4 max-w-[60ch] animate-rise text-sub text-ink [animation-delay:100ms]">{intro}</p>
+    <article className="text-ui">
+      <SectionTitle as="h1" className="max-w-[20ch] !leading-[1.1] lg:!text-[3rem]">{initiative.title}</SectionTitle>
+      <p className="mt-3 max-w-[60ch] text-body font-medium text-muted">{subtitle}</p>
+      <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-ink">{intro}</p>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
-        {photos.map(({ src, caption }, index) => (
-          <figure key={src} className="animate-rise" style={{ animationDelay: `${200 + index * 120}ms` }}>
+        {photos.map(({ src, caption }) => (
+          <figure key={src}>
             <img
               src={src}
               srcSet={`${src.replace('.jpg', '-800.jpg')} 800w, ${src} 1600w`}
@@ -49,27 +67,34 @@ export function InitiativePage() {
         ))}
       </div>
 
-      <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <div className="mt-14 grid gap-12 lg:grid-cols-12">
         <section className="lg:col-span-5">
-          <SubTitle as="h2">What students learn</SubTitle>
-          <ul className="nf-stagger mt-4 space-y-3 text-body">
-            {goals.map((goal) => (
-              <li key={goal} className="flex gap-3">
-                <span aria-hidden="true" className="mt-[0.6em] h-1.5 w-1.5 shrink-0 bg-accent" />
-                {goal}
+          <PartTitle>What students learn</PartTitle>
+          <ul className={list}>
+            {goals.map((goal, index) => (
+              <li key={goal} className={row}>
+                <span className={tile}>
+                  <Icon icon={goalIcons[index]} />
+                </span>
+                <span className="text-ink">{goal}</span>
               </li>
             ))}
           </ul>
         </section>
         <section className="lg:col-span-7">
-          <SubTitle as="h2">How a Data Camp runs</SubTitle>
-          <ol className="nf-stagger mt-4 border-t border-line">
+          <PartTitle>How a Data Camp runs</PartTitle>
+          <ol className={list}>
             {steps.map(({ title, text }, index) => (
-              <li key={title} className="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-line py-5">
-                <span className="font-serif text-title-sm font-semibold tabular-nums text-green">{index + 1}</span>
+              <li key={title} className={row}>
+                <span className={tile}>
+                  <Icon icon={stepIcons[index]} />
+                </span>
                 <div>
-                  <p className="font-semibold text-ink">{title}</p>
-                  <p className="mt-1 text-body text-muted">{text}</p>
+                  <p className="font-semibold leading-6 text-ink">
+                    <span className="mr-1.5 tabular-nums text-green">{index + 1}.</span>
+                    {title}
+                  </p>
+                  <p className="mt-1 text-muted">{text}</p>
                 </div>
               </li>
             ))}
@@ -77,10 +102,20 @@ export function InitiativePage() {
         </section>
       </div>
 
-      <Link to={link.href} className={`mt-12 ${backLink}`}>
-        {link.label}
-        <ArrowUpRight size={18} aria-hidden="true" />
-      </Link>
+      {resource && (
+        // On a wide screen the documents sit beside the photos. On a narrow one they follow them.
+        <div className="mt-14 grid gap-12 border-t border-line pt-10 lg:grid-cols-12">
+          <section className="min-w-0 lg:col-span-8" aria-labelledby="data-camp-photos">
+            <PartTitle id="data-camp-photos">Data Camp photos</PartTitle>
+            <div className="mt-4">
+              <PhotoSlideshow label="Data Camp photos" photos={resource.photos} />
+            </div>
+          </section>
+          <div className="min-w-0 lg:col-span-4">
+            <DocumentList documents={resource.documents} beside />
+          </div>
+        </div>
+      )}
     </article>
   );
 }

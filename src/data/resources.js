@@ -50,15 +50,24 @@ export const resources = [
       'Learn how to analyse a target and come up with recommendations.',
     ],
     cover: photo('data-camp', 'cafodat1'),
-    driveHref: 'https://drive.google.com/drive/folders/1_PZuUUcI1jwHlIVtsgN01VcXAdH8B8PO?usp=drive_link',
+    // Every photo has a caption, so the page shows them in the home page slideshow.
+    slideshow: true,
     documents: [
       { title: 'Data Camp agenda', description: 'The sessions of the day, who leads each one and the materials.', file: '/resources/data-camp/docs/data-camp-agenda.pdf', kind: 'PDF', size: '0.1 MB' },
       { title: 'Data Camp presentation', description: 'The slides of the Data Camp.', file: '/resources/data-camp/docs/data-camp-presentation.pptx', kind: 'PPTX', size: '5.9 MB' },
       { title: 'Goal and objectives', description: 'The goal and the objectives of the Data Camp.', file: '/resources/data-camp/docs/data-camp-goal-and-objectives.pptx', kind: 'PPTX', size: '0.1 MB' },
     ],
+    // Each caption says only what the photo shows. The CAFODAT and MMIHS camps are from the Gen-N page.
     photos: [
-      'cafodat1', 'cafodat2', 'cafodat3', 'mmihs1', 'homescience1', 'homescience2', 'homescience3', 'homescience4',
-    ].map((name) => photo('data-camp', name)),
+      ['cafodat1', 'Facilitators guide students at their laptops, CAFODAT, January 2025'],
+      ['cafodat2', 'Students and facilitators work through a session, CAFODAT, January 2025'],
+      ['cafodat3', 'Participants and facilitators at the Data Camp, CAFODAT, January 2025'],
+      ['mmihs1', 'Students at work around the table, MMIHS, January 2025'],
+      ['homescience1', 'Students follow the data on the screen'],
+      ['homescience2', 'A facilitator points out the data on the screen'],
+      ['homescience3', 'A facilitator talks with the students'],
+      ['homescience4', 'A facilitator walks the room through the data'],
+    ].map(([name, caption]) => ({ ...photo('data-camp', name), caption })),
   },
   {
     id: 'reports',

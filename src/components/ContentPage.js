@@ -3,12 +3,50 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight, Download } from 'lucide-react';
 import { SITE_TITLE } from './ComingSoon';
 import PhotoCarousel from './PhotoCarousel';
+import { PhotoSlideshow } from './Slideshow';
 import { SectionTitle, SiteLink, SubTitle, groupTitleLink, textLink } from './ui';
 
 const link = `inline-flex min-h-11 items-center gap-2 font-semibold text-green ${textLink}`;
 
 /**
+ * The documents as cards. On its own the list is a section with a rule above it and up to three cards a row.
+ * `beside` is for a list in a side column next to photos: no rule, and one card a row on a wide screen.
+ */
+export function DocumentList({ documents, beside = false }) {
+  return (
+    <section className={beside ? undefined : 'mt-16 border-t border-line pt-10'} aria-label="Documents">
+      <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">Documents</SectionTitle>
+      <ul className={`nf-stagger grid gap-4 sm:grid-cols-2 ${beside ? 'mt-4 lg:grid-cols-1' : 'mt-6 lg:grid-cols-3'}`}>
+        {documents.map(({ title: name, description, file, kind, size }) => (
+          <li key={file}>
+            <a
+              href={file}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex h-full flex-col border border-line bg-surface p-5 transition-colors hover:border-green"
+            >
+              <span className={`text-base font-semibold text-ink lg:text-body ${groupTitleLink}`}>{name}</span>
+              <span className="mt-2 text-meta text-muted">{description}</span>
+              <span className="mt-auto flex items-center justify-between gap-3 pt-5 text-meta tabular-nums text-muted">
+                {kind}, {size}
+                {/* A browser shows a PDF in the tab and saves any other file. */}
+                {kind === 'PDF' ? (
+                  <ArrowUpRight size={20} aria-hidden="true" className="text-green" />
+                ) : (
+                  <Download size={20} aria-hidden="true" className="text-green" />
+                )}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+/**
  * The page of one resource folder or one event: images in a carousel, a summary beside it, then the documents as cards.
+ * With `slideshow`, the images show in the home page slideshow instead; every image then needs a caption.
  * `links` end the page. An address that starts with "/" is a site page, any other is an outside link.
  */
 function ContentPage({
@@ -21,6 +59,7 @@ function ContentPage({
   points = [],
   images,
   imageKind = 'photo',
+  slideshow = false,
   documents = [],
   links = [],
 }) {
@@ -43,7 +82,11 @@ function ContentPage({
       <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-12">
         {/* min-w-0: a grid item grows to its content, and the thumbnail strip is wider than the screen. */}
         <div className="min-w-0 animate-rise [animation-delay:120ms] lg:col-span-8">
-          <PhotoCarousel label={`${title}, ${imageKind}s`} photos={images} />
+          {slideshow ? (
+            <PhotoSlideshow label={`${title}, ${imageKind}s`} photos={images} />
+          ) : (
+            <PhotoCarousel label={`${title}, ${imageKind}s`} photos={images} />
+          )}
         </div>
         <div className="min-w-0 animate-rise [animation-delay:200ms] lg:col-span-4">
           <p className="text-body text-ink">{summary ?? 'More photos and documents are coming soon.'}</p>
@@ -63,35 +106,7 @@ function ContentPage({
         </div>
       </div>
 
-      {documents.length > 0 && (
-        <section className="mt-16 border-t border-line pt-10" aria-label="Documents">
-          <SectionTitle as="h2" size="sidebar" className="lg:text-title-sm">Documents</SectionTitle>
-          <ul className="nf-stagger mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {documents.map(({ title: name, description, file, kind, size }) => (
-              <li key={file}>
-                <a
-                  href={file}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex h-full flex-col border border-line bg-surface p-5 transition-colors hover:border-green"
-                >
-                  <span className={`text-base font-semibold text-ink lg:text-body ${groupTitleLink}`}>{name}</span>
-                  <span className="mt-2 text-meta text-muted">{description}</span>
-                  <span className="mt-auto flex items-center justify-between gap-3 pt-5 text-meta tabular-nums text-muted">
-                    {kind}, {size}
-                    {/* A browser shows a PDF in the tab and saves any other file. */}
-                    {kind === 'PDF' ? (
-                      <ArrowUpRight size={20} aria-hidden="true" className="text-green" />
-                    ) : (
-                      <Download size={20} aria-hidden="true" className="text-green" />
-                    )}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      {documents.length > 0 && <DocumentList documents={documents} />}
 
       {links.length > 0 && (
         <ul className="mt-10 flex flex-col gap-1">
