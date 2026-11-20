@@ -119,6 +119,7 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
             {...gestureProps}
             className={
                 'relative overflow-hidden border border-line bg-ink ' +
+                '[--nf-green:theme(colors.paper)] ' +
                 (gestures ? 'touch-pan-y touch-pinch-zoom' : '')
             }
         >

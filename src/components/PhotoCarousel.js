@@ -79,7 +79,7 @@ function PhotoCarousel({ label, photos }) {
                 {...swipe}
                 className={
                     'relative aspect-[3/2] touch-pan-y touch-pinch-zoom select-none ' +
-                    'overflow-hidden border border-line bg-ink'
+                    'overflow-hidden border border-line bg-ink [--nf-green:theme(colors.paper)]'
                 }
             >
                 {[...new Set(near)].map((index) => (
@@ -177,12 +177,11 @@ function PhotoCarousel({ label, photos }) {
                                 aria-current={index === current}
                                 onClick={() => go(index)}
                                 // A bar marks the current image.
-                                // The outline is left to keyboard focus.
+                                // The dimming sits on the img: opacity on the button
+                                // would fade its focus outline too.
                                 className={
-                                    'block border-b-4 bg-ink transition-opacity ' +
-                                    (index === current
-                                        ? 'border-green'
-                                        : 'border-transparent opacity-60 hover:opacity-100')
+                                    'group block border-b-4 bg-ink ' +
+                                    (index === current ? 'border-green' : 'border-transparent')
                                 }
                             >
                                 <img
@@ -191,7 +190,12 @@ function PhotoCarousel({ label, photos }) {
                                     alt=""
                                     width={96}
                                     height={64}
-                                    className="h-16 w-24 object-cover"
+                                    className={
+                                        'h-16 w-24 object-cover transition-opacity ' +
+                                        (index === current
+                                            ? ''
+                                            : 'opacity-60 group-hover:opacity-100')
+                                    }
                                 />
                             </button>
                         </li>
