@@ -50,7 +50,9 @@ export const primaryButton =
 // For a title inside a link row: the row carries `group`, so the whole row is the hover target.
 export const groupTitleLink =
     'underline-offset-4 transition-colors group-hover:text-green group-hover:underline';
+// The page h1 is one step above a section h2 on a phone. From lg both use the display size.
 const titleSizes = {
+    page: 'text-title lg:text-display',
     section: 'text-title-sm lg:text-display',
     sidebar: 'text-sub',
 };
@@ -91,7 +93,12 @@ export function Section({
     );
 }
 
-export function SectionTitle({ as: Tag = 'h2', size = 'section', children, className = '' }) {
+export function SectionTitle({
+    as: Tag = 'h2',
+    size = Tag === 'h1' ? 'page' : 'section',
+    children,
+    className = '',
+}) {
     return <Tag className={`${titleSizes[size]} text-green ${className}`}>{children}</Tag>;
 }
 

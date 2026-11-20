@@ -18,6 +18,7 @@ module.exports = {
     },
     extend: {
       fontSize: {
+        title: ["2rem", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
         "title-sm": ["1.625rem", { lineHeight: "1.25", letterSpacing: "-0.01em" }],
         sub: ["1.375rem", { lineHeight: "1.3" }],
         body: ["1.0625rem", { lineHeight: "1.6" }],
