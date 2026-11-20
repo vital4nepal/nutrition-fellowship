@@ -104,7 +104,11 @@ function PhotoCarousel({ label, photos }) {
                             '(min-width: 1280px) 780px, (min-width: 1024px) 62vw, ' +
                             'calc(100vw - 32px)'
                         }
-                        alt={index === current ? `${label}, ${index + 1} of ${total}` : ''}
+                        alt={
+                            index === current
+                                ? photos[index].alt ?? `${label}, ${index + 1} of ${total}`
+                                : ''
+                        }
                         // The first photo is the largest paint of a folder page,
                         // so it loads ahead of the strip.
                         fetchpriority={index === 0 ? 'high' : undefined}

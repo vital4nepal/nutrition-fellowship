@@ -4,7 +4,8 @@
 // A photo has a 1400px file (longest side), an `-800` copy 800px wide,
 // and in thumbs/ a 480px copy and a `-192` copy 128px high for the strip.
 // `imageKind` names the images when they are not photos.
-const photo = (dir, name) => {
+// `alt` says what the image shows. A photo without one gets the page title and its number.
+const photo = (dir, name, alt) => {
     const src = `/resources/${dir}/${name}.jpg`;
     const thumb = `/resources/${dir}/thumbs/${name}.jpg`;
     return {
@@ -12,6 +13,7 @@ const photo = (dir, name) => {
         thumb,
         strip: `/resources/${dir}/thumbs/${name}-192.jpg`,
         srcSet: `${thumb} 480w, /resources/${dir}/${name}-800.jpg 800w, ${src} 1400w`,
+        alt,
     };
 };
 
@@ -75,8 +77,40 @@ export const resources = [
             },
         ],
         photos: [
-            photo('jan17', 'flyer'),
-            ...Array.from({ length: 8 }, (_, index) => photo('jan17', `collage-${index + 1}`)),
+            photo(
+                'jan17',
+                'flyer',
+                'Flyer: Join the 2nd Nutrition Fellowship for Nepal Meet. Highlights: ' +
+                    'Spotlight Series, Intergenerational Dialogue, Empowering the Next ' +
+                    'Generation, Advocacy in Action. When: 17th January, 5:00 PM to 6:15 PM. ' +
+                    'Where: to be confirmed. RSVP: nutfellowship@gmail.com. A QR code links ' +
+                    'to the WhatsApp group.'
+            ),
+            ...[
+                'Slide with the meet title, 17 January 2025 in Kathmandu, and the three ' +
+                    'objectives of the meet: co-create areas for collaboration, share the ' +
+                    'experiences of nutrition leaders, and support upcoming professionals.',
+                'Collage titled "Gone but never forgotten: nutrition legends", for Olga D. ' +
+                    'Murray (1925 to 2024) and Dr. Prakash Sundar Shrestha (1950 to 2024). It ' +
+                    'shows an older woman with two smiling children, a man speaking, and a ' +
+                    'standing crowd with heads bowed.',
+                'Collage titled "Spotlight: Nutrition legends". It shows a seated audience, ' +
+                    'two men speaking at a microphone, and an older woman with her hands ' +
+                    'joined in greeting.',
+                'Collage titled "Students leading the Fellowship". It shows students speaking ' +
+                    'at a podium, a group of seven seated at a table, and an older woman ' +
+                    'speaking beside a student.',
+                'Collage titled "A mosaic of cherished interactions". It shows guests talking ' +
+                    'in small groups, a man asking a question, and a crowded hall with paper ' +
+                    'lanterns.',
+                'Group photo titled "Five Generations of Nutrition in one frame". About thirty ' +
+                    'people stand and kneel in two rows in an outdoor courtyard.',
+                'Slide titled "Meet and Greet: achievers-students mentoring and interactions", ' +
+                    'with portraits of three speakers: Shakun Sharma, Sujay Nepali and Indu ' +
+                    'Sharma.',
+                'Thank-you slide: "Thank You for Making the Event Remarkably Successful!", ' +
+                    'with a heart, folded hands and "170+ participants".',
+            ].map((alt, index) => photo('jan17', `collage-${index + 1}`, alt)),
             ...[
                 18, 19, 37, 46, 47, 49, 50, 51, 52, 53, 54, 60, 61, 62, 64, 65, 66, 67, 68, 69,
                 71, 72, 73, 74, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 89, 90, 91, 92, 93, 97,
@@ -171,7 +205,24 @@ export const resources = [
                 size: '0.4 MB',
             },
         ],
-        photos: [photo('reports', 'newsletter'), photo('reports', 'nutrition-profiles')],
+        photos: [
+            photo(
+                'reports',
+                'newsletter',
+                'Preview of the Newsletter: the Nutrition Fellowship logo, the line "Nepal ' +
+                    'free from the effects of undernutrition & overnutrition", and the five ' +
+                    'pillars: Convene, Celebrate, Collaborate, Connect and Coach. It ends with ' +
+                    'a QR code and the contact nutfellowship@gmail.com.'
+            ),
+            photo(
+                'reports',
+                'nutrition-profiles',
+                'Preview of the World Health Assembly target profile on stunting in Nepal. ' +
+                    'Nepal committed to cut stunting by 40% by 2025, from 47% to 24%. 25% of ' +
+                    'children are still stunted. It also shows a line chart, a map by ' +
+                    'province and five calls to action.'
+            ),
+        ],
     },
 ];
 
