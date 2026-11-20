@@ -13,6 +13,7 @@ const inputClass =
     'text-body focus:border-green';
 
 const messages = {
+    sending: 'Sending your message...',
     sent: 'Thank you. We received your message.',
     error: (
         <>
@@ -30,6 +31,10 @@ function Thoughts() {
 
     const onSubmit = async (event) => {
         event.preventDefault();
+        // The button stays focusable while sending (aria-disabled), so this blocks a second send.
+        if (status === 'sending') {
+            return;
+        }
         const form = event.target;
         const formData = new FormData(form);
         formData.append('access_key', '6649cfe5-e72b-4818-aa36-de58ef34225d');
@@ -90,7 +95,7 @@ function Thoughts() {
                                 htmlFor={id}
                                 className="mb-2 block text-ui font-semibold text-ink"
                             >
-                                {label}
+                                {label} <span className="font-normal text-muted">(required)</span>
                             </label>
                             {type === 'textarea' ? (
                                 <textarea
@@ -115,8 +120,8 @@ function Thoughts() {
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-5">
                     <button
                         type="submit"
-                        disabled={status === 'sending'}
-                        className={`h-12 disabled:opacity-60 ${primaryButton}`}
+                        aria-disabled={status === 'sending'}
+                        className={`h-12 aria-disabled:opacity-60 ${primaryButton}`}
                     >
                         Submit
                     </button>
