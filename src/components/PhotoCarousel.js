@@ -86,12 +86,15 @@ function PhotoCarousel({ label, photos }) {
                     <img
                         key={photos[index].src}
                         src={encodeURI(photos[index].src)}
-                        srcSet={
-                            `${encodeURI(photos[index].thumb)} 480w, ` +
-                            `${encodeURI(photos[index].src)} 1400w`
+                        srcSet={photos[index].srcSet}
+                        sizes={
+                            '(min-width: 1280px) 780px, (min-width: 1024px) 62vw, ' +
+                            'calc(100vw - 32px)'
                         }
-                        sizes="(min-width: 1024px) 760px, 100vw"
                         alt={index === current ? `${label}, ${index + 1} of ${total}` : ''}
+                        // The first photo is the largest paint of a folder page,
+                        // so it loads ahead of the strip.
+                        fetchpriority={index === 0 ? 'high' : undefined}
                         draggable={false}
                         // The crossfade of the home page: the new photo fades in on top,
                         // the old one hides once it is covered.
@@ -166,7 +169,7 @@ function PhotoCarousel({ label, photos }) {
 
             {total > 1 && (
                 <ul ref={strip} className="relative mt-3 flex gap-2 overflow-x-auto p-1">
-                    {photos.map(({ src, thumb }, index) => (
+                    {photos.map(({ src, strip: stripSrc }, index) => (
                         <li key={src} className="shrink-0">
                             <button
                                 type="button"
@@ -184,7 +187,7 @@ function PhotoCarousel({ label, photos }) {
                             >
                                 <img
                                     loading="lazy"
-                                    src={thumb}
+                                    src={stripSrc}
                                     alt=""
                                     width={96}
                                     height={64}

@@ -45,7 +45,14 @@ Cloudflare Pages returns `index.html` for unknown paths, so a direct visit to a 
 
 - Hero photos have a 1600px file and an `-800` file. Collage tiles have a 1000px file and a `-500` file.
   `srcSet` and `sizes` pick the smaller file on phones.
-- The logo is `public/nf-logo.png`. The favicon is `public/nf-favicon.png`.
+- A resource photo has a 1400px file, an `-800` file, and in `thumbs/` a 480px file and a `-192` strip file.
+  An event card photo in `Recentevents/thumbs/` has a 960px file and a `-640` file. The Dr. RP Bichha
+  highlight and the Technology in Nutrition initiative have a `-128` square crop.
+- A `sizes` value must match the real slot width. Measure the slot at 390, 768, 1024 and 1280px before you change it.
+- The page logo is `public/nf-logo-128.png`. `public/nf-logo.png` stays for the touch icon and outside links.
+  The favicon is `public/nf-favicon.png`.
+- The social marks are inline SVG in `src/data/site.js`. The site loads no icon font and no icon library besides Lucide.
+- The first photo of a folder page and the first card of `/resources` load at high priority.
 
 ## External services
 

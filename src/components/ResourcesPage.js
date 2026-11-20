@@ -35,7 +35,7 @@ function ResourcesPage() {
             </p>
 
             <ul className="nf-stagger mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {resources.map((resource) => (
+                {resources.map((resource, index) => (
                     <li key={resource.id}>
                         <Link
                             to={`/resources/${resource.id}`}
@@ -50,13 +50,14 @@ function ResourcesPage() {
                                 }
                             >
                                 <img
-                                    loading="lazy"
+                                    loading={index === 0 ? 'eager' : 'lazy'}
+                                    fetchpriority={index === 0 ? 'high' : undefined}
                                     src={resource.cover.thumb}
-                                    srcSet={
-                                        `${resource.cover.thumb} 480w, ` +
-                                        `${resource.cover.src} 1400w`
+                                    srcSet={resource.cover.srcSet}
+                                    sizes={
+                                        '(min-width: 1024px) 380px, (min-width: 768px) 48vw, ' +
+                                        'calc(100vw - 34px)'
                                     }
-                                    sizes="(min-width: 768px) 560px, 100vw"
                                     alt=""
                                     width={480}
                                     height={320}
