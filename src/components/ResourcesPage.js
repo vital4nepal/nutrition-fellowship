@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { contentsLabel, resources } from '../data/resources';
+import { resources } from '../data/resources';
 import { SectionTitle, groupTitleLink, textLink, useDocumentTitle } from './ui';
 
 const TITLE = 'Resources';
@@ -45,7 +45,7 @@ function ResourcesPage() {
                 {resource.date && <p className="mt-1 text-meta tabular-nums text-muted">{resource.date}</p>}
                 <p className="mt-3 text-body text-ink">{resource.description}</p>
                 <p className="mt-auto flex items-center justify-between gap-4 pt-5 text-meta font-semibold text-green">
-                  {contentsLabel(resource)}
+                  {`${resource.photos.length} ${resource.imageKind ?? 'photo'}s, ${resource.documents.length} documents`}
                   <ArrowRight size={20} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
                 </p>
               </div>

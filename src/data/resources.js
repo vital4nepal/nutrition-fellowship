@@ -3,7 +3,6 @@
 // participant names and costs, videos and large decks stay in Drive only. A photo has a 1400px file (longest side)
 // and a smaller copy in thumbs/. `imageKind` names the images when they are not photos.
 const photo = (dir, name) => ({ src: `/resources/${dir}/${name}.jpg`, thumb: `/resources/${dir}/thumbs/${name}.jpg` });
-const range = (count) => Array.from({ length: count }, (_, index) => index + 1);
 
 export const resources = [
   {
@@ -30,7 +29,7 @@ export const resources = [
     ],
     photos: [
       photo('jan17', 'flyer'),
-      ...range(8).map((n) => photo('jan17', `collage-${n}`)),
+      ...Array.from({ length: 8 }, (_, index) => photo('jan17', `collage-${index + 1}`)),
       ...[
         18, 19, 37, 46, 47, 49, 50, 51, 52, 53, 54, 60, 61, 62, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 77, 78, 80,
         81, 82, 83, 84, 85, 86, 89, 90, 91, 92, 93, 97, 99, 100,
@@ -90,12 +89,6 @@ export const resources = [
     photos: [photo('reports', 'newsletter'), photo('reports', 'nutrition-profiles')],
   },
 ];
-
-/** "51 photos, 5 documents" */
-export const contentsLabel = ({ photos, documents, imageKind = 'photo' }) => {
-  const count = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
-  return `${count(photos.length, imageKind)}, ${count(documents.length, 'document')}`;
-};
 
 // The dashboard is a separate app. /nutrition-dashboard sends the visitor to it. Change the address in public/_redirects too.
 export const dashboard = {

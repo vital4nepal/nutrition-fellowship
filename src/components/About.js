@@ -1,48 +1,38 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Globe, MessageSquareText, UserRound, Users } from 'lucide-react';
 import { tickTo, useTicker } from './Ticker';
 import { SectionTitle } from './ui';
 
 const ICON_SIZE = 28;
 
-/** Three people, two of them filled: the "2 out of 3" figure drawn at its real share. */
-const TwoOfThree = () => (
-  <span className="flex gap-1.5">
-    {[true, true, false].map((filled, index) => (
-      <UserRound
-        key={index}
-        size={ICON_SIZE}
-        strokeWidth={1.75}
-        className={filled ? 'fill-green text-green' : 'text-line'}
-        aria-hidden="true"
-      />
-    ))}
-  </span>
-);
-
 // The figures come from the owner's website updates document.
 const facts = [
   { value: '600+', label: 'national and global nutrition stakeholders', icon: <Users size={ICON_SIZE} strokeWidth={1.75} aria-hidden="true" /> },
   { value: '4+', label: 'countries', icon: <Globe size={ICON_SIZE} strokeWidth={1.75} aria-hidden="true" /> },
-  { value: '2 out of 3', label: 'members are students or emerging professionals', icon: <TwoOfThree /> },
+  {
+    value: '2 out of 3',
+    label: 'members are students or emerging professionals',
+    // Three people, two of them filled: the figure drawn at its real share.
+    icon: (
+      <span className="flex gap-1.5">
+        {[true, true, false].map((filled, index) => (
+          <UserRound
+            key={index}
+            size={ICON_SIZE}
+            strokeWidth={1.75}
+            className={filled ? 'fill-green text-green' : 'text-line'}
+            aria-hidden="true"
+          />
+        ))}
+      </span>
+    ),
+  },
   {
     value: '500+',
     label: 'students have shared their aspirations, challenges and needs through this platform',
     icon: <MessageSquareText size={ICON_SIZE} strokeWidth={1.75} aria-hidden="true" />,
   },
 ];
-
-/** A figure like "500+" counts up from 0 at `progress`. Any other figure, like "2 out of 3", shows as it is. */
-const Figure = ({ value, progress }) => {
-  const match = /^(\d+)(\+?)$/.exec(value);
-  if (!match) return value;
-  return (
-    <>
-      <span aria-hidden="true">{tickTo(Number(match[1]), progress)}{match[2]}</span>
-      <span className="sr-only">{value}</span>
-    </>
-  );
-};
 
 const pillars = ['Celebrate', 'Convene', 'Coach', 'Collaborate', 'Connect'];
 
@@ -141,15 +131,26 @@ const About = () => {
           The Fellowship has expanded beyond Nepal, with growing engagement in Pakistan, Bangladesh and Sri Lanka.
         </p>
         <dl ref={reachRef} className="grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4">
-          {facts.map(({ value, label, icon }) => (
-            <div key={label} className="flex flex-col-reverse justify-end bg-paper p-4">
-              <dt className="mt-1 text-meta text-muted">{label}</dt>
-              <dd className="font-serif text-title-sm font-semibold tabular-nums text-green">
-                <span className="mb-3 flex h-7 items-center">{icon}</span>
-                <Figure value={value} progress={progress} />
-              </dd>
-            </div>
-          ))}
+          {facts.map(({ value, label, icon }) => {
+            // A figure like "500+" counts up from 0. Any other figure, like "2 out of 3", shows as it is.
+            const match = /^(\d+)(\+?)$/.exec(value);
+            return (
+              <div key={label} className="flex flex-col-reverse justify-end bg-paper p-4">
+                <dt className="mt-1 text-meta text-muted">{label}</dt>
+                <dd className="font-serif text-title-sm font-semibold tabular-nums text-green">
+                  <span className="mb-3 flex h-7 items-center">{icon}</span>
+                  {match ? (
+                    <>
+                      <span aria-hidden="true">{tickTo(Number(match[1]), progress)}{match[2]}</span>
+                      <span className="sr-only">{value}</span>
+                    </>
+                  ) : (
+                    value
+                  )}
+                </dd>
+              </div>
+            );
+          })}
         </dl>
       </section>
     </div>
