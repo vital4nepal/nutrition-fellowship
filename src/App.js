@@ -1020,7 +1020,11 @@ function App() {
                                         </ul>
                                     </div>
 
-                                    <figure className="lg:col-span-5">
+                                    <figure
+                                        className={
+                                            'mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none'
+                                        }
+                                    >
                                         <a
                                             href="/d4n-2026-learning-lab.jpg"
                                             target="_blank"
