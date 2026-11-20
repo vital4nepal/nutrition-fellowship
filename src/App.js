@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import {
     ArrowDown,
     ArrowRight,
@@ -492,6 +492,30 @@ function Maintenance() {
             </div>
         </main>
     );
+}
+
+/**
+ * After a page change, focus moves to main and a live region reads the new page title.
+ * It renders after Routes, so its effect runs after the page has set document.title.
+ * A link with a hash keeps its focus start: ScrollToHash scrolls to the section.
+ */
+function RouteFocus() {
+    const { pathname, hash } = useLocation();
+    const previous = useRef(pathname);
+    const announcer = useRef(null);
+
+    useEffect(() => {
+        if (previous.current === pathname) {
+            return;
+        }
+        previous.current = pathname;
+        if (!hash) {
+            document.getElementById('main')?.focus({ preventScroll: true });
+        }
+        announcer.current.textContent = document.title;
+    }, [pathname, hash]);
+
+    return <div ref={announcer} role="status" className="sr-only" />;
 }
 
 function App() {
@@ -1282,6 +1306,7 @@ function App() {
                     }
                 />
             </Routes>
+            <RouteFocus />
 
             <footer
                 data-section="footer"
