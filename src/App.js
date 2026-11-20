@@ -32,6 +32,7 @@ import {
     SubTitle,
     container,
     groupTitleLink,
+    primaryButton,
     textLink,
     underlineLink,
 } from './components/ui';
@@ -687,11 +688,12 @@ function App() {
                                                     href={d4n.registerHref}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
+                                                    // The green fill would match this dark card.
                                                     className={
-                                                        'inline-flex min-h-11 items-center gap-2 ' +
-                                                        'bg-accent px-6 font-semibold text-paper ' +
-                                                        'transition-colors hover:bg-paper ' +
-                                                        'hover:text-deep'
+                                                        'inline-flex min-h-11 items-center ' +
+                                                        'gap-2 bg-paper px-6 font-semibold ' +
+                                                        'text-deep transition-colors ' +
+                                                        'hover:bg-meadow'
                                                     }
                                                 >
                                                     Register
@@ -935,11 +937,7 @@ function App() {
                                             href={d4n.registerHref}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className={
-                                                'mt-6 inline-flex min-h-11 items-center gap-2 ' +
-                                                'bg-accent px-6 font-semibold text-paper ' +
-                                                'transition-colors hover:bg-deep'
-                                            }
+                                            className={`mt-6 ${primaryButton}`}
                                         >
                                             Register
                                             <ArrowUpRight size={18} aria-hidden="true" />
