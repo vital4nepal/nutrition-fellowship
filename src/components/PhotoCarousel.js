@@ -3,18 +3,18 @@ import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { SLIDE_MS, arrowKeys, useSwipe } from './Slideshow';
 import { prefersReducedMotion } from './ui';
 
-const button =
-    'absolute z-20 flex h-11 w-11 items-center justify-center border border-paper/40 ' +
-    'bg-ink/50 text-paper transition-colors hover:bg-paper hover:text-ink';
-const control = `${button} top-1/2 -translate-y-1/2`;
+const control =
+    'flex h-11 w-11 items-center justify-center border border-line text-ink ' +
+    'transition-colors hover:bg-ink hover:text-paper';
 
 /**
- * One large photo, a strip of small ones under it.
+ * One large photo, a row of buttons and a strip of small ones under it.
  * The photos change every 3 seconds until the visitor pauses them or picks a photo;
  * a visitor who asked for reduced motion starts paused.
  * Arrow keys, the buttons, the strip and a swipe change the photo.
  * Only the photo on show, its two neighbours and the one fading out are in the page.
- * A photo shows whole on a dark mat, so a collage or a flyer is never cropped.
+ * A photo shows whole on a dark mat and no button sits on it,
+ * so a collage or a flyer is never cropped or hidden.
  * A photo with a `caption` shows it under the large photo.
  * The caption line is kept when one photo has none, so the strip does not jump.
  */
@@ -107,51 +107,6 @@ function PhotoCarousel({ label, photos }) {
                         }
                     />
                 ))}
-                {total > 1 && (
-                    <>
-                        <button
-                            type="button"
-                            aria-label="Previous image"
-                            onClick={() => move(-1)}
-                            className={`${control} left-3`}
-                        >
-                            <ChevronLeft size={22} aria-hidden="true" />
-                        </button>
-                        <button
-                            type="button"
-                            aria-label="Next image"
-                            onClick={() => move(1)}
-                            className={`${control} right-3`}
-                        >
-                            <ChevronRight size={22} aria-hidden="true" />
-                        </button>
-                        <button
-                            type="button"
-                            aria-label={stopped ? 'Play slideshow' : 'Pause slideshow'}
-                            onClick={() => setStopped(!stopped)}
-                            className={`${button} bottom-3 left-3`}
-                        >
-                            {stopped ? (
-                                <Play size={18} aria-hidden="true" />
-                            ) : (
-                                <Pause size={18} aria-hidden="true" />
-                            )}
-                        </button>
-                        {/*
-                         * The count and the caption are announced only after the visitor
-                         * takes control, never on each autoplay turn.
-                         */}
-                        <p
-                            aria-live={stopped ? 'polite' : 'off'}
-                            className={
-                                'absolute bottom-3 right-3 z-20 bg-ink/70 px-2.5 py-1 ' +
-                                'text-meta tabular-nums text-paper'
-                            }
-                        >
-                            {current + 1} / {total}
-                        </p>
-                    </>
-                )}
             </div>
 
             {hasCaptions && (
@@ -165,6 +120,51 @@ function PhotoCarousel({ label, photos }) {
                 >
                     {photos[current].caption}
                 </p>
+            )}
+
+            {total > 1 && (
+                <div className="mt-3 flex items-center justify-between gap-3">
+                    <button
+                        type="button"
+                        aria-label="Previous image"
+                        onClick={() => move(-1)}
+                        className={control}
+                    >
+                        <ChevronLeft size={22} aria-hidden="true" />
+                    </button>
+                    <div className="flex items-center gap-3">
+                        <button
+                            type="button"
+                            aria-label={stopped ? 'Play slideshow' : 'Pause slideshow'}
+                            onClick={() => setStopped(!stopped)}
+                            className={control}
+                        >
+                            {stopped ? (
+                                <Play size={18} aria-hidden="true" />
+                            ) : (
+                                <Pause size={18} aria-hidden="true" />
+                            )}
+                        </button>
+                        {/*
+                         * The count and the caption are announced only after the visitor
+                         * takes control, never on each autoplay turn.
+                         */}
+                        <p
+                            aria-live={stopped ? 'polite' : 'off'}
+                            className="min-w-[4.5rem] text-center text-meta tabular-nums text-ink"
+                        >
+                            {current + 1} / {total}
+                        </p>
+                    </div>
+                    <button
+                        type="button"
+                        aria-label="Next image"
+                        onClick={() => move(1)}
+                        className={control}
+                    >
+                        <ChevronRight size={22} aria-hidden="true" />
+                    </button>
+                </div>
             )}
 
             {total > 1 && (
