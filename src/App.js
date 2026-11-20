@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import {
     ArrowDown,
     ArrowRight,
@@ -446,6 +446,7 @@ const documents = [
 const rowClass = 'flex min-h-[56px] items-center justify-between border-b border-line';
 const titleClass = 'block flex-1 py-3 pr-4 font-medium';
 const slotClass = 'flex h-11 w-11 shrink-0 items-center justify-center';
+const downloadSlot = `${slotClass} text-green transition-colors hover:bg-green hover:text-paper`;
 
 // The body of every page except the home page. The skip link jumps to its id.
 const Page = ({ padding = 'lg:py-16', children }) => (
@@ -492,6 +493,30 @@ function Maintenance() {
     );
 }
 
+/**
+ * After a page change, focus moves to main and a live region reads the new page title.
+ * It renders after Routes, so its effect runs after the page has set document.title.
+ * A link with a hash keeps its focus start: ScrollToHash scrolls to the section.
+ */
+function RouteFocus() {
+    const { pathname, hash } = useLocation();
+    const previous = useRef(pathname);
+    const announcer = useRef(null);
+
+    useEffect(() => {
+        if (previous.current === pathname) {
+            return;
+        }
+        previous.current = pathname;
+        if (!hash) {
+            document.getElementById('main')?.focus({ preventScroll: true });
+        }
+        announcer.current.textContent = document.title;
+    }, [pathname, hash]);
+
+    return <div ref={announcer} role="status" className="sr-only" />;
+}
+
 function App() {
     if (maintenance) {
         return <Maintenance />;
@@ -514,7 +539,10 @@ function App() {
                 className="sticky top-0 z-50 h-16 lg:h-[72px] bg-paper border-b border-line"
             >
                 <div className={`${container} flex h-full items-center gap-4`}>
-                    <a href="/" className="flex min-h-11 min-w-11 shrink-0 items-center gap-3">
+                    <a
+                        href="/"
+                        className="group flex min-h-11 min-w-11 shrink-0 items-center gap-3"
+                    >
                         <img
                             src="/nf-logo-128.png"
                             width="128"
@@ -524,7 +552,8 @@ function App() {
                         />
                         <span
                             className={
-                                'hidden font-serif text-base font-semibold text-green sm:block'
+                                'hidden font-serif text-base font-semibold text-green ' +
+                                `sm:block ${groupTitleLink}`
                             }
                         >
                             Nutrition Fellowship
@@ -1152,9 +1181,7 @@ function App() {
                                                                 href={pdfUrl}
                                                                 download
                                                                 aria-label={`Download ${title}`}
-                                                                className={
-                                                                    `${slotClass} text-green`
-                                                                }
+                                                                className={downloadSlot}
                                                             >
                                                                 <Download
                                                                     size={20}
@@ -1278,6 +1305,7 @@ function App() {
                     }
                 />
             </Routes>
+            <RouteFocus />
 
             <footer
                 data-section="footer"
@@ -1358,9 +1386,12 @@ function App() {
                             'md:flex-row md:items-center md:justify-between md:gap-8'
                         }
                     >
-                        <p>
-                            Questions? Email us at{' '}
-                            <a href={emailHref} className={underlineLink}>
+                        <p className="flex flex-wrap items-center gap-x-1">
+                            Questions? Email us at
+                            <a
+                                href={emailHref}
+                                className={`flex min-h-11 items-center ${underlineLink}`}
+                            >
                                 {email}
                             </a>
                         </p>

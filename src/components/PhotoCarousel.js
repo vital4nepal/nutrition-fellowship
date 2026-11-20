@@ -62,6 +62,19 @@ function PhotoCarousel({ label, photos }) {
     const move = (direction) => go(current + direction);
     const swipe = useSwipe(move);
 
+    // The strip has one tab stop, the current thumbnail.
+    // Focus follows an arrow key, so the next press keeps working from the new thumbnail.
+    const onKeyDown = (event) => {
+        const onStrip = strip.current.contains(event.target);
+        arrowKeys((direction) => {
+            move(direction);
+            if (onStrip) {
+                const next = (current + direction + total) % total;
+                strip.current.children[next].querySelector('button').focus({ preventScroll: true });
+            }
+        })(event);
+    };
+
     const near = [previous, current - 1, current, current + 1].map(
         (index) => (index + total) % total
     );
@@ -73,13 +86,13 @@ function PhotoCarousel({ label, photos }) {
             role="group"
             aria-roledescription="carousel"
             aria-label={label}
-            onKeyDown={arrowKeys(move)}
+            onKeyDown={onKeyDown}
         >
             <div
                 {...swipe}
                 className={
                     'relative aspect-[3/2] touch-pan-y touch-pinch-zoom select-none ' +
-                    'overflow-hidden border border-line bg-ink'
+                    'overflow-hidden border border-line bg-ink [--nf-green:theme(colors.paper)]'
                 }
             >
                 {[...new Set(near)].map((index) => (
@@ -91,7 +104,11 @@ function PhotoCarousel({ label, photos }) {
                             '(min-width: 1280px) 780px, (min-width: 1024px) 62vw, ' +
                             'calc(100vw - 32px)'
                         }
-                        alt={index === current ? `${label}, ${index + 1} of ${total}` : ''}
+                        alt={
+                            index === current
+                                ? photos[index].alt ?? `${label}, ${index + 1} of ${total}`
+                                : ''
+                        }
                         // The first photo is the largest paint of a folder page,
                         // so it loads ahead of the strip.
                         fetchpriority={index === 0 ? 'high' : undefined}
@@ -114,8 +131,8 @@ function PhotoCarousel({ label, photos }) {
                     key={current}
                     aria-live={stopped ? 'polite' : 'off'}
                     className={
-                        'mt-2 min-h-[2.625rem] animate-[nf-rise_900ms_ease-in-out_both] ' +
-                        'text-meta text-muted sm:min-h-[1.3125rem]'
+                        'mt-2 min-h-[2.8125rem] animate-[nf-rise_900ms_ease-in-out_both] ' +
+                        'text-meta text-muted sm:min-h-[1.40625rem]'
                     }
                 >
                     {photos[current].caption}
@@ -175,14 +192,14 @@ function PhotoCarousel({ label, photos }) {
                                 type="button"
                                 aria-label={`Show image ${index + 1}`}
                                 aria-current={index === current}
+                                tabIndex={index === current ? 0 : -1}
                                 onClick={() => go(index)}
                                 // A bar marks the current image.
-                                // The outline is left to keyboard focus.
+                                // The dimming sits on the img: opacity on the button
+                                // would fade its focus outline too.
                                 className={
-                                    'block border-b-4 bg-ink transition-opacity ' +
-                                    (index === current
-                                        ? 'border-green'
-                                        : 'border-transparent opacity-60 hover:opacity-100')
+                                    'group block border-b-4 bg-ink ' +
+                                    (index === current ? 'border-green' : 'border-transparent')
                                 }
                             >
                                 <img
@@ -191,7 +208,12 @@ function PhotoCarousel({ label, photos }) {
                                     alt=""
                                     width={96}
                                     height={64}
-                                    className="h-16 w-24 object-cover"
+                                    className={
+                                        'h-16 w-24 object-cover transition-opacity ' +
+                                        (index === current
+                                            ? ''
+                                            : 'opacity-60 group-hover:opacity-100')
+                                    }
                                 />
                             </button>
                         </li>

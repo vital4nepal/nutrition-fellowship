@@ -8,7 +8,7 @@ const FADE_MS = 900;
 const SWIPE_PX = 50;
 
 const control =
-    'flex h-11 w-10 items-center justify-center border border-paper/40 text-paper ' +
+    'flex h-11 w-11 items-center justify-center border border-paper/40 text-paper ' +
     'transition-colors hover:bg-paper hover:text-ink';
 
 /** The handler of a carousel: an arrow key calls `step(-1)` or `step(1)`. */
@@ -119,6 +119,7 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
             {...gestureProps}
             className={
                 'relative overflow-hidden border border-line bg-ink ' +
+                '[--nf-green:theme(colors.paper)] ' +
                 (gestures ? 'touch-pan-y touch-pinch-zoom' : '')
             }
         >
