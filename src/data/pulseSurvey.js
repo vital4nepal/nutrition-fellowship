@@ -62,16 +62,3 @@ export const themes = [
     ],
   },
 ];
-
-export const ALL = 'all';
-
-/** The count of one answer for one country, or for every country when `countryId` is ALL. */
-export function countFor(row, countryId) {
-  if (countryId === ALL) return row.counts.reduce((sum, count) => sum + count, 0);
-  return row.counts[countries.findIndex((country) => country.id === countryId)];
-}
-
-export function respondentsFor(countryId) {
-  if (countryId === ALL) return countries.reduce((sum, country) => sum + country.respondents, 0);
-  return countries.find((country) => country.id === countryId).respondents;
-}
