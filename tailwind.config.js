@@ -13,8 +13,8 @@ module.exports = {
     borderRadius: { none: "0px", DEFAULT: "0px" },
     boxShadow: { none: "none" },
     fontFamily: {
-      sans: ['"Public Sans Variable"', "system-ui", "sans-serif"],
-      serif: ['"Source Serif 4 Variable"', "Georgia", "serif"],
+      sans: ['"Public Sans Variable"', '"Public Sans Fallback"', "system-ui", "sans-serif"],
+      serif: ['"Source Serif 4 Variable"', '"Source Serif 4 Fallback"', "Georgia", "serif"],
     },
     extend: {
       fontSize: {
