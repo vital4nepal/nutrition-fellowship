@@ -62,6 +62,19 @@ function PhotoCarousel({ label, photos }) {
     const move = (direction) => go(current + direction);
     const swipe = useSwipe(move);
 
+    // The strip has one tab stop, the current thumbnail.
+    // Focus follows an arrow key, so the next press keeps working from the new thumbnail.
+    const onKeyDown = (event) => {
+        const onStrip = strip.current.contains(event.target);
+        arrowKeys((direction) => {
+            move(direction);
+            if (onStrip) {
+                const next = (current + direction + total) % total;
+                strip.current.children[next].querySelector('button').focus({ preventScroll: true });
+            }
+        })(event);
+    };
+
     const near = [previous, current - 1, current, current + 1].map(
         (index) => (index + total) % total
     );
@@ -73,7 +86,7 @@ function PhotoCarousel({ label, photos }) {
             role="group"
             aria-roledescription="carousel"
             aria-label={label}
-            onKeyDown={arrowKeys(move)}
+            onKeyDown={onKeyDown}
         >
             <div
                 {...swipe}
@@ -175,6 +188,7 @@ function PhotoCarousel({ label, photos }) {
                                 type="button"
                                 aria-label={`Show image ${index + 1}`}
                                 aria-current={index === current}
+                                tabIndex={index === current ? 0 : -1}
                                 onClick={() => go(index)}
                                 // A bar marks the current image.
                                 // The dimming sits on the img: opacity on the button
