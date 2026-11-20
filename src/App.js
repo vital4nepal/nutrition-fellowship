@@ -447,6 +447,7 @@ const documents = [
 const rowClass = 'flex min-h-[56px] items-center justify-between border-b border-line';
 const titleClass = 'block flex-1 py-3 pr-4 font-medium';
 const slotClass = 'flex h-11 w-11 shrink-0 items-center justify-center';
+const downloadSlot = `${slotClass} text-green transition-colors hover:bg-green hover:text-paper`;
 
 // The body of every page except the home page. The skip link jumps to its id.
 const Page = ({ padding = 'lg:py-16', children }) => (
@@ -515,7 +516,10 @@ function App() {
                 className="sticky top-0 z-50 h-16 lg:h-[72px] bg-paper border-b border-line"
             >
                 <div className={`${container} flex h-full items-center gap-4`}>
-                    <a href="/" className="flex min-h-11 min-w-11 shrink-0 items-center gap-3">
+                    <a
+                        href="/"
+                        className="group flex min-h-11 min-w-11 shrink-0 items-center gap-3"
+                    >
                         <img
                             src="/nf-logo-128.png"
                             width="128"
@@ -525,7 +529,8 @@ function App() {
                         />
                         <span
                             className={
-                                'hidden font-serif text-base font-semibold text-green sm:block'
+                                'hidden font-serif text-base font-semibold text-green ' +
+                                `sm:block ${groupTitleLink}`
                             }
                         >
                             Nutrition Fellowship
@@ -1153,9 +1158,7 @@ function App() {
                                                                 href={pdfUrl}
                                                                 download
                                                                 aria-label={`Download ${title}`}
-                                                                className={
-                                                                    `${slotClass} text-green`
-                                                                }
+                                                                className={downloadSlot}
                                                             >
                                                                 <Download
                                                                     size={20}
