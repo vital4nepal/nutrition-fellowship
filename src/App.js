@@ -736,7 +736,7 @@ function App() {
                                                             <span className="min-w-0">
                                                                 <span
                                                                     className={
-                                                                        'block text-base ' +
+                                                                        'block text-body ' +
                                                                         'font-semibold text-ink ' +
                                                                         groupTitleLink
                                                                     }
@@ -1093,7 +1093,7 @@ function App() {
                                                     />
                                                     <span
                                                         className={
-                                                            'text-lg font-semibold ' +
+                                                            'text-body font-semibold ' +
                                                             groupTitleLink
                                                         }
                                                     >

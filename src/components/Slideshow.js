@@ -171,7 +171,7 @@ function Slideshow({ label, slides, renderSlide, gestures = false }) {
                     aria-live={stopped ? 'polite' : 'off'}
                     className={
                         'max-w-[46ch] font-serif text-meta font-semibold leading-snug ' +
-                        'text-paper sm:text-base lg:text-sub'
+                        'text-paper sm:text-body lg:text-sub'
                     }
                 >
                     {slides[current].caption}

@@ -65,7 +65,7 @@ export function InitiativePage() {
                 {initiative.title}
             </SectionTitle>
             <p className="mt-3 max-w-[60ch] text-body font-medium text-muted">{subtitle}</p>
-            <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-ink">{intro}</p>
+            <p className="mt-5 max-w-[60ch] text-body leading-relaxed text-ink">{intro}</p>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
                 {photos.map(({ src, caption }) => (

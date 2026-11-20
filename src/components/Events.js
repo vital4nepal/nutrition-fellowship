@@ -107,8 +107,8 @@ function Events() {
                             </p>
                             <p
                                 className={
-                                    'mt-1 line-clamp-2 text-base font-semibold text-ink ' +
-                                    `lg:text-body ${groupTitleLink}`
+                                    'mt-1 line-clamp-2 text-body font-semibold text-ink ' +
+                                    groupTitleLink
                                 }
                             >
                                 {title}

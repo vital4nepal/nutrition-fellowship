@@ -47,10 +47,7 @@ export function DocumentList({ documents, beside = false }) {
                             }
                         >
                             <span
-                                className={
-                                    'text-base font-semibold text-ink lg:text-body ' +
-                                    groupTitleLink
-                                }
+                                className={`text-body font-semibold text-ink ${groupTitleLink}`}
                             >
                                 {name}
                             </span>

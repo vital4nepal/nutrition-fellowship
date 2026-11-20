@@ -133,7 +133,7 @@ const About = () => {
                         tabIndex={tab.id === activeTab ? 0 : -1}
                         onClick={() => setActiveTab(tab.id)}
                         className={
-                            '-mb-px h-11 border-b-2 text-base font-semibold transition-colors ' +
+                            '-mb-px h-11 border-b-2 text-ui font-semibold transition-colors ' +
                             'hover:text-green ' +
                             (tab.id === activeTab
                                 ? 'border-accent text-ink'

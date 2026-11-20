@@ -103,5 +103,5 @@ export function SectionTitle({
 }
 
 export function SubTitle({ as: Tag = 'h3', tone = 'text-ink', children, className = '' }) {
-    return <Tag className={`text-xl lg:text-sub ${tone} ${className}`}>{children}</Tag>;
+    return <Tag className={`text-sub ${tone} ${className}`}>{children}</Tag>;
 }
