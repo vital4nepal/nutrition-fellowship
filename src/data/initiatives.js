@@ -71,8 +71,8 @@ export const initiatives = [
     {
         id: 'technology',
         title: 'Technology in Nutrition',
-        img: '/Initiatives/thumbs/TechInNut.png',
-        width: 256,
+        img: '/Initiatives/thumbs/TechInNut-128.png',
+        width: 128,
         height: 128,
     },
 ];

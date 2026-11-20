@@ -11,7 +11,7 @@ const campLinks = [
 ];
 
 // `date` is month/day/year. The newest event comes last.
-// `img` is the card photo: a 960px copy in thumbs/.
+// `img` is the card photo: a 960px copy in thumbs/, with a `-640` copy beside it.
 // An event with `photos`, `documents` or `summary` shows them on its page at /events/<id>.
 // One without shows its card photo.
 export const events = [

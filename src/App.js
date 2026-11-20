@@ -214,7 +214,7 @@ function Clip({ name, visible, wanted, playable, onSettle, className }) {
 
 const highlights = [
     {
-        image: '/KeyHighlights/thumbs/Dr. RP Bichha.jpg',
+        image: '/KeyHighlights/thumbs/Dr. RP Bichha-128.jpg',
         topic: 'Dr. RP Bichha Speech',
         description: 'Honorable Member of the National Planning Commission',
         link: 'https://youtu.be/YxI-8DVWIQQ?si=tb7y2lsEyLm8_31v',
