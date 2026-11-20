@@ -48,7 +48,7 @@ export function InitiativePage() {
     const { id } = useParams();
     const initiative = initiatives.find((item) => item.id === id);
 
-    useDocumentTitle(initiative?.page && initiative.title);
+    useDocumentTitle(initiative?.page && initiative.title, initiative?.page?.intro);
 
     if (!initiative) {
         return <NotFound />;

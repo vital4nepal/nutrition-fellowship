@@ -30,8 +30,20 @@ Cloudflare Pages returns `index.html` for unknown paths, so a direct visit to a 
 
 - `ScrollToHash` lands a hash link such as `/#d4n` on its section after render. It saves the scroll position
   for Back and Forward.
-- `Navbar` marks the current section with an `IntersectionObserver`. The Chapter item is a dropdown. Its route
+- `Navbar` marks the current section with an `IntersectionObserver`. The Country Chapters item is a dropdown. Its route
   links use `Link`, so they open without a reload.
+
+## Page head
+
+- `public/index.html` holds the title, the description and the canonical link of the home page.
+- `useDocumentTitle(page, description)` in `src/components/ui.js` sets the tab title, the description
+  and the canonical link of a route. The cleanup puts the home values back.
+- The 404 page passes no description, so it keeps the home description and canonical link.
+- A crawler that does not run JavaScript sees the home head on every route.
+- `public/sitemap.xml` is a list kept by hand. Add a line when a page for an event, a resource, an
+  initiative or a chapter is new. `public/robots.txt` links to it.
+- `public/manifest.json` and `public/apple-touch-icon.png` (180 px, on the paper color) are the app icons.
+- While `maintenance` is true, `Maintenance` in `App.js` adds a `robots` `noindex` meta.
 
 ## Styles
 

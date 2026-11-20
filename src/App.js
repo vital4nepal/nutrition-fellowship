@@ -51,7 +51,7 @@ const innerPages = [
     { path: '/profile', title: 'Nutrition Profile' },
     { path: '/policy2025', title: 'Policy 2025' },
     { path: '/aiinnutrition', title: 'Research on AI in nutrition' },
-    { path: '/nfn2ndmeetblog', title: 'Nutrition Fellowship for Nepal: 2nd meet blog' },
+    { path: '/nfn2ndmeetblog', title: '2nd Nutrition Fellowship for Nepal Meet blog' },
     { path: '/nrcinternblog', title: 'Nutrition Rehabilitation Center: Internship blog' },
 ];
 
@@ -74,7 +74,7 @@ const upcomingEvents = [
 
 const announcements = [
     {
-        title: 'Nutrition Fellowship for Nepal: Second Meet',
+        title: '2nd Nutrition Fellowship for Nepal Meet',
         date: '01/17/2025',
         description:
             'We are excited for the gathering of hearts and minds ' +
@@ -121,7 +121,11 @@ const slides = [
         caption: 'WHA assessment camp in Bangladesh University of Health Sciences',
         clip: true,
     },
-    { name: 'second-meet', caption: 'Second Fellowship meet, January 2025', focus: '50% 40%' },
+    {
+        name: 'second-meet',
+        caption: '2nd Nutrition Fellowship for Nepal Meet, January 2025',
+        focus: '50% 40%',
+    },
     { name: 'canva-workshop', caption: 'Canva workshop, February 2025', focus: '50% 50%' },
     {
         name: 'primeasia-bia-training',
@@ -429,12 +433,12 @@ const documents = [
     {
         category: 'Blogs',
         links: [
-            { title: 'Nutrition Fellowship for Nepal : 2nd Meet', path: '/nfn2ndmeetblog' },
+            { title: '2nd Nutrition Fellowship for Nepal Meet', path: '/nfn2ndmeetblog' },
             { title: 'Internship at Nutrition Rehabilitation Center', path: '/nrcinternblog' },
         ],
     },
     {
-        category: 'Researches',
+        category: 'Research',
         links: [{ title: 'AI in Nutrition', path: '/aiinnutrition' }],
     },
 ];
@@ -450,38 +454,47 @@ const Page = ({ padding = 'lg:py-16', children }) => (
     </main>
 );
 
+// The whole site while `maintenance` in src/data/site.js is true. Text and the contact email only.
+// The server answers 200 here, so the noindex meta keeps a crawler from listing the placeholder.
+function Maintenance() {
+    useEffect(() => {
+        const robots = document.createElement('meta');
+        robots.name = 'robots';
+        robots.content = 'noindex';
+        document.head.append(robots);
+        return () => robots.remove();
+    }, []);
+
+    return (
+        <main id="main" className="grid min-h-screen place-items-center bg-paper px-4 text-center">
+            <div>
+                <h1 className="font-serif text-display font-semibold text-green">
+                    Under maintenance
+                </h1>
+                <p className="mt-4 text-body text-muted">
+                    We are updating the site. Please check back soon.
+                </p>
+                <p className="mt-2 text-body text-muted">
+                    If you have any queries, please contact us at{' '}
+                    <a
+                        href={emailHref}
+                        className={
+                            'font-semibold text-green underline underline-offset-4 ' +
+                            'decoration-green/40 transition-colors hover:decoration-green'
+                        }
+                    >
+                        {email}
+                    </a>
+                    .
+                </p>
+            </div>
+        </main>
+    );
+}
+
 function App() {
     if (maintenance) {
-        // The whole site while `maintenance` in src/data/site.js is true.
-        // Text and the contact email only.
-        return (
-            <main
-                id="main"
-                className="grid min-h-screen place-items-center bg-paper px-4 text-center"
-            >
-                <div>
-                    <h1 className="font-serif text-display font-semibold text-green">
-                        Under maintenance
-                    </h1>
-                    <p className="mt-4 text-body text-muted">
-                        We are updating the site. Please check back soon.
-                    </p>
-                    <p className="mt-2 text-body text-muted">
-                        If you have any queries, please contact us at{' '}
-                        <a
-                            href={emailHref}
-                            className={
-                                'font-semibold text-green underline underline-offset-4 ' +
-                                'decoration-green/40 transition-colors hover:decoration-green'
-                            }
-                        >
-                            {email}
-                        </a>
-                        .
-                    </p>
-                </div>
-            </main>
-        );
+        return <Maintenance />;
     }
 
     return (
@@ -1280,7 +1293,7 @@ function App() {
                                 className="h-16 w-auto"
                             />
                             <p className="mt-4 max-w-[60ch] text-ui">
-                                Nutrition Fellowship for Nepal aims to unite three generations of
+                                Nutrition Fellowship aims to unite three generations of
                                 stakeholders from Nepal and around the world.
                             </p>
                         </div>
@@ -1350,7 +1363,10 @@ function App() {
                                 {email}
                             </a>
                         </p>
-                        <p>Copyright © {new Date().getFullYear()} All Rights Reserved</p>
+                        <p>
+                            Copyright © {new Date().getFullYear()} SidArt Foundation. All Rights
+                            Reserved
+                        </p>
                     </div>
                 </div>
             </footer>

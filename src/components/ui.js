@@ -1,25 +1,43 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { siteUrl } from '../data/site';
 
 export const SITE_TITLE = 'Nutrition Fellowship';
 
 export const prefersReducedMotion = () =>
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+const headTag = (selector) => document.head.querySelector(selector);
+
 /**
  * The tab title is "page | site" while the page shows, and the site name after.
  * An empty `page` leaves it alone.
+ * With a `description`, the page also sets the description meta and the canonical link
+ * of its route. index.html holds the home values, and the cleanup puts them back.
+ * A page with no description, such as the 404 page, has no canonical address.
  */
-export function useDocumentTitle(page) {
+export function useDocumentTitle(page, description) {
+    const { pathname } = useLocation();
+
     useEffect(() => {
         if (!page) {
             return undefined;
         }
+        const meta = headTag('meta[name="description"]');
+        const canonical = headTag('link[rel="canonical"]');
+        const home = { description: meta.content, canonical: canonical.href };
+
         document.title = `${page} | ${SITE_TITLE}`;
+        if (description) {
+            meta.content = description;
+            canonical.href = `${siteUrl}${pathname.replace(/\/$/, '')}`;
+        }
         return () => {
             document.title = SITE_TITLE;
+            meta.content = home.description;
+            canonical.href = home.canonical;
         };
-    }, [page]);
+    }, [page, description, pathname]);
 }
 
 export const container = 'mx-auto max-w-content px-4 lg:px-6';

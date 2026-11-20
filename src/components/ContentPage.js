@@ -95,6 +95,7 @@ function ContentPage({
     section,
     backTo,
     title,
+    description,
     date,
     summary,
     pointsTitle,
@@ -105,7 +106,7 @@ function ContentPage({
     documents = [],
     links = [],
 }) {
-    useDocumentTitle(`${title} | ${section}`);
+    useDocumentTitle(`${title} | ${section}`, description);
 
     return (
         <article>
@@ -198,6 +199,7 @@ export function ResourcePage() {
 
     const {
         title,
+        description,
         date,
         summary,
         pointsTitle,
@@ -214,6 +216,7 @@ export function ResourcePage() {
             section="Resources"
             backTo={{ to: '/resources', label: 'All resources' }}
             title={title}
+            description={description}
             date={date}
             summary={summary}
             pointsTitle={pointsTitle}
@@ -242,6 +245,7 @@ export function EventPage() {
             section="Events"
             backTo={{ to: '/#events', label: 'Events and Updates' }}
             title={title}
+            description={summary ?? `${title}, ${longDate(date)}.`}
             date={longDate(date)}
             summary={summary}
             pointsTitle={pointsTitle}

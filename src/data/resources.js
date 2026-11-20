@@ -144,8 +144,8 @@ export const resources = [
         title: 'Reports',
         description: 'The Fellowship brief and the stunting profile of Nepal.',
         summary:
-            'Short reports from the Fellowship. The newsletter is the Fellowship brief: ' +
-            'the vision and the five pillars. The nutrition profile shows where Nepal stands ' +
+            'Short reports from the Fellowship. The Fellowship brief gives the vision ' +
+            'and the five pillars. The nutrition profile shows where Nepal stands ' +
             'on stunting against its World Health Assembly target.',
         pointsTitle: 'In the nutrition profile',
         points: [
@@ -157,7 +157,7 @@ export const resources = [
         imageKind: 'preview',
         documents: [
             {
-                title: 'Newsletter',
+                title: 'Nutrition Fellowship brief',
                 description: 'The Fellowship brief: the vision and the five pillars.',
                 file: '/document_pdfs/Nutrition Fellowship Brief.pdf',
                 kind: 'PDF',

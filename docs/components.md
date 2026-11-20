@@ -6,9 +6,9 @@ All components are in `src/components/`, except the parts that only the home pag
 
 | File | What it does |
 | --- | --- |
-| `App.js` | The routes, the maintenance banner, the sticky header and the footer with the social links |
-| `Navbar.js` | Desktop nav with the Chapter dropdown, and the mobile menu |
-| `ui.js` | Shared parts: `Section`, `SectionTitle`, `SubTitle`, `SiteLink`, `container`, link classes, `SITE_TITLE`, `useDocumentTitle` and `prefersReducedMotion` |
+| `App.js` | The routes, the maintenance banner (`Maintenance`), the sticky header and the footer with the social links |
+| `Navbar.js` | Desktop nav with the Country Chapters dropdown, and the mobile menu |
+| `ui.js` | Shared parts: `Section`, `SectionTitle`, `SubTitle`, `SiteLink`, `container`, link classes, `SITE_TITLE`, `useDocumentTitle` (title, description and canonical link of a route) and `prefersReducedMotion` |
 | `ScrollToHash.js` | Lands hash links on their section and restores scroll on Back and Forward |
 
 ## Home page sections

@@ -13,7 +13,7 @@ const inputClass =
     'text-body focus:border-green';
 
 const messages = {
-    sent: 'Thank you! Message sent successfully!',
+    sent: 'Thank you. We received your message.',
     error: (
         <>
             Could not send your message. Please email us at{' '}

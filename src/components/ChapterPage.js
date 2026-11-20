@@ -19,7 +19,10 @@ export default function ChapterPage() {
     const { id } = useParams();
     const known = id in chapterPages;
     const label = names[id];
-    useDocumentTitle(known && `${label} Chapter`);
+    useDocumentTitle(
+        known && `${label} Chapter`,
+        `The ${label} Chapter of the Nutrition Fellowship: coming soon.`
+    );
 
     if (!known) {
         return <NotFound />;

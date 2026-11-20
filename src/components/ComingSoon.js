@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-import { SectionTitle, textLink, useDocumentTitle } from './ui';
+import { SITE_TITLE, SectionTitle, textLink, useDocumentTitle } from './ui';
 
 /** The body of an inner page that has no content yet. */
 const ComingSoon = ({ title }) => {
-    useDocumentTitle(title);
+    useDocumentTitle(title, `${title}: coming soon on the ${SITE_TITLE} site.`);
 
     return (
         <>
