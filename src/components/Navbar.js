@@ -220,7 +220,9 @@ const Navbar = () => {
                                 aria-current={
                                     sectionOf(link.href) === active ? 'location' : undefined
                                 }
-                                className={`flex h-11 items-center ${desktopLink}`}
+                                className={
+                                    `flex h-11 min-w-11 items-center justify-center ${desktopLink}`
+                                }
                             >
                                 {link.label}
                             </a>

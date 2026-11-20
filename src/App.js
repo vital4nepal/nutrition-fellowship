@@ -1359,9 +1359,12 @@ function App() {
                             'md:flex-row md:items-center md:justify-between md:gap-8'
                         }
                     >
-                        <p>
-                            Questions? Email us at{' '}
-                            <a href={emailHref} className={underlineLink}>
+                        <p className="flex flex-wrap items-center gap-x-1">
+                            Questions? Email us at
+                            <a
+                                href={emailHref}
+                                className={`flex min-h-11 items-center ${underlineLink}`}
+                            >
                                 {email}
                             </a>
                         </p>
